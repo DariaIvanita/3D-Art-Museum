@@ -1,0 +1,209 @@
+/* Add Animate.css for subtle animations */
+@import url("https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css");
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  font-size: 14px;
+  color: #e8d4b0; /* Warm Renaissance parchment color */
+  margin: 0;
+  background-color: #4a2c2a; /* Dark fresco-inspired earthy red */
+  font-family: "Garamond", serif;
+  cursor: url("https://www.rw-designer.com/cursor-view/97756.png") 16 16, auto;
+}
+
+/* Custom Selection Styling */
+::-moz-selection {
+  background: #b58e5b; /* Antique gold highlight */
+  color: #fff;
+}
+
+::selection {
+  background: #b58e5b;
+  color: #fff;
+}
+
+/* Hide elements */
+.hide {
+  display: none;
+}
+
+/* Sistine Chapel Background */
+#background_effect {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("/mnt/data/background_img.jpg");
+  background-size: cover;
+  background-position: center;
+  z-index: -1;
+  filter: brightness(0.85) contrast(1.1) sepia(0.3); /* Renaissance color enhancement */
+  animation: fadeIn 2s ease-in-out;
+}
+
+/* Centered UI Panel */
+#menu {
+  width: 42em;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  font-size: 1.2em;
+  border-radius: 1em;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.6);
+  overflow: hidden;
+  background: rgba(32, 21, 21, 0.8); /* Darker aged tone */
+}
+
+/* Title Styling */
+#menu .title {
+  padding: 1em;
+  background-color: rgba(115, 67, 33, 0.9); /* Rich terracotta */
+  color: #ffdb89; /* Aged gold */
+  border-radius: 0.9em;
+  font-family: "Cinzel", serif;
+  font-size: 2em;
+  text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.5);
+  animation: fadeIn 2s ease-in, glow-effect 3s infinite alternate;
+}
+
+/* Glowing Title Animation */
+@keyframes glow-effect {
+  0% {
+    text-shadow: 2px 2px 5px rgba(255, 219, 137, 0.4);
+  }
+  100% {
+    text-shadow: 4px 4px 10px rgba(255, 219, 137, 0.7);
+  }
+}
+
+.title-info {
+  background-color: rgba(82, 48, 36, 0.9);
+  color: #ffdb89;
+  padding: 1em;
+  border-radius: 0.9em;
+  width: 80%;
+  text-align: center;
+  margin: 0 auto;
+  font-family: "Garamond", serif;
+}
+
+/* Content Section */
+#menu #content_container {
+  padding: 1em;
+  border-bottom-left-radius: 0.9em;
+  border-bottom-right-radius: 0.9em;
+  box-shadow: 0em 0.25em 0.75em rgba(100, 80, 50, 0.5);
+}
+
+/* Image Styling */
+#menu #img_container {
+  position: relative;
+  height: 14.5em;
+  overflow: hidden;
+  border-top-left-radius: 0.9em;
+  border-top-right-radius: 0.9em;
+}
+
+#menu #img_container img {
+  width: 100%;
+  filter: sepia(0.2);
+}
+
+/* About Section */
+#about-section {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  background-color: rgba(35, 17, 17, 0.8);
+  padding: 15px;
+  border-radius: 8px;
+  color: #ffdb89;
+  width: 320px;
+  font-size: 1em;
+  font-family: "Garamond", serif;
+  transition: transform 0.3s ease-in-out, opacity 0.3s;
+  opacity: 0;
+  transform: translateY(100px);
+}
+
+#about-section.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+#about-section h3 {
+  font-size: 1.5em;
+  margin-bottom: 8px;
+  font-family: "Cinzel", serif;
+}
+
+#about-section p {
+  margin: 0;
+}
+
+/* Dynamic Button */
+#play_button {
+  display: inline-block;
+  background-color: rgba(115, 67, 33, 0.9);
+  color: #ffdb89;
+  border-radius: 0.9em;
+  padding: 0.5em 1.5em;
+  font-weight: bold;
+  margin-top: 1em;
+  transition: all 0.4s ease;
+  border: 2px solid #ffdb89;
+  font-family: "Cinzel", serif;
+}
+
+#play_button:hover {
+  background-color: rgba(82, 48, 36, 0.9);
+  cursor: pointer;
+  transform: scale(1.05);
+}
+
+/* Floating Audio Controls */
+#audio_controls {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  z-index: 2;
+}
+
+#audio_controls button {
+  background-color: rgba(115, 67, 33, 0.8);
+  color: #ffdb89;
+  border: none;
+  border-radius: 10px;
+  padding: 5px 10px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-family: "Garamond", serif;
+}
+
+#audio_controls button:hover {
+  background-color: rgba(82, 48, 36, 0.8);
+}
+
+/* Renaissance Fade-in Animation */
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+
+
+
+
+
+
+
+
+
+
+
