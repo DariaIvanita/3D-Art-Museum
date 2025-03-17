@@ -37,31 +37,4 @@ const updateScene = () => {
     scene.add(room);
 
     // Update description
-    document.getElementById('description').innerText = artworks[currentArtworkIndex].title;
-};
-
-// Navigation functions
-const nextArtwork = () => {
-    currentArtworkIndex = (currentArtworkIndex + 1) % artworks.length;
-    updateScene();
-};
-
-const prevArtwork = () => {
-    currentArtworkIndex = (currentArtworkIndex - 1 + artworks.length) % artworks.length;
-    updateScene();
-};
-
-// Event listeners for buttons
-document.getElementById('next').addEventListener('click', nextArtwork);
-document.getElementById('prev').addEventListener('click', prevArtwork);
-
-// Initial scene setup
-updateScene();
-
-// Animation loop
-const animate = function () {
-    requestAnimationFrame(animate);
-    renderer.render(scene, camera);
-};
-
-animate();
+    document.getElementById('description
