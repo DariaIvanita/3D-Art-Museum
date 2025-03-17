@@ -5,22 +5,23 @@ const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.getElementById('gallery-container').appendChild(renderer.domElement);
 
-// Create a simple room
-const createRoom = (color) => {
+// Create a simple room with a texture
+const createRoom = (textureUrl) => {
     const geometry = new THREE.BoxGeometry(10, 10, 10);
-    const material = new THREE.MeshBasicMaterial({ color: color });
+    const textureLoader = new THREE.TextureLoader();
+    const material = new THREE.MeshBasicMaterial({ map: textureLoader.load(textureUrl) });
     const room = new THREE.Mesh(geometry, material);
     return room;
 };
 
-// Artworks data
+// Artworks data with image paths
 const artworks = [
-    { title: "The Creation of Adam", color: 0xff0000 },
-    { title: "David", color: 0x00ff00 },
-    { title: "The Last Judgment", color: 0x0000ff },
-    { title: "The Pietà", color: 0xffff00 },
-    { title: "The Sistine Chapel Ceiling", color: 0xff00ff },
-    { title: "The Tomb of Julius II", color: 0x00ffff }
+    { title: "The Creation of Adam", image: "" },
+    { title: "David", image: "images/david.jpg" },
+    { title: "The Last Judgment", image: "images/last_judgment.jpg" },
+    { title: "The Pietà", image: "images/pieta.jpg" },
+    { title: "The Sistine Chapel Ceiling", image: "images/sistine_chapel_ceiling.jpg" },
+    { title: "The Tomb of Julius II", image: "images/tomb_of_julius_ii.jpg" }
 ];
 
 let currentArtworkIndex = 0;
@@ -32,9 +33,36 @@ const updateScene = () => {
         scene.remove(scene.children[0]);
     }
 
-    // Create the current room
-    const room = createRoom(artworks[currentArtworkIndex].color);
+    // Create the current room with the corresponding texture
+    const room = createRoom(artworks[currentArtworkIndex].image);
     scene.add(room);
 
     // Update description
-    document.getElementById('description
+    document.getElementById('description').innerText = artworks[currentArtworkIndex].title;
+};
+
+// Navigation functions
+const nextArtwork = () => {
+    currentArtworkIndex = (currentArtworkIndex + 1) % artworks.length;
+    updateScene();
+};
+
+const prevArtwork = () => {
+    currentArtworkIndex = (currentArtworkIndex - 1 + artworks.length) % artworks.length;
+    updateScene();
+};
+
+// Event listeners for buttons
+document.getElementById('next').addEventListener('click', nextArtwork);
+document.getElementById('prev').addEventListener('click', prevArtwork);
+
+// Initial scene setup
+updateScene();
+
+// Animation loop
+const animate = function () {
+    requestAnimationFrame(animate);
+    renderer.render(scene, camera);
+};
+
+animate();
