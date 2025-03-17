@@ -12,7 +12,7 @@ body {
 
 #description {
     position: absolute;
-    bottom: 20px;
+    bottom: 60px;
     left: 20px;
     background: rgba(255, 255, 255, 0.8);
     padding: 10px;
@@ -31,4 +31,28 @@ button {
     padding: 10px;
     font-size: 16px;
     cursor: pointer;
+}
+
+#menu {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+#artwork-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+#artwork-list li {
+    cursor: pointer;
+    padding: 5px;
+}
+
+#artwork-list li:hover {
+    background-color: #e0e0e0;
 }
