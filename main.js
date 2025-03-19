@@ -1,22 +1,21 @@
-
 import * as THREE from "three";
-import { scene, setupScene } from "scene.js";
-import { createPaintings } from "paintings.js";
-import { createWalls } from "walls.js";
-import { setupLighting } from "lighting.js";
-import { setupFloor } from "floor.js";
-import { createCeiling } from "ceiling.js";
-import { createBoundingBoxes } from "boundingBox.js";
-import { setupRendering } from "rendering.js";
-import { setupEventListeners } from "eventListeners.js";
-import { addObjectsToScene } from 'sceneHelpers.js";
-import { setupPlayButton } from "menu.js";
-import { setupAudio } from "audioGuide.js";
-import { clickHandling } from "clickHandling.js";
-import { setupVR } from "VRSupport.js";
-import { loadStatueModel } from "statue.js";
-import { loadBenchModel } from ".bench.js";
-import { loadCeilingLampModel } from "ceilingLamp.js";
+import { scene, setupScene } from "./scene.js";
+import { createPaintings } from "./paintings.js";
+import { createWalls } from "./walls.js";
+import { setupLighting } from "./lighting.js";
+import { setupFloor } from "./floor.js";
+import { createCeiling } from "./ceiling.js";
+import { createBoundingBoxes } from "./boundingBox.js";
+import { setupRendering } from "./rendering.js";
+import { setupEventListeners } from "./eventListeners.js";
+import { addObjectsToScene } from "./sceneHelpers.js";
+import { setupPlayButton } from "./menu.js";
+import { setupAudio } from "./audioGuide.js";
+import { clickHandling } from "./clickHandling.js";
+import { setupVR } from "./VRSupport.js";
+import { loadStatueModel } from "./statue.js";
+import { loadBenchModel } from "./bench.js";
+import { loadCeilingLampModel } from "./ceilingLamp.js";
 
 let { camera, controls, renderer } = setupScene();
 
@@ -44,23 +43,9 @@ clickHandling(renderer, camera, paintings);
 setupRendering(scene, camera, renderer, paintings, controls, walls);
 
 loadStatueModel(scene);
-
 loadBenchModel(scene);
-
 loadCeilingLampModel(scene);
 
 setupVR(renderer);
-
-function setupPlayButton(controls) {
-    const playButton = document.getElementById("explore-art-button");
-    if (playButton) {
-        playButton.addEventListener("click", () => {
-            controls.enabled = true; // Ensure controls are enabled
-            console.log("Explore Art button clicked"); // Debugging
-        });
-    } else {
-        console.error("Explore Art button not found in the DOM.");
-    }
-}
 
 
