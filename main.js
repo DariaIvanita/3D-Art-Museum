@@ -4,8 +4,7 @@ const scene= new THREE.scene(); // create the scene
 const camera = new THREE.perspectiveCamera()
 75, // Field of camera 
 window.innerWidth / windowinnerHeight, // Aspect Ratio 
-0,
-1,
+0.1,
 1000
 );
 scene.add(camera);
