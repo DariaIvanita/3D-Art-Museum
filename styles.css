@@ -384,3 +384,10 @@ canvas {
 #audio_controls button:hover {
   background-color: rgba(52, 58, 125, 0.8);
 }
+
+#explore-art-button {
+    display: block;
+    z-index: 1000;
+    cursor: pointer;
+}
+
