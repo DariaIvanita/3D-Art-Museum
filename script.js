@@ -1,68 +1,52 @@
-// Basic setup for Three.js
-const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-const renderer = new THREE.WebGLRenderer();
-renderer.setSize(window.innerWidth, window.innerHeight);
-document.getElementById('gallery-container').appendChild(renderer.domElement);
 
-// Create a simple room with a texture
-const createRoom = (textureUrl) => {
-    const geometry = new THREE.BoxGeometry(10, 10, 10);
-    const textureLoader = new THREE.TextureLoader();
-    const material = new THREE.MeshBasicMaterial({ map: textureLoader.load(textureUrl) });
-    const room = new THREE.Mesh(geometry, material);
-    return room;
-};
+import * as THREE from "three";
+import { scene, setupScene } from "scene.js";
+import { createPaintings } from "paintings.js";
+import { createWalls } from "walls.js";
+import { setupLighting } from "lighting.js";
+import { setupFloor } from "floor.js";
+import { createCeiling } from "ceiling.js";
+import { createBoundingBoxes } from "boundingBox.js";
+import { setupRendering } from "rendering.js";
+import { setupEventListeners } from "eventListeners.js";
+import { addObjectsToScene } from 'sceneHelpers.js";
+import { setupPlayButton } from "menu.js";
+import { setupAudio } from "audioGuide.js";
+import { clickHandling } from "clickHandling.js";
+import { setupVR } from "VRSupport.js";
+import { loadStatueModel } from "statue.js";
+import { loadBenchModel } from ".bench.js";
+import { loadCeilingLampModel } from "ceilingLamp.js";
 
-// Artworks data with image paths
-const artworks = [
-    { title: "The Creation of Adam", image: "" },
-    { title: "David", image: "images/david.jpg" },
-    { title: "The Last Judgment", image: "images/last_judgment.jpg" },
-    { title: "The Pietà", image: "images/pieta.jpg" },
-    { title: "The Sistine Chapel Ceiling", image: "images/sistine_chapel_ceiling.jpg" },
-    { title: "The Tomb of Julius II", image: "images/tomb_of_julius_ii.jpg" }
-];
+let { camera, controls, renderer } = setupScene();
 
-let currentArtworkIndex = 0;
+setupAudio(camera);
 
-// Function to update the scene with the current artwork
-const updateScene = () => {
-    // Clear the scene
-    while (scene.children.length > 0) {
-        scene.remove(scene.children[0]);
-    }
+const textureLoader = new THREE.TextureLoader();
 
-    // Create the current room with the corresponding texture
-    const room = createRoom(artworks[currentArtworkIndex].image);
-    scene.add(room);
+const walls = createWalls(scene, textureLoader);
+const floor = setupFloor(scene);
+const ceiling = createCeiling(scene, textureLoader);
+const paintings = createPaintings(scene, textureLoader);
+const lighting = setupLighting(scene, paintings);
 
-    // Update description
-    document.getElementById('description').innerText = artworks[currentArtworkIndex].title;
-};
+createBoundingBoxes(walls);
+createBoundingBoxes(paintings);
 
-// Navigation functions
-const nextArtwork = () => {
-    currentArtworkIndex = (currentArtworkIndex + 1) % artworks.length;
-    updateScene();
-};
+addObjectsToScene(scene, paintings);
 
-const prevArtwork = () => {
-    currentArtworkIndex = (currentArtworkIndex - 1 + artworks.length) % artworks.length;
-    updateScene();
-};
+setupPlayButton(controls);
 
-// Event listeners for buttons
-document.getElementById('next').addEventListener('click', nextArtwork);
-document.getElementById('prev').addEventListener('click', prevArtwork);
+setupEventListeners(controls);
 
-// Initial scene setup
-updateScene();
+clickHandling(renderer, camera, paintings);
 
-// Animation loop
-const animate = function () {
-    requestAnimationFrame(animate);
-    renderer.render(scene, camera);
-};
+setupRendering(scene, camera, renderer, paintings, controls, walls);
 
-animate();
+loadStatueModel(scene);
+
+loadBenchModel(scene);
+
+loadCeilingLampModel(scene);
+
+setupVR(renderer);
