@@ -50,3 +50,17 @@ loadBenchModel(scene);
 loadCeilingLampModel(scene);
 
 setupVR(renderer);
+
+function setupPlayButton(controls) {
+    const playButton = document.getElementById("explore-art-button");
+    if (playButton) {
+        playButton.addEventListener("click", () => {
+            controls.enabled = true; // Ensure controls are enabled
+            console.log("Explore Art button clicked"); // Debugging
+        });
+    } else {
+        console.error("Explore Art button not found in the DOM.");
+    }
+}
+
+
