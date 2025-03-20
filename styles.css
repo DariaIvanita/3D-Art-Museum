@@ -70,4 +70,19 @@ h1 {
     color: #555;
 }
 
+.explore-btn {
+    background-color: #5c5c5c;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin-top: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.explore-btn:hover {
+    background-color: #3e3e3e;
+}
+
 
