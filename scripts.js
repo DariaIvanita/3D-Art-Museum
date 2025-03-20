@@ -18,3 +18,4 @@ document.querySelectorAll('.explore-btn').forEach(button => {
     });
 });
 
+
