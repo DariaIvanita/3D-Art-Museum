@@ -1,88 +1,38 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
 body {
     font-family: Arial, sans-serif;
     background-color: #f0f0f0;
-    color: #333;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    flex-direction: column;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
 }
 
-h1 {
-    font-size: 3rem;
-    margin-bottom: 20px;
-}
-
-.gallery-container {
+h1, h2 {
     text-align: center;
-    max-width: 1000px;
-    padding: 20px;
+    color: #333;
 }
 
-.gallery {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    margin-top: 30px;
-}
-
-.painting, .statue {
-    width: 250px;
-    margin: 10px;
-    perspective: 500px;
-    cursor: pointer;
-}
-
-.painting img, .statue img {
+.info-container {
+    position: absolute;
+    top: 20px;
     width: 100%;
-    height: auto;
-    transition: transform 0.3s ease-in-out;
-}
-
-.painting:hover img, .statue:hover img {
-    transform: rotateY(15deg) rotateX(15deg);
-}
-
-#painting-info {
-    margin-top: 30px;
-    background-color: #fff;
-    padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 60%;
-    margin-top: 50px;
-}
-
-#painting-title {
-    font-size: 2rem;
-    margin-bottom: 10px;
-}
-
-#painting-description {
-    font-size: 1rem;
-    line-height: 1.5;
-    color: #555;
-}
-
-.explore-btn {
-    background-color: #5c5c5c;
+    text-align: center;
+    z-index: 2;
     color: white;
-    border: none;
-    padding: 10px 20px;
-    margin-top: 10px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s;
 }
 
-.explore-btn:hover {
-    background-color: #3e3e3e;
+#webgl-output {
+    width: 100%;
+    height: 100vh;
+    background: #333;
+    display: block;
+}
+
+audio {
+    margin-top: 20px;
+    width: 50%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 
