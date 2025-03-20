@@ -3,27 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3D Michelangelo Art Gallery</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Michelangelo 3D Museum</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="info-container">
-        <h1>Michelangelo 3D Art Gallery</h1>
-        <p>Explore the masterpieces of Michelangelo with interactive 3D displays and audio descriptions.</p>
-        <h2 id="painting-title">Click on a painting to explore.</h2>
-        <p id="painting-description">You will see a description here when you click a painting or statue.</p>
-        <audio id="audio-player" controls>
-            <source id="audio-source" src="" type="audio/mp3">
-            Your browser does not support the audio element.
-        </audio>
-    </div>
-    
-    <div id="webgl-output"></div>
+    <div id="museum-container"></div>
+
+    <audio id="background-music" loop autoplay>
+        <source src="music.mp3" type="audio/mp3">
+        Your browser does not support the audio element.
+    </audio>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="scripts.js"></script>
+    <script src="https://threejs.org/examples/js/controls/OrbitControls.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
+
+
 
 
 
