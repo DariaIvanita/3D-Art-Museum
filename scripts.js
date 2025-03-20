@@ -1,6 +1,6 @@
 let scene, camera, renderer;
 let paintings = [];
-let statue, exploreButton;
+let statue;
 let audioPlayer = document.getElementById('audio-player');
 let audioSource = document.getElementById('audio-source');
 let paintingTitle = document.getElementById('painting-title');
@@ -10,15 +10,15 @@ init();
 animate();
 
 function init() {
+    // Create scene, camera, renderer
     scene = new THREE.Scene();
     camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    
     renderer = new THREE.WebGLRenderer();
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.getElementById('webgl-output').appendChild(renderer.domElement);
     
-    // Lighting
-    const light = new THREE.AmbientLight(0x404040, 1); 
+    // Add lighting
+    const light = new THREE.AmbientLight(0x404040, 1);
     scene.add(light);
     
     const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
@@ -34,7 +34,7 @@ function init() {
     floor.receiveShadow = true;
     scene.add(floor);
 
-    // Camera Position
+    // Set camera position
     camera.position.z = 10;
 
     // Paintings (6 paintings)
@@ -47,6 +47,7 @@ function init() {
         { title: 'Medici Chapel', description: 'Michelangelo\'s sculptures in the Medici Chapel.', image: 'images/medici_chapel.jpg', audio: 'audio/medici_chapel.mp3' }
     ];
 
+    // Create painting meshes
     const geometry = new THREE.PlaneGeometry(2, 3);
     const material = new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.DoubleSide });
     
@@ -58,7 +59,7 @@ function init() {
         const texture = new THREE.TextureLoader().load(paintingData[i].image);
         painting.material.map = texture;
         painting.userData = paintingData[i];
-        
+
         painting.name = "painting_" + i;
         painting.intersected = false;
         
