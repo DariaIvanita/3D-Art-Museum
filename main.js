@@ -18,7 +18,6 @@ import { loadBenchModel } from "./modules/bench.js";
 import { loadCeilingLampModel } from "./modules/ceilingLamp.js";
 
 let { camera, controls, renderer } = setupScene();
-
 setupAudio(camera);
 
 const textureLoader = new THREE.TextureLoader();
@@ -31,24 +30,19 @@ const lighting = setupLighting(scene, paintings);
 
 createBoundingBoxes(walls);
 createBoundingBoxes(paintings);
-
 addObjectsToScene(scene, paintings);
 
 setupPlayButton(controls);
-
 setupEventListeners(controls);
-
 clickHandling(renderer, camera, paintings);
-
 setupRendering(scene, camera, renderer, paintings, controls, walls);
 
 loadStatueModel(scene);
-
 loadBenchModel(scene);
-
 loadCeilingLampModel(scene);
 
 setupVR(renderer);
+
 
 
 
