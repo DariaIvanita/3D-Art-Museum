@@ -1,8 +1,9 @@
-document.querySelectorAll('.painting, .statue').forEach(item => {
-    item.addEventListener('click', function() {
-        const title = item.getAttribute('data-title');
-        const description = item.getAttribute('data-description');
-        const audioSrc = item.getAttribute('data-audio');
+document.querySelectorAll('.explore-btn').forEach(button => {
+    button.addEventListener('click', function() {
+        const painting = button.closest('.painting, .statue'); // Get the closest painting or statue div
+        const title = painting.getAttribute('data-title');
+        const description = painting.getAttribute('data-description');
+        const audioSrc = painting.getAttribute('data-audio');
         
         document.getElementById('painting-title').textContent = title;
         document.getElementById('painting-description').textContent = description;
@@ -16,3 +17,4 @@ document.querySelectorAll('.painting, .statue').forEach(item => {
         audioPlayer.play();
     });
 });
+
