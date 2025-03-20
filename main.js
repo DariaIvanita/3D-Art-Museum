@@ -1,42 +1,54 @@
-// console.Log('Three object here', THREE);
+import * as THREE from "three";
+import { scene, setupScene } from "./modules/scene.js";
+import { createPaintings } from "./modules/paintings.js";
+import { createWalls } from "./modules/walls.js";
+import { setupLighting } from "./modules/lighting.js";
+import { setupFloor } from "./modules/floor.js";
+import { createCeiling } from "./modules/ceiling.js";
+import { createBoundingBoxes } from "./modules/boundingBox.js";
+import { setupRendering } from "./modules/rendering.js";
+import { setupEventListeners } from "./modules/eventListeners.js";
+import { addObjectsToScene } from "./modules/sceneHelpers.js";
+import { setupPlayButton } from "./modules/menu.js";
+import { setupAudio } from "./modules/audioGuide.js";
+import { clickHandling } from "./modules/clickHandling.js";
+import { setupVR } from "./modules/VRSupport.js";
+import { loadStatueModel } from "./modules/statue.js";
+import { loadBenchModel } from "./modules/bench.js";
+import { loadCeilingLampModel } from "./modules/ceilingLamp.js";
 
-const scene= new THREE.scene(); // create the scene
-const camera = new THREE.perspectiveCamera()
-75, // Field of camera 
-window.innerWidth / windowinnerHeight, // Aspect Ratio 
-0.1,
-1000
-);
-scene.add(camera);
-camera.postion.z = 5; // move the camera back 5 units
+let { camera, controls, renderer } = setupScene();
 
-// Renderer 
-const renderer = new THREE.WebGL renderer({ antialias; true }); // for smooth edges
-renderer.setSize(window.innerWidth, window.innerHeight);
-renderer.setClearColor(0xffff, 1); // background color
-document.body.appendChild(renderer.donElement); // add the renderrer to the the HTML
+setupAudio(camera);
 
-// Let there be light 
-let ambientLight = new THREE.AmbientLight(0x101010,1.0); // Color, intensity, distance decay
-ambientlight.position = camera.position; //light follows camera
-scene.add(ambientlight); 
+const textureLoader = new THREE.TextureLoader();
 
-//Direction Light
-let sunlight = new THREE.DirectionLight(0xdddd,1.00; // color intensity 
-sunlight.position.y =1.5;
-scene.add(sunLight);
+const walls = createWalls(scene, textureLoader);
+const floor = setupFloor(scene);
+const ceiling = createCeiling(scene, textureLoader);
+const paintings = createPaintings(scene, textureLoader);
+const lighting = setupLighting(scene, paintings);
 
-cont geometry = new THREE.BoxGeometry (1,1,1); // Box Geometry is the shape of the object
-cont material  = new THREE.MashBasicMaterial({ color:'blue'}); // MashBasicMaterial is the color of the object
-const material = new THREE.Mash(geometry ,material); // create cube with geomitry and material
-scene.add(cube);
+createBoundingBoxes(walls);
+createBoundingBoxes(paintings);
 
+addObjectsToScene(scene, paintings);
 
+setupPlayButton(controls);
 
+setupEventListeners(controls);
 
-//Render
-renderer.render(scene, camera);
+clickHandling(renderer, camera, paintings);
 
+setupRendering(scene, camera, renderer, paintings, controls, walls);
+
+loadStatueModel(scene);
+
+loadBenchModel(scene);
+
+loadCeilingLampModel(scene);
+
+setupVR(renderer);
 
 
 
