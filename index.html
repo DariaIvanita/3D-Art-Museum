@@ -3,65 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Michelangelo Art Gallery</title>
+    <title>3D Michelangelo Art Gallery</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="gallery-container">
-        <h1>Michelangelo Art Gallery</h1>
-        <p>Explore the masterpieces of Michelangelo in our 3D gallery with audio descriptions.</p>
-
-        <div class="gallery">
-            <!-- The Creation of Adam -->
-            <div class="painting" data-description="The Creation of Adam is one of the most famous frescoes painted by Michelangelo. It depicts the moment when God gives life to Adam." data-title="The Creation of Adam" data-audio="audio/creation_of_adam.mp3">
-                <img src="images/creation_of_adam.jpg" alt="The Creation of Adam">
-                <button class="explore-btn">Explore</button>
-            </div>
-            <!-- Sistine Chapel Ceiling -->
-            <div class="painting" data-description="The Sistine Chapel Ceiling is Michelangelo's iconic fresco, depicting biblical scenes." data-title="Sistine Chapel Ceiling" data-audio="audio/sistine_chapel.mp3">
-                <img src="images/sistine_chapel.jpg" alt="Sistine Chapel Ceiling">
-                <button class="explore-btn">Explore</button>
-            </div>
-            <!-- David -->
-            <div class="painting" data-description="David is a marble statue of the biblical hero, showcasing Michelangelo's masterful skill in sculpting." data-title="David" data-audio="audio/david.mp3">
-                <img src="images/david_statue.jpg" alt="David">
-                <button class="explore-btn">Explore</button>
-            </div>
-            <!-- The Last Judgment -->
-            <div class="painting" data-description="The Last Judgment is a large fresco by Michelangelo depicting the second coming of Christ." data-title="The Last Judgment" data-audio="audio/last_judgment.mp3">
-                <img src="images/last_judgment.jpg" alt="The Last Judgment">
-                <button class="explore-btn">Explore</button>
-            </div>
-            <!-- The Dying Slave -->
-            <div class="painting" data-description="The Dying Slave is one of Michelangelo's unfinished sculptures, portraying a figure in agony." data-title="The Dying Slave" data-audio="audio/dying_slave.mp3">
-                <img src="images/dying_slave.jpg" alt="The Dying Slave">
-                <button class="explore-btn">Explore</button>
-            </div>
-            <!-- Medici Chapel -->
-            <div class="painting" data-description="The Medici Chapel features Michelangelo's sculptures and is known for its rich Renaissance art." data-title="Medici Chapel" data-audio="audio/medici_chapel.mp3">
-                <img src="images/medici_chapel.jpg" alt="Medici Chapel">
-                <button class="explore-btn">Explore</button>
-            </div>
-            <!-- David Statue -->
-            <div class="statue" data-description="Michelangelo's statue of David, carved from marble, is one of the most renowned sculptures in the world." data-title="David Statue" data-audio="audio/david_statue.mp3">
-                <img src="images/david_statue_3d.jpg" alt="David Statue">
-                <button class="explore-btn">Explore</button>
-            </div>
-        </div>
-
-        <div id="painting-info">
-            <h2 id="painting-title"></h2>
-            <p id="painting-description"></p>
-            <audio id="audio-player" controls>
-                <source id="audio-source" src="" type="audio/mp3">
-                Your browser does not support the audio element.
-            </audio>
-        </div>
+    <div class="info-container">
+        <h1>Michelangelo 3D Art Gallery</h1>
+        <p>Explore the masterpieces of Michelangelo with interactive 3D displays and audio descriptions.</p>
+        <h2 id="painting-title">Click on a painting to explore.</h2>
+        <p id="painting-description">You will see a description here when you click a painting or statue.</p>
+        <audio id="audio-player" controls>
+            <source id="audio-source" src="" type="audio/mp3">
+            Your browser does not support the audio element.
+        </audio>
     </div>
+    
+    <div id="webgl-output"></div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="scripts.js"></script>
 </body>
 </html>
+
 
 
 
