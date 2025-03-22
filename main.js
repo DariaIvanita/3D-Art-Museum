@@ -2,14 +2,15 @@ import * as THREE from 'three';
 import { Reflector } from 'three/examples/jsm/objects/Reflector.js'; // Corrected import path
 import TWEEN from '@tweenjs/tween.js'; // Ensure proper import for TWEEN.js
 
+// Define relative paths for images
 const images = [
-  'c:\Users\dasha\OneDrive\Pictures\the creation of adam.jpg',
-  'c:\Users\dasha\OneDrive\Pictures\the last judgement.jpg',
-  'c:\Users\dasha\OneDrive\Pictures\the prophet jeremiah.jpg',
-  'c:\Users\dasha\OneDrive\Pictures\the libyan sibyl.jpg',
-  'c:\Users\dasha\OneDrive\Pictures\the deluge.jpg',
-  'c:\Users\dasha\OneDrive\Pictures\the seperation of light and darkness.jpg',
-  'c:\Users\dasha\OneDrive\Pictures\the seperation of light and darkness.jpg',
+  'assets/images/the_creation_of_adam.jpg',
+  'assets/images/the_last_judgement.jpg',
+  'assets/images/the_prophet_jeremiah.jpg',
+  'assets/images/the_libyan_sibyl.jpg',
+  'assets/images/the_deluge.jpg',
+  'assets/images/the_seperation_of_light_and_darkness.jpg',
+  'assets/images/the_seperation_of_light_and_darkness.jpg',
 ];
 
 const titles = [
@@ -31,8 +32,8 @@ const artists = [
 ];
 
 const textureLoader = new THREE.TextureLoader();
-const leftArrowImage = textureLoader.load('left.png');
-const rightArrowImage = textureLoader.load('right.png');
+const leftArrowImage = textureLoader.load('assets/images/left.png');
+const rightArrowImage = textureLoader.load('assets/images/right.png');
 
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
