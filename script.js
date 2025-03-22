@@ -33,6 +33,12 @@ scene.add(room);
 const textureLoader = new THREE.TextureLoader();
 const paintingTexture = textureLoader.load('https://via.placeholder.com/200'); // Example texture for the painting
 
+// Create the frame around the painting (using BoxGeometry)
+const frameGeometry = new THREE.BoxGeometry(4.2, 3.2, 0.2); // Slightly bigger than the painting
+const frameMaterial = new THREE.MeshStandardMaterial({ color: 0x8b4513, roughness: 0.6, metalness: 0.1 });
+const frame = new THREE.Mesh(frameGeometry, frameMaterial);
+frame.position.set(0, 1, -5); // Position the frame slightly in front of the painting
+
 // Create a painting (realistic material with texture)
 const paintingGeometry = new THREE.PlaneGeometry(4, 3); // A plane for the painting
 const paintingMaterial = new THREE.MeshStandardMaterial({
@@ -41,8 +47,9 @@ const paintingMaterial = new THREE.MeshStandardMaterial({
   metalness: 0.2
 });
 const painting = new THREE.Mesh(paintingGeometry, paintingMaterial);
-painting.position.set(0, 1, -5); // Position it in front of the camera
+painting.position.set(0, 1, -5); // Position it inside the frame
 scene.add(painting);
+scene.add(frame); // Add the frame to the scene
 
 // Set the camera position
 camera.position.z = 15;
@@ -63,6 +70,8 @@ renderer.shadowMap.enabled = true;
 directionalLight.castShadow = true;
 painting.castShadow = true;
 painting.receiveShadow = true;
+frame.castShadow = true;
+frame.receiveShadow = true;
 ground.receiveShadow = true;
 
 // Animation loop
@@ -80,6 +89,7 @@ window.addEventListener('resize', () => {
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
 });
+
 
 
 
