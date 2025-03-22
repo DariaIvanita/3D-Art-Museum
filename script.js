@@ -9,6 +9,11 @@ document.body.appendChild(renderer.domElement);
 const light = new THREE.AmbientLight(0x404040); // soft white light
 scene.add(light);
 
+// Add a directional light to illuminate objects better
+const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+directionalLight.position.set(5, 5, 5).normalize();
+scene.add(directionalLight);
+
 // Create a simple room
 const roomGeometry = new THREE.BoxGeometry(10, 10, 10); // 10x10x10 box
 const roomMaterial = new THREE.MeshBasicMaterial({ color: 0xeeeeee, wireframe: true });
@@ -25,9 +30,13 @@ scene.add(painting);
 // Set camera position
 camera.position.z = 5;
 
+// Add Orbit Controls (to move the camera around the scene)
+const controls = new THREE.OrbitControls(camera, renderer.domElement);
+
 // Animation loop
 function animate() {
   requestAnimationFrame(animate);
+  controls.update(); // Update the controls on each frame
   renderer.render(scene, camera);
 }
 
@@ -40,11 +49,3 @@ window.addEventListener('resize', () => {
   camera.updateProjectionMatrix();
 });
 
-// Simple controls to move around
-let moveSpeed = 0.1;
-document.addEventListener('keydown', (event) => {
-  if (event.key === 'ArrowUp') camera.position.z -= moveSpeed;
-  if (event.key === 'ArrowDown') camera.position.z += moveSpeed;
-  if (event.key === 'ArrowLeft') camera.position.x -= moveSpeed;
-  if (event.key === 'ArrowRight') camera.position.x += moveSpeed;
-});
