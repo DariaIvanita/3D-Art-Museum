@@ -1,8 +1,10 @@
 body {
-  margin: 0;
-  overflow: hidden; /* Prevents scrollbars from appearing */
+  margin: 0; /* Remove default margin */
+  overflow: hidden; /* Prevent scrollbars from appearing */
 }
 
 canvas {
   display: block; /* Makes the canvas fill the screen */
+  width: 100%; /* Ensures the canvas takes the full width */
+  height: 100%; /* Ensures the canvas takes the full height */
 }
