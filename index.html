@@ -6,19 +6,72 @@
   <title>Art Gallery</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css"> <!-- Link to your external CSS file -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,100&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      background-color: #121212; /* Dark background to make the art pop */
+      overflow: hidden;
+    }
+
+    h1,
+    h2 {
+      color: white;
+      text-align: center;
+      width: 100%;
+      font-family: 'Inter', sans-serif;
+      font-weight: 100;
+      transition: opacity 0.5s ease-in-out;
+      position: absolute;
+      z-index: 10;
+    }
+
+    #title {
+      font-size: 6em;
+      top: 0.5em;
+      width: 100%;
+      text-align: center;
+    }
+
+    #artist {
+      font-size: 3em;
+      color: gray;
+      top: 4em;
+      width: 100%;
+      text-align: center;
+    }
+
+    /* Container for the art gallery */
+    .gallery-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      flex-wrap: wrap;
+      gap: 2em;
+      padding: 1em;
+    }
+
+    .painting {
+      width: 300px;
+      height: 200px;
+      overflow: hidden;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+      background-color: #fff;
+    }
+
+    .painting img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  </style>
 </head>
 
 <body>
-  <script type="module">
-    // Add dynamic title and artist info
-    document.getElementById('title').innerText = "The Art of Michelangelo"; // Set the title here
-    document.getElementById('artist').innerText = "Artist: Michelangelo Buonarroti"; // Set the artist name here
-  </script>
-
-  <h1 id="title"></h1>
-  <h2 id="artist"></h2>
+  <h1 id="title">The Art of Michelangelo</h1>
+  <h2 id="artist">Artist: Michelangelo Buonarroti</h2>
 
   <!-- Gallery Container -->
   <div class="gallery-container">
@@ -28,29 +81,30 @@
     </div>
     <!-- Painting 2 -->
     <div class="painting">
-      <img src="the_libyan_sibyl.jpg" alt="The Sistine Chapel Ceiling">
+      <img src="the_libyan_sibyl.jpg" alt="The Libyan Sibyl">
     </div>
     <!-- Painting 3 -->
     <div class="painting">
-      <img src="the_deluge.jpg" alt="David">
+      <img src="the_deluge.jpg" alt="The Deluge">
     </div>
     <div class="painting">
-      <img src="the_seperation_of_light_and_darkness.jpg" alt="The Creation of Adam">
+      <img src="the_seperation_of_light_and_darkness.jpg" alt="The Separation of Light and Darkness">
     </div>
     <!-- Painting 4 -->
     <div class="painting">
-      <img src="the_last_judgement.jpg" alt="The Sistine Chapel Ceiling">
+      <img src="the_last_judgement.jpg" alt="The Last Judgement">
     </div>
     <!-- Painting 5 -->
     <div class="painting">
-      <img src="the_prophet_jeremiah.jpg" alt="David">
+      <img src="the_prophet_jeremiah.jpg" alt="The Prophet Jeremiah">
     </div>
   </div>
 
-  <script type="module" src="main.js"></script> <!-- Link to your main.js file -->
+  <script type="module" src="/main.js"></script>
 </body>
 
 </html>
+
 
 
 
