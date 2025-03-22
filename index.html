@@ -7,37 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200&display=swap" rel="stylesheet">
-  <style>
-    body {
-      margin: 0;
-      background-color: #2e2e2e; /* Dark background for a gallery feel */
-      font-family: 'Inter', sans-serif;
-    }
-
-    h1,
-    h2 {
-      color: white;
-      text-align: center;
-      width: 100%;
-      font-weight: 100;
-      transition: opacity 0.5s ease-in-out;
-    }
-
-    #title {
-      position: fixed;
-      font-size: 6em;
-      top: 0.5em;
-      width: 100%;
-    }
-
-    #artist {
-      position: fixed;
-      font-size: 3em;
-      color: gray;
-      top: 4em;
-      width: 100%;
-    }
-  </style>
+  <link rel="stylesheet" href="styles.css"> <!-- Link to your external CSS file -->
 </head>
 
 <body>
@@ -49,6 +19,34 @@
 
   <h1 id="title"></h1>
   <h2 id="artist"></h2>
+
+  <!-- Gallery Container -->
+  <div class="gallery-container">
+    <!-- Painting 1 -->
+    <div class="painting">
+      <img src="c:\Users\dasha\OneDrive\Pictures\the creation of adam.jpg" alt="The Creation of Adam">
+    </div>
+    <!-- Painting 2 -->
+    <div class="painting">
+      <img src="the_libyan_sibyl.jpg" alt="The Sistine Chapel Ceiling">
+    </div>
+    <!-- Painting 3 -->
+    <div class="painting">
+      <img src="the_deluge.jpg" alt="David">
+    </div>
+    <div class="painting">
+        <img src="the_seperation_of_light_and_darkness.jpg" alt="The Creation of Adam">
+      </div>
+      <!-- Painting 2 -->
+      <div class="painting">
+        <img src="the_last_judgement.jpg" alt="The Sistine Chapel Ceiling">
+      </div>
+      <!-- Painting 3 -->
+      <div class="painting">
+        <img src="the_prophet_jeremiah.jpg" alt="David">
+      </div>
+    <!-- Add more paintings as needed -->
+  </div>
 </body>
 
 </html>
