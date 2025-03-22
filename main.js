@@ -1,32 +1,32 @@
 import * as THREE from 'three';
-import { Reflector } from 'three/addons/objects/Reflector.js';
-import * as TWEEN from 'tween';
+import { Reflector } from 'three/examples/jsm/objects/Reflector.js'; // Corrected import for Reflector
+import * as TWEEN from '@tweenjs/tween.js'; // Ensure you have installed tween.js via npm or use a CDN
 
 const images = [
-  'the_creation_of_adam.jpg',        // Image 1
-  'the_libyan_sibyl.jpg',            // Image 2
-  'the_deluge.jpg',                  // Image 3
-  'the_seperation_of_light_and_darkness.jpg', // Image 4
-  'the_last_judgement.jpg',          // Image 5
-  'the_prophet_jeremiah.jpg'         // Image 6
+  'socrates.jpg',
+  'stars.jpg',
+  'wave.jpg',
+  'spring.jpg',
+  'mountain.jpg',
+  'sunday.jpg'
 ];
 
 const titles = [
-  'The Creation of Adam',
-  'The Libyan Sibyl',
-  'The Deluge',
-  'The Separation of Light and Darkness',
-  'The Last Judgement',
-  'The Prophet Jeremiah'
+  'The Death of Socrates',
+  'Starry Night',
+  'The Great Wave off Kanagawa',
+  'Effect of Spring, Giverny',
+  'Mount Corcoran',
+  'A Sunday on La Grande Jatte'
 ];
 
 const artists = [
-  'Michelangelo Buonarroti',
-  'Michelangelo Buonarroti',
-  'Michelangelo Buonarroti',
-  'Michelangelo Buonarroti',
-  'Michelangelo Buonarroti',
-  'Michelangelo Buonarroti'
+  'Jacques-Louis David',
+  'Vincent Van Gogh',
+  'Katsushika Hokusai',
+  'Claude Monet',
+  'Albert Bierstadt',
+  'George Seurat'
 ];
 
 const textureLoader = new THREE.TextureLoader();
@@ -43,7 +43,7 @@ document.body.appendChild(renderer.domElement);
 
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
-camera.position.z = 10; // Adjusted camera distance
+camera.position.set(0, 0, 15); // Add camera position for better view
 
 const root = new THREE.Object3D();
 scene.add(root);
@@ -74,7 +74,7 @@ for (let i = 0; i < count; i++) {
     new THREE.MeshStandardMaterial({ map: leftArrowImage, transparent: true })
   );
   leftArrow.name = 'left';
-  leftArrow.userData = i;
+  leftArrow.userData = { index: i, direction: -1 }; // Store direction as part of userData
   leftArrow.position.set(2.9, 0, -4);
   baseNode.add(leftArrow);
 
@@ -83,16 +83,16 @@ for (let i = 0; i < count; i++) {
     new THREE.MeshStandardMaterial({ map: rightArrowImage, transparent: true })
   );
   rightArrow.name = 'right';
-  rightArrow.userData = i;
+  rightArrow.userData = { index: i, direction: 1 }; // Store direction as part of userData
   rightArrow.position.set(-2.9, 0, -4);
   baseNode.add(rightArrow);
 
   root.add(baseNode);
 }
 
-const spotlight = new THREE.SpotLight(0xffffff, 1.0, 10, 0.65, 1);
-spotlight.position.set(0, 5, 5);
-spotlight.target.position.set(0, 1, -4);
+const spotlight = new THREE.SpotLight(0xffffff, 100.0, 10, 0.65, 1);
+spotlight.position.set(0, 5, 0);
+spotlight.target.position.set(0, 1, -5);
 scene.add(spotlight);
 scene.add(spotlight.target);
 
@@ -104,7 +104,6 @@ const mirror = new Reflector(
     textureHeight: window.innerHeight * window.devicePixelRatio,
   }
 );
-
 mirror.position.set(0, -1.1, 0);
 mirror.rotateX(-Math.PI / 2);
 scene.add(mirror);
@@ -137,15 +136,13 @@ function rotateGallery(index, direction) {
 }
 
 window.addEventListener('wheel', (ev) => {
-  root.rotation.y += ev.wheelDelta * 0.0001;
+  root.rotation.y += ev.deltaY * 0.0001; // Adjust scrolling speed
 });
 
 window.addEventListener('resize', () => {
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
-
   renderer.setSize(window.innerWidth, window.innerHeight);
-
   mirror.getRenderTarget().setSize(
     window.innerWidth * window.devicePixelRatio,
     window.innerHeight * window.devicePixelRatio
@@ -163,10 +160,9 @@ window.addEventListener('click', (ev) => {
 
   if (intersects.length > 0) {
     const clickedObject = intersects[0].object;
-    const index = clickedObject.userData;
+    const { index, direction } = clickedObject.userData;
 
     if (clickedObject.name === 'left' || clickedObject.name === 'right') {
-      const direction = clickedObject.name === 'left' ? -1 : 1;
       rotateGallery(index, direction);
     }
   }
