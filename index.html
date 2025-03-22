@@ -1,17 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>3D Art Museum</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="utf-8">
+  <title>Art Gallery</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      background-color: #2e2e2e; /* Dark background for a gallery feel */
+      font-family: 'Inter', sans-serif;
+    }
+
+    h1,
+    h2 {
+      color: white;
+      text-align: center;
+      width: 100%;
+      font-weight: 100;
+      transition: opacity 0.5s ease-in-out;
+    }
+
+    #title {
+      position: fixed;
+      font-size: 6em;
+      top: 0.5em;
+      width: 100%;
+    }
+
+    #artist {
+      position: fixed;
+      font-size: 3em;
+      color: gray;
+      top: 4em;
+      width: 100%;
+    }
+  </style>
 </head>
+
 <body>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/controls/OrbitControls.js"></script>
-  <script src="script.js"></script>
+  <script type="module">
+    // Add dynamic title and artist info
+    document.getElementById('title').innerText = "The Art of Michelangelo"; // Set the title here
+    document.getElementById('artist').innerText = "Artist: Michelangelo Buonarroti"; // Set the artist name here
+  </script>
+
+  <h1 id="title"></h1>
+  <h2 id="artist"></h2>
 </body>
+
 </html>
+
 
 
 
