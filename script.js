@@ -1,42 +1,69 @@
 // Scene setup
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-const renderer = new THREE.WebGLRenderer();
+const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
-// Create basic ambient light source
-const ambientLight = new THREE.AmbientLight(0x404040, 1); // soft white light
+// Create ambient light for overall lighting
+const ambientLight = new THREE.AmbientLight(0x404040, 1); // Soft white light
 scene.add(ambientLight);
 
-// Add a directional light to illuminate objects better
+// Create directional light (represents sunlight)
 const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
 directionalLight.position.set(5, 5, 5).normalize();
 scene.add(directionalLight);
 
-// Add a point light to help illuminate the scene better
+// Create a point light to add realism (for better lighting on objects)
 const pointLight = new THREE.PointLight(0xffffff, 1, 100);
 pointLight.position.set(0, 5, 5);
 scene.add(pointLight);
 
-// Create a simple room (using MeshLambertMaterial for lighting response)
-const roomGeometry = new THREE.BoxGeometry(10, 10, 10); // 10x10x10 box
-const roomMaterial = new THREE.MeshLambertMaterial({ color: 0xeeeeee });
+// Create a simple room (using MeshStandardMaterial for realism)
+const roomGeometry = new THREE.BoxGeometry(10, 10, 10);
+const roomMaterial = new THREE.MeshStandardMaterial({
+  color: 0xeeeeee,
+  roughness: 0.5,
+  metalness: 0.1
+});
 const room = new THREE.Mesh(roomGeometry, roomMaterial);
 scene.add(room);
 
-// Create a placeholder for the painting (a simple box)
-const paintingGeometry = new THREE.BoxGeometry(2, 2, 0.1); // A thin rectangle
-const paintingMaterial = new THREE.MeshLambertMaterial({ color: 0x0000ff });
+// Apply a texture for the painting (replace this URL with an actual image if you have one)
+const textureLoader = new THREE.TextureLoader();
+const paintingTexture = textureLoader.load('https://via.placeholder.com/200'); // Example texture for the painting
+
+// Create a painting (realistic material with texture)
+const paintingGeometry = new THREE.PlaneGeometry(4, 3); // A plane for the painting
+const paintingMaterial = new THREE.MeshStandardMaterial({
+  map: paintingTexture, // Apply the texture to the painting
+  roughness: 0.8,
+  metalness: 0.2
+});
 const painting = new THREE.Mesh(paintingGeometry, paintingMaterial);
-painting.position.set(0, 0, -5); // Position it in front of the camera
+painting.position.set(0, 1, -5); // Position it in front of the camera
 scene.add(painting);
 
 // Set the camera position
-camera.position.z = 15; // Move the camera further back to view the objects
+camera.position.z = 15;
 
 // Add OrbitControls to move the camera around
 const controls = new THREE.OrbitControls(camera, renderer.domElement);
+
+// Add a ground plane for more realism
+const groundGeometry = new THREE.PlaneGeometry(50, 50);
+const groundMaterial = new THREE.ShadowMaterial({ opacity: 0.5 });
+const ground = new THREE.Mesh(groundGeometry, groundMaterial);
+ground.rotation.x = - Math.PI / 2;
+ground.position.y = -5;
+scene.add(ground);
+
+// Enable shadows
+renderer.shadowMap.enabled = true;
+directionalLight.castShadow = true;
+painting.castShadow = true;
+painting.receiveShadow = true;
+ground.receiveShadow = true;
 
 // Animation loop
 function animate() {
@@ -47,11 +74,12 @@ function animate() {
 
 animate();
 
-// Handle resizing of the window
+// Handle window resizing
 window.addEventListener('resize', () => {
   renderer.setSize(window.innerWidth, window.innerHeight);
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
 });
+
 
 
