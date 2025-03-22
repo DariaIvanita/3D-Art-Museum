@@ -6,7 +6,7 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
 // Create basic light source
-const light = new THREE.AmbientLight(0x404040); // soft white light
+const light = new THREE.AmbientLight(0x404040, 1); // soft white light
 scene.add(light);
 
 // Add a directional light to illuminate objects better
@@ -14,15 +14,15 @@ const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
 directionalLight.position.set(5, 5, 5).normalize();
 scene.add(directionalLight);
 
-// Create a simple room
+// Create a simple room (using MeshLambertMaterial for lighting response)
 const roomGeometry = new THREE.BoxGeometry(10, 10, 10); // 10x10x10 box
-const roomMaterial = new THREE.MeshBasicMaterial({ color: 0xeeeeee, wireframe: true });
+const roomMaterial = new THREE.MeshLambertMaterial({ color: 0xeeeeee });
 const room = new THREE.Mesh(roomGeometry, roomMaterial);
 scene.add(room);
 
 // Create a placeholder for the painting (a simple box)
 const paintingGeometry = new THREE.BoxGeometry(2, 2, 0.1); // A thin rectangle
-const paintingMaterial = new THREE.MeshBasicMaterial({ color: 0x0000ff });
+const paintingMaterial = new THREE.MeshLambertMaterial({ color: 0x0000ff });
 const painting = new THREE.Mesh(paintingGeometry, paintingMaterial);
 painting.position.set(0, 0, -5); // Position it in front of the camera
 scene.add(painting);
@@ -48,4 +48,5 @@ window.addEventListener('resize', () => {
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
 });
+
 
