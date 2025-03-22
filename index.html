@@ -11,105 +11,51 @@
   <style>
     body {
       margin: 0;
-      background-color: #121212; /* Dark background to make the art pop */
-      overflow: hidden;
+      background-color: #121212; /* Dark background for art display */
+      color: white;
       font-family: 'Inter', sans-serif;
+      overflow: hidden;
     }
 
     h1,
     h2 {
-      color: white;
-      text-align: center;
       width: 100%;
       font-weight: 100;
       transition: opacity 0.5s ease-in-out;
-      position: absolute;
-      z-index: 10;
-      top: 0;
-      left: 0;
-      right: 0;
     }
 
     #title {
+      position: fixed;
       font-size: 6em;
-      top: 2em;
+      top: 10%;
+      left: 50%;
+      transform: translateX(-50%);
+      margin: 0;
     }
 
     #artist {
+      position: fixed;
       font-size: 3em;
       color: gray;
-      top: 10em;
-    }
-
-    /* Container for the art gallery */
-    .gallery-container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 2em;
-      padding: 1em;
-      position: relative;
-      z-index: 1;
-    }
-
-    .painting {
-      width: 300px;
-      height: 200px;
-      overflow: hidden;
-      border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-      background-color: #fff;
-      transition: transform 0.3s ease;
-    }
-
-    .painting img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .painting:hover {
-      transform: scale(1.05);
+      top: 20%;
+      left: 50%;
+      transform: translateX(-50%);
+      margin: 0;
     }
   </style>
 </head>
 
 <body>
+  <!-- Title and Artist -->
   <h1 id="title">The Art of Michelangelo</h1>
   <h2 id="artist">Artist: Michelangelo Buonarroti</h2>
 
-  <!-- Gallery Container -->
-  <div class="gallery-container">
-    <!-- Painting 1 -->
-    <div class="painting">
-      <img src="the_creation_of_adam.jpg" alt="The Creation of Adam">
-    </div>
-    <!-- Painting 2 -->
-    <div class="painting">
-      <img src="the_libyan_sibyl.jpg" alt="The Libyan Sibyl">
-    </div>
-    <!-- Painting 3 -->
-    <div class="painting">
-      <img src="the_deluge.jpg" alt="The Deluge">
-    </div>
-    <div class="painting">
-      <img src="the_seperation_of_light_and_darkness.jpg" alt="The Separation of Light and Darkness">
-    </div>
-    <!-- Painting 4 -->
-    <div class="painting">
-      <img src="the_last_judgement.jpg" alt="The Last Judgement">
-    </div>
-    <!-- Painting 5 -->
-    <div class="painting">
-      <img src="the_prophet_jeremiah.jpg" alt="The Prophet Jeremiah">
-    </div>
-  </div>
-
+  <!-- Main content will go here, you can add a gallery or other sections -->
   <script type="module" src="/main.js"></script>
 </body>
 
 </html>
+
 
 
 
