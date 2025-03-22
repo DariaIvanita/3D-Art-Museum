@@ -3,15 +3,17 @@
 
 <head>
   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Art Gallery</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,100&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100&display=swap" rel="stylesheet">
   <style>
     body {
       margin: 0;
       background-color: #121212; /* Dark background to make the art pop */
       overflow: hidden;
+      font-family: 'Inter', sans-serif;
     }
 
     h1,
@@ -19,26 +21,24 @@
       color: white;
       text-align: center;
       width: 100%;
-      font-family: 'Inter', sans-serif;
       font-weight: 100;
       transition: opacity 0.5s ease-in-out;
       position: absolute;
       z-index: 10;
+      top: 0;
+      left: 0;
+      right: 0;
     }
 
     #title {
       font-size: 6em;
-      top: 0.5em;
-      width: 100%;
-      text-align: center;
+      top: 2em;
     }
 
     #artist {
       font-size: 3em;
       color: gray;
-      top: 4em;
-      width: 100%;
-      text-align: center;
+      top: 10em;
     }
 
     /* Container for the art gallery */
@@ -46,10 +46,11 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
       flex-wrap: wrap;
       gap: 2em;
       padding: 1em;
+      position: relative;
+      z-index: 1;
     }
 
     .painting {
@@ -59,12 +60,17 @@
       border-radius: 10px;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
       background-color: #fff;
+      transition: transform 0.3s ease;
     }
 
     .painting img {
       width: 100%;
       height: 100%;
       object-fit: cover;
+    }
+
+    .painting:hover {
+      transform: scale(1.05);
     }
   </style>
 </head>
@@ -104,6 +110,7 @@
 </body>
 
 </html>
+
 
 
 
