@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { Reflector } from 'three/examples/jsm/objects/Reflector.js'; // Corrected import for Reflector
-import * as TWEEN from '@tweenjs/tween.js'; // Ensure you have installed tween.js via npm or use a CDN
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'; // Add OrbitControls
 
 const images = [
   'socrates.jpg',
@@ -35,7 +35,6 @@ const rightArrowImage = textureLoader.load('right.png');
 
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
-renderer.setAnimationLoop(animate);
 renderer.setPixelRatio(window.devicePixelRatio);
 renderer.toneMapping = THREE.NeutralToneMapping;
 renderer.toneMappingExposure = 2;
@@ -43,7 +42,7 @@ document.body.appendChild(renderer.domElement);
 
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
-camera.position.set(0, 0, 15); // Add camera position for better view
+camera.position.set(0, 0, 15); // Camera positioned to view the paintings
 
 const root = new THREE.Object3D();
 scene.add(root);
@@ -69,24 +68,6 @@ for (let i = 0; i < count; i++) {
   artwork.position.z = -4;
   baseNode.add(artwork);
 
-  const leftArrow = new THREE.Mesh(
-    new THREE.BoxGeometry(0.3, 0.3, 0.01),
-    new THREE.MeshStandardMaterial({ map: leftArrowImage, transparent: true })
-  );
-  leftArrow.name = 'left';
-  leftArrow.userData = { index: i, direction: -1 }; // Store direction as part of userData
-  leftArrow.position.set(2.9, 0, -4);
-  baseNode.add(leftArrow);
-
-  const rightArrow = new THREE.Mesh(
-    new THREE.BoxGeometry(0.3, 0.3, 0.01),
-    new THREE.MeshStandardMaterial({ map: rightArrowImage, transparent: true })
-  );
-  rightArrow.name = 'right';
-  rightArrow.userData = { index: i, direction: 1 }; // Store direction as part of userData
-  rightArrow.position.set(-2.9, 0, -4);
-  baseNode.add(rightArrow);
-
   root.add(baseNode);
 }
 
@@ -108,36 +89,17 @@ mirror.position.set(0, -1.1, 0);
 mirror.rotateX(-Math.PI / 2);
 scene.add(mirror);
 
+// Adding OrbitControls for camera movement based on mouse input
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true;
+controls.dampingFactor = 0.25;
+controls.screenSpacePanning = false;
+
 function animate() {
-  TWEEN.update();
+  controls.update(); // Update controls for smooth camera movement
   renderer.render(scene, camera);
+  requestAnimationFrame(animate);
 }
-
-function rotateGallery(index, direction) {
-  const newRotationY = root.rotation.y + (direction * 2 * Math.PI) / count;
-
-  const titleElement = document.getElementById('title');
-  const artistElement = document.getElementById('artist');
-
-  new TWEEN.Tween(root.rotation)
-    .to({ y: newRotationY }, 1500)
-    .easing(TWEEN.Easing.Quadratic.InOut)
-    .start()
-    .onStart(() => {
-      titleElement.style.opacity = 0;
-      artistElement.style.opacity = 0;
-    })
-    .onComplete(() => {
-      titleElement.innerText = titles[index];
-      artistElement.innerText = artists[index];
-      titleElement.style.opacity = 1;
-      artistElement.style.opacity = 1;
-    });
-}
-
-window.addEventListener('wheel', (ev) => {
-  root.rotation.y += ev.deltaY * 0.0001; // Adjust scrolling speed
-});
 
 window.addEventListener('resize', () => {
   camera.aspect = window.innerWidth / window.innerHeight;
@@ -149,28 +111,10 @@ window.addEventListener('resize', () => {
   );
 });
 
-window.addEventListener('click', (ev) => {
-  const mouse = new THREE.Vector2();
-  mouse.x = (ev.clientX / window.innerWidth) * 2 - 1;
-  mouse.y = -(ev.clientY / window.innerHeight) * 2 + 1;
-
-  const raycaster = new THREE.Raycaster();
-  raycaster.setFromCamera(mouse, camera);
-  const intersects = raycaster.intersectObjects(root.children, true);
-
-  if (intersects.length > 0) {
-    const clickedObject = intersects[0].object;
-    const { index, direction } = clickedObject.userData;
-
-    if (clickedObject.name === 'left' || clickedObject.name === 'right') {
-      rotateGallery(index, direction);
-    }
-  }
-});
-
 document.getElementById('title').innerText = titles[0];
 document.getElementById('artist').innerText = artists[0];
 
+animate();
 
 
 
