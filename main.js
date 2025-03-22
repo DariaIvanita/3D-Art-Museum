@@ -3,30 +3,30 @@ import { Reflector } from 'three/addons/objects/Reflector.js';
 import * as TWEEN from 'tween';
 
 const images = [
-  'socrates.jpg',
-  'stars.jpg',
-  'wave.jpg',
-  'spring.jpg',
-  'mountain.jpg',
-  'sunday.jpg'
+  'the_creation_of_adam.jpg',        // Image 1
+  'the_libyan_sibyl.jpg',            // Image 2
+  'the_deluge.jpg',                  // Image 3
+  'the_seperation_of_light_and_darkness.jpg', // Image 4
+  'the_last_judgement.jpg',          // Image 5
+  'the_prophet_jeremiah.jpg'         // Image 6
 ];
 
 const titles = [
-  'The Death of Socrates',
-  'Starry Night',
-  'The Great Wave off Kanagawa',
-  'Effect of Spring, Giverny',
-  'Mount Corcoran',
-  'A Sunday on La Grande Jatte'
+  'The Creation of Adam',
+  'The Libyan Sibyl',
+  'The Deluge',
+  'The Separation of Light and Darkness',
+  'The Last Judgement',
+  'The Prophet Jeremiah'
 ];
 
 const artists = [
-  'Jacques-Louis David',
-  'Vincent Van Gogh',
-  'Katsushika Hokusai',
-  'Claude Monet',
-  'Albert Bierstadt',
-  'George Seurat'
+  'Michelangelo Buonarroti',
+  'Michelangelo Buonarroti',
+  'Michelangelo Buonarroti',
+  'Michelangelo Buonarroti',
+  'Michelangelo Buonarroti',
+  'Michelangelo Buonarroti'
 ];
 
 const textureLoader = new THREE.TextureLoader();
@@ -174,6 +174,7 @@ window.addEventListener('click', (ev) => {
 
 document.getElementById('title').innerText = titles[0];
 document.getElementById('artist').innerText = artists[0];
+
 
 
 
