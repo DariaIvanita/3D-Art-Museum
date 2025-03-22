@@ -3,12 +3,13 @@ import { Reflector } from 'three/examples/jsm/objects/Reflector.js'; // Correcte
 import TWEEN from '@tweenjs/tween.js'; // Ensure proper import for TWEEN.js
 
 const images = [
-  'socrates.jpg',
-  'stars.jpg',
-  'wave.jpg',
-  'spring.jpg',
-  'mountain.jpg',
-  'sunday.jpg'
+  'c:\Users\dasha\OneDrive\Pictures\the creation of adam.jpg',
+  'c:\Users\dasha\OneDrive\Pictures\the last judgement.jpg',
+  'c:\Users\dasha\OneDrive\Pictures\the prophet jeremiah.jpg',
+  'c:\Users\dasha\OneDrive\Pictures\the libyan sibyl.jpg',
+  'c:\Users\dasha\OneDrive\Pictures\the deluge.jpg',
+  'c:\Users\dasha\OneDrive\Pictures\the seperation of light and darkness.jpg',
+  'c:\Users\dasha\OneDrive\Pictures\the seperation of light and darkness.jpg',
 ];
 
 const titles = [
