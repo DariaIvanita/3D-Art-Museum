@@ -1,16 +1,15 @@
-import * as THREE from 'three';
-import { Reflector } from 'three/examples/jsm/objects/Reflector.js'; // Corrected import path
-import TWEEN from '@tweenjs/tween.js'; // Ensure proper import for TWEEN.js
 
-// Define relative paths for images
+import * as THREE from 'three';
+import { Reflector } from 'three/addons/objects/Reflector.js';
+import * as TWEEN from 'tween';
+
 const images = [
-  'assets/images/the_creation_of_adam.jpg',
-  'assets/images/the_last_judgement.jpg',
-  'assets/images/the_prophet_jeremiah.jpg',
-  'assets/images/the_libyan_sibyl.jpg',
-  'assets/images/the_deluge.jpg',
-  'assets/images/the_seperation_of_light_and_darkness.jpg',
-  'assets/images/the_seperation_of_light_and_darkness.jpg',
+  'socrates.jpg',
+  'stars.jpg',
+  'wave.jpg',
+  'spring.jpg',
+  'mountain.jpg',
+  'sunday.jpg'
 ];
 
 const titles = [
@@ -32,8 +31,8 @@ const artists = [
 ];
 
 const textureLoader = new THREE.TextureLoader();
-const leftArrowImage = textureLoader.load('assets/images/left.png');
-const rightArrowImage = textureLoader.load('assets/images/right.png');
+const leftArrowImage = textureLoader.load(`left.png`);
+const rightArrowImage = textureLoader.load(`right.png`);
 
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
@@ -45,6 +44,7 @@ document.body.appendChild(renderer.domElement);
 
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+
 
 const root = new THREE.Object3D();
 scene.add(root);
@@ -103,6 +103,7 @@ const mirror = new Reflector(
     color: 0x505050,
     textureWidth: window.innerWidth * window.devicePixelRatio,
     textureHeight: window.innerHeight * window.devicePixelRatio,
+
   }
 );
 
@@ -119,7 +120,7 @@ function rotateGallery(index, direction) {
   const newRotationY = root.rotation.y + (direction * 2 * Math.PI) / count;
 
   const titleElement = document.getElementById('title');
-  const artistElement = document.getElementById('artist');
+  const artistElement = document.getElementById('artist')
 
   new TWEEN.Tween(root.rotation)
     .to({ y: newRotationY }, 1500)
@@ -138,8 +139,7 @@ function rotateGallery(index, direction) {
 }
 
 window.addEventListener('wheel', (ev) => {
-  const delta = ev.deltaY; // Updated to use deltaY for scroll direction
-  root.rotation.y += delta * 0.0001;
+  root.rotation.y += ev.wheelDelta * 0.0001;
 });
 
 window.addEventListener('resize', () => {
@@ -174,11 +174,7 @@ window.addEventListener('click', (ev) => {
   }
 });
 
-// Ensure title and artist are displayed
 document.getElementById('title').innerText = titles[0];
 document.getElementById('artist').innerText = artists[0];
-
-
-
 
 
