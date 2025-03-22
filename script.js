@@ -1,12 +1,16 @@
+// Import necessary Three.js modules (make sure to include these in your HTML or use a module bundler)
+import * as THREE from 'three';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+
 // Scene setup
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-const renderer = new THREE.WebGLRenderer();
+const renderer = new THREE.WebGLRenderer({ antialias: true }); // Enable antialiasing for smoother edges
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
 // Create basic ambient light source
-const ambientLight = new THREE.AmbientLight(0x404040, 1); // soft white light
+const ambientLight = new THREE.AmbientLight(0x404040, 1); // Soft white light
 scene.add(ambientLight);
 
 // Add a directional light to illuminate objects better
@@ -36,7 +40,7 @@ scene.add(painting);
 camera.position.z = 15; // Move the camera further back to view the objects
 
 // Add OrbitControls to move the camera around
-const controls = new THREE.OrbitControls(camera, renderer.domElement);
+const controls = new OrbitControls(camera, renderer.domElement);
 
 // Animation loop
 function animate() {
@@ -49,8 +53,10 @@ animate();
 
 // Handle resizing of the window
 window.addEventListener('resize', () => {
-  renderer.setSize(window.innerWidth, window.innerHeight);
-  camera.aspect = window.innerWidth / window.innerHeight;
+  const width = window.innerWidth;
+  const height = window.innerHeight;
+  renderer.setSize(width, height);
+  camera.aspect = width / height;
   camera.updateProjectionMatrix();
 });
 
