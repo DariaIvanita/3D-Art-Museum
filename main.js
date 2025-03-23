@@ -21,15 +21,15 @@ const years = [
 
 const information = [
   'Depicts God giving life to Adam.',
-  'Fresco on Sistine Chapel's altar wall illustrating the final judgement of souls.',
+  'Fresco on Sistine Chapel\'s altar wall illustrating the final judgement of souls.',
   'Portrays the contemplative prophet located on Sistine Chapel ceiling.',
-  'Illustrates Noah's flood, one of the central panels on the Sistine Chapel ceiling.',
+  'Illustrates Noah\'s flood, one of the central panels on the Sistine Chapel ceiling.',
   'Shows God dividing light from darkness, a scene from the Sistine Chapel ceiling.',
 ];
 
 const textureLoader = new THREE.TextureLoader();
-const leftArrowImage = textureLoader.load('left.png');
-const rightArrowImage = textureLoader.load('right.png');
+const leftArrowImage = textureLoader.load('left.png', undefined, undefined, () => console.error('Failed to load left.png'));
+const rightArrowImage = textureLoader.load('right.png', undefined, undefined, () => console.error('Failed to load right.png'));
 
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
@@ -40,6 +40,9 @@ document.body.appendChild(renderer.domElement);
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
 camera.position.set(0, 1, 10);
+
+const ambientLight = new THREE.AmbientLight(0xffffff, 1.5);
+scene.add(ambientLight);
 
 const root = new THREE.Object3D();
 scene.add(root);
@@ -67,20 +70,20 @@ for (let i = 0; i < count; i++) {
 
   const leftArrow = new THREE.Mesh(
     new THREE.BoxGeometry(0.3, 0.3, 0.01),
-    new THREE.MeshStandardMaterial({ map: leftArrowImage, transparent: true })
+    new THREE.MeshStandardMaterial({ map: leftArrowImage, color: 0xff0000, transparent: true })
   );
   leftArrow.name = 'left';
   leftArrow.userData = i;
-  leftArrow.position.set(-2.9, 0, -4);
+  leftArrow.position.set(-3.5, 0, -4);
   baseNode.add(leftArrow);
 
   const rightArrow = new THREE.Mesh(
     new THREE.BoxGeometry(0.3, 0.3, 0.01),
-    new THREE.MeshStandardMaterial({ map: rightArrowImage, transparent: true })
+    new THREE.MeshStandardMaterial({ map: rightArrowImage, color: 0x00ff00, transparent: true })
   );
   rightArrow.name = 'right';
   rightArrow.userData = i;
-  rightArrow.position.set(2.9, 0, -4);
+  rightArrow.position.set(3.5, 0, -4);
   baseNode.add(rightArrow);
 
   root.add(baseNode);
@@ -139,6 +142,7 @@ window.addEventListener('resize', () => {
 
 document.getElementById('year').innerText = years[0];
 document.getElementById('information').innerText = information[0];
+
 
 
 
