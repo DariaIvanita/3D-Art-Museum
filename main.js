@@ -1,34 +1,32 @@
 
 import * as THREE from 'three';
-import { Reflector } from 'three/addons/objects/Reflector.js';
-import * as TWEEN from 'tween';
 
-const images = [
-  'socrates.jpg',
-  'stars.jpg',
-  'wave.jpg',
-  'spring.jpg',
-  'mountain.jpg',
-  'sunday.jpg'
-];
+const images ={
+	'the creation of adam.jpg',
+	'the last judgement.jpg',
+	'the prophet jeremiah.jpg',
+	'the libyan sibyl.jpg',
+	'the deluge.jpg',
+	'the seperation of light and darkness.jpg',
+};
 
-const titles = [
-  'The Death of Socrates',
-  'Starry Night',
-  'The Great Wave off Kanagawa',
-  'Effect of Spring, Giverny',
-  'Mount Corcoran',
-  'A Sunday on La Grande Jatte'
-];
+const years ={
+	'the cration of adam 15511-1512',
+	'the last judgement 1536-1541',
+	'the prophet jeremiah 1511',
+	'the libyan sibyl 1511-1512',
+	'the deluge 1508-1512',
+	'the seperation of light and darkness 1511',
 
-const artists = [
-  'Jacques-Louis David',
-  'Vincent Van Gogh',
-  'Katsushika Hokusai',
-  'Claude Monet',
-  'Albert Bierstadt',
-  'George Seurat'
-];
+};
+
+const information ={
+	'depicts god giving life to Adam',
+	' Fresco on sistine Chapels altar wall illustrating the final judgement 0f souls',
+	'portrays the contemplative prophet located on sistine chapel ceiling',
+	'illustrates Noahs flood one of the central panels on the sistine chapel ceiling',
+	'shows god dividing light  from darkness a scene from the sistine chapel ceiling',
+};
 
 const textureLoader = new THREE.TextureLoader();
 const leftArrowImage = textureLoader.load(`left.png`);
@@ -119,8 +117,8 @@ function animate() {
 function rotateGallery(index, direction) {
   const newRotationY = root.rotation.y + (direction * 2 * Math.PI) / count;
 
-  const titleElement = document.getElementById('title');
-  const artistElement = document.getElementById('artist')
+  const titleElement = document.getElementById('year');
+  const artistElement = document.getElementById('information')
 
   new TWEEN.Tween(root.rotation)
     .to({ y: newRotationY }, 1500)
@@ -174,7 +172,6 @@ window.addEventListener('click', (ev) => {
   }
 });
 
-document.getElementById('title').innerText = titles[0];
-document.getElementById('artist').innerText = artists[0];
-
+document.getElementById('year').innerText = titles[0];
+document.getElementById('information').innerText = artists[0];
 
