@@ -1,53 +1,52 @@
-
 import * as THREE from 'three';
+import { Reflector } from 'three/examples/jsm/objects/Reflector.js';
+import TWEEN from '@tweenjs/tween.js';
 
-const images ={
-	'the creation of adam.jpg',
-	'the last judgement.jpg',
-	'the prophet jeremiah.jpg',
-	'the libyan sibyl.jpg',
-	'the deluge.jpg',
-	'the seperation of light and darkness.jpg',
-};
+const images = [
+  'the_creation_of_adam.jpg',
+  'the_last_judgement.jpg',
+  'the_prophet_jeremiah.jpg',
+  'the_libyan_sibyl.jpg',
+  'the_deluge.jpg',
+  'the_seperation_of_light_and_darkness.jpg',
+];
 
-const years ={
-	'the cration of adam 15511-1512',
-	'the last judgement 1536-1541',
-	'the prophet jeremiah 1511',
-	'the libyan sibyl 1511-1512',
-	'the deluge 1508-1512',
-	'the seperation of light and darkness 1511',
+const years = [
+  'The Creation of Adam (1511-1512)',
+  'The Last Judgement (1536-1541)',
+  'The Prophet Jeremiah (1511)',
+  'The Libyan Sibyl (1511-1512)',
+  'The Deluge (1508-1512)',
+  'The Separation of Light and Darkness (1511)',
+];
 
-};
-
-const information ={
-	'depicts god giving life to Adam',
-	' Fresco on sistine Chapels altar wall illustrating the final judgement 0f souls',
-	'portrays the contemplative prophet located on sistine chapel ceiling',
-	'illustrates Noahs flood one of the central panels on the sistine chapel ceiling',
-	'shows god dividing light  from darkness a scene from the sistine chapel ceiling',
-};
+const information = [
+  'Depicts God giving life to Adam.',
+  'Fresco on Sistine Chapel's altar wall illustrating the final judgment of souls.',
+  'Portrays the contemplative prophet located on the Sistine Chapel ceiling.',
+  'Illustrates Noah's flood, one of the central panels on the Sistine Chapel ceiling.',
+  'Shows God dividing light from darkness, a scene from the Sistine Chapel ceiling.',
+];
 
 const textureLoader = new THREE.TextureLoader();
-const leftArrowImage = textureLoader.load(`left.png`);
-const rightArrowImage = textureLoader.load(`right.png`);
+const leftArrowImage = textureLoader.load('left.png');
+const rightArrowImage = textureLoader.load('right.png');
 
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setAnimationLoop(animate);
 renderer.setPixelRatio(window.devicePixelRatio);
-renderer.toneMapping = THREE.NeutralToneMapping;
-renderer.toneMappingExposure = 2;
 document.body.appendChild(renderer.domElement);
 
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
-
+camera.position.set(0, 1, 7);
 
 const root = new THREE.Object3D();
 scene.add(root);
 
-const count = 6;
+const count = images.length;
+
 for (let i = 0; i < count; i++) {
   const image = textureLoader.load(images[i]);
 
@@ -101,7 +100,6 @@ const mirror = new Reflector(
     color: 0x505050,
     textureWidth: window.innerWidth * window.devicePixelRatio,
     textureHeight: window.innerHeight * window.devicePixelRatio,
-
   }
 );
 
@@ -118,7 +116,7 @@ function rotateGallery(index, direction) {
   const newRotationY = root.rotation.y + (direction * 2 * Math.PI) / count;
 
   const titleElement = document.getElementById('year');
-  const artistElement = document.getElementById('information')
+  const infoElement = document.getElementById('information');
 
   new TWEEN.Tween(root.rotation)
     .to({ y: newRotationY }, 1500)
@@ -126,30 +124,24 @@ function rotateGallery(index, direction) {
     .start()
     .onStart(() => {
       titleElement.style.opacity = 0;
-      artistElement.style.opacity = 0;
+      infoElement.style.opacity = 0;
     })
     .onComplete(() => {
-      titleElement.innerText = titles[index];
-      artistElement.innerText = artists[index];
+      titleElement.innerText = years[index];
+      infoElement.innerText = information[index];
       titleElement.style.opacity = 1;
-      artistElement.style.opacity = 1;
+      infoElement.style.opacity = 1;
     });
 }
 
 window.addEventListener('wheel', (ev) => {
-  root.rotation.y += ev.wheelDelta * 0.0001;
+  root.rotation.y += ev.deltaY * 0.0001;
 });
 
 window.addEventListener('resize', () => {
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
-
   renderer.setSize(window.innerWidth, window.innerHeight);
-
-  mirror.getRenderTarget().setSize(
-    window.innerWidth * window.devicePixelRatio,
-    window.innerHeight * window.devicePixelRatio
-  );
 });
 
 window.addEventListener('click', (ev) => {
@@ -172,6 +164,7 @@ window.addEventListener('click', (ev) => {
   }
 });
 
-document.getElementById('year').innerText = titles[0];
-document.getElementById('information').innerText = artists[0];
+document.getElementById('year').innerText = years[0];
+document.getElementById('information').innerText = information[0];
+
 
