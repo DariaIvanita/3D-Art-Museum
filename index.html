@@ -1,58 +1,48 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Art Gallery</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,100&display=swap" rel="stylesheet">
   <style>
     body {
       margin: 0;
-      background-color: #121212; /* Dark background for art display */
-      color: white;
-      font-family: 'Inter', sans-serif;
-      overflow: hidden;
     }
 
     h1,
     h2 {
+      color: white;
+      text-align: center;
       width: 100%;
+
+      font-family: 'Inter';
       font-weight: 100;
+
       transition: opacity 0.5s ease-in-out;
     }
 
     #title {
       position: fixed;
       font-size: 6em;
-      top: 10%;
-      left: 50%;
-      transform: translateX(-50%);
-      margin: 0;
+      top: 0.5em;
     }
 
     #artist {
       position: fixed;
       font-size: 3em;
       color: gray;
-      top: 20%;
-      left: 50%;
-      transform: translateX(-50%);
-      margin: 0;
+      top: 4em;
     }
   </style>
 </head>
 
 <body>
-  <!-- Title and Artist -->
-  <h1 id="title">The Art of Michelangelo</h1>
-  <h2 id="artist">Artist: Michelangelo Buonarroti</h2>
-
-  <!-- Main content will go here, you can add a gallery or other sections -->
-  <script type="module" src="/main.js"></script>
+  <script type="module" src="main.js"></script>
+  <h1 id="year"></h1>
+  <h2 id="information"></h2>
 </body>
 
 </html>
