@@ -1,14 +1,13 @@
 import * as THREE from 'three';
 import { Reflector } from 'three/examples/jsm/objects/Reflector.js';
-import TWEEN from '@tweenjs/tween.js';
 
 const images = [
-  'the_creation_of_adam.jpg',
-  'the_last_judgement.jpg',
-  'the_prophet_jeremiah.jpg',
-  'the_libyan_sibyl.jpg',
-  'the_deluge.jpg',
-  'the_seperation_of_light_and_darkness.jpg',
+  'the creation of adam.jpg',
+  'the last judgement.jpg',
+  'the prophet jeremiah.jpg',
+  'the libyan sibyl.jpg',
+  'the deluge.jpg',
+  'the seperation of light and darkness.jpg',
 ];
 
 const years = [
@@ -22,8 +21,8 @@ const years = [
 
 const information = [
   'Depicts God giving life to Adam.',
-  'Fresco on Sistine Chapel's altar wall illustrating the final judgment of souls.',
-  'Portrays the contemplative prophet located on the Sistine Chapel ceiling.',
+  'Fresco on Sistine Chapel's altar wall illustrating the final judgement of souls.',
+  'Portrays the contemplative prophet located on Sistine Chapel ceiling.',
   'Illustrates Noah's flood, one of the central panels on the Sistine Chapel ceiling.',
   'Shows God dividing light from darkness, a scene from the Sistine Chapel ceiling.',
 ];
@@ -40,13 +39,12 @@ document.body.appendChild(renderer.domElement);
 
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
-camera.position.set(0, 1, 7);
+camera.position.set(0, 1, 10);
 
 const root = new THREE.Object3D();
 scene.add(root);
 
 const count = images.length;
-
 for (let i = 0; i < count; i++) {
   const image = textureLoader.load(images[i]);
 
@@ -73,7 +71,7 @@ for (let i = 0; i < count; i++) {
   );
   leftArrow.name = 'left';
   leftArrow.userData = i;
-  leftArrow.position.set(2.9, 0, -4);
+  leftArrow.position.set(-2.9, 0, -4);
   baseNode.add(leftArrow);
 
   const rightArrow = new THREE.Mesh(
@@ -82,14 +80,14 @@ for (let i = 0; i < count; i++) {
   );
   rightArrow.name = 'right';
   rightArrow.userData = i;
-  rightArrow.position.set(-2.9, 0, -4);
+  rightArrow.position.set(2.9, 0, -4);
   baseNode.add(rightArrow);
 
   root.add(baseNode);
 }
 
-const spotlight = new THREE.SpotLight(0xffffff, 100.0, 10, 0.65, 1);
-spotlight.position.set(0, 5, 0);
+const spotlight = new THREE.SpotLight(0xffffff, 50.0, 20, 0.65, 1);
+spotlight.position.set(0, 5, 10);
 spotlight.target.position.set(0, 1, -5);
 scene.add(spotlight);
 scene.add(spotlight.target);
@@ -108,7 +106,6 @@ mirror.rotateX(-Math.PI / 2);
 scene.add(mirror);
 
 function animate() {
-  TWEEN.update();
   renderer.render(scene, camera);
 }
 
@@ -116,7 +113,7 @@ function rotateGallery(index, direction) {
   const newRotationY = root.rotation.y + (direction * 2 * Math.PI) / count;
 
   const titleElement = document.getElementById('year');
-  const infoElement = document.getElementById('information');
+  const artistElement = document.getElementById('information');
 
   new TWEEN.Tween(root.rotation)
     .to({ y: newRotationY }, 1500)
@@ -124,19 +121,15 @@ function rotateGallery(index, direction) {
     .start()
     .onStart(() => {
       titleElement.style.opacity = 0;
-      infoElement.style.opacity = 0;
+      artistElement.style.opacity = 0;
     })
     .onComplete(() => {
       titleElement.innerText = years[index];
-      infoElement.innerText = information[index];
+      artistElement.innerText = information[index];
       titleElement.style.opacity = 1;
-      infoElement.style.opacity = 1;
+      artistElement.style.opacity = 1;
     });
 }
-
-window.addEventListener('wheel', (ev) => {
-  root.rotation.y += ev.deltaY * 0.0001;
-});
 
 window.addEventListener('resize', () => {
   camera.aspect = window.innerWidth / window.innerHeight;
@@ -144,27 +137,8 @@ window.addEventListener('resize', () => {
   renderer.setSize(window.innerWidth, window.innerHeight);
 });
 
-window.addEventListener('click', (ev) => {
-  const mouse = new THREE.Vector2();
-  mouse.x = (ev.clientX / window.innerWidth) * 2 - 1;
-  mouse.y = -(ev.clientY / window.innerHeight) * 2 + 1;
-
-  const raycaster = new THREE.Raycaster();
-  raycaster.setFromCamera(mouse, camera);
-  const intersects = raycaster.intersectObjects(root.children, true);
-
-  if (intersects.length > 0) {
-    const clickedObject = intersects[0].object;
-    const index = clickedObject.userData;
-
-    if (clickedObject.name === 'left' || clickedObject.name === 'right') {
-      const direction = clickedObject.name === 'left' ? -1 : 1;
-      rotateGallery(index, direction);
-    }
-  }
-});
-
 document.getElementById('year').innerText = years[0];
 document.getElementById('information').innerText = information[0];
+
 
 
