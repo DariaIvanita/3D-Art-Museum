@@ -37,12 +37,12 @@ scene.add(rightWall);
 
 // Create paintings
 const paintings = [
-  'the_creation_of_adam.jpg.jpg',
-  'the_last_judgement.jpg.jpg',
-  'the_prophet_jeremiah.jpg.jpg',
-  'the_libyan_sibyl.jpg.jpg',
-  'the_deluge.jpg.jpg',
-  'the_seperation_of_light_and_darkness.jpg.jpg'
+  'the_creation_of_adam.jpg',
+  'the_last_judgement.jpg',
+  'the_prophet_jeremiah.jpg',
+  'the_libyan_sibyl.jpg',
+  'the_deluge.jpg',
+  'the_separation_of_light_and_darkness.jpg'
 ];
 
 // Loading manager
@@ -64,11 +64,11 @@ const paintingPositions = [
 // Create and position paintings
 paintings.forEach((painting, index) => {
   const textureLoader = new THREE.TextureLoader(loadingManager);
-  const texture = textureLoader.load(painting, (texture) => {
+  textureLoader.load(painting, (texture) => {
     const geometry = new THREE.PlaneGeometry(3, 2);
     const material = new THREE.MeshBasicMaterial({ map: texture });
     const mesh = new THREE.Mesh(geometry, material);
-
+    
     // Set the position from the defined positions
     mesh.position.set(...paintingPositions[index]);
     
@@ -82,10 +82,7 @@ paintings.forEach((painting, index) => {
 
     scene.add(frameMesh); // Add frame to the scene
     scene.add(mesh); // Add painting to the scene
-  });
-
-  // Handle texture loading errors
-  textureLoader.load(painting, undefined, undefined, () => {
+  }, undefined, () => {
     console.error(`Failed to load texture: ${painting}`);
   });
 });
