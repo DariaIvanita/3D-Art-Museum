@@ -33,17 +33,18 @@ const textureLoader = new THREE.TextureLoader();
 const leftArrowImage = textureLoader.load('left.png');
 const rightArrowImage = textureLoader.load('right.png');
 
+// Renderer setup
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
-renderer.setAnimationLoop(animate);
 document.body.appendChild(renderer.domElement);
 
+// Scene and Camera setup
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
-
 const root = new THREE.Object3D();
 scene.add(root);
 
+// Create artworks and arrows
 const count = images.length;
 for (let i = 0; i < count; i++) {
   const image = textureLoader.load(images[i]);
@@ -73,7 +74,7 @@ for (let i = 0; i < count; i++) {
     new THREE.MeshStandardMaterial({ map: leftArrowImage, transparent: true })
   );
   leftArrow.name = 'left';
-  leftArrow.userData = i;
+  leftArrow.userData.index = i; // Updated to use 'index'
   leftArrow.position.set(2.9, 0, -4);
   baseNode.add(leftArrow);
 
@@ -83,14 +84,14 @@ for (let i = 0; i < count; i++) {
     new THREE.MeshStandardMaterial({ map: rightArrowImage, transparent: true })
   );
   rightArrow.name = 'right';
-  rightArrow.userData = i;
+  rightArrow.userData.index = i; // Updated to use 'index'
   rightArrow.position.set(-2.9, 0, -4);
   baseNode.add(rightArrow);
 
   root.add(baseNode);
 }
 
-// Spotlights 
+// Spotlights
 const spotlight = new THREE.SpotLight(0xffffff, 100.0, 10, 0.65, 1);
 spotlight.position.set(0, 5, 0);
 spotlight.target.position.set(0, 1, -5);
@@ -112,6 +113,7 @@ scene.add(mirror);
 
 // Animate the scene
 function animate() {
+  requestAnimationFrame(animate);
   TWEEN.update();
   renderer.render(scene, camera);
 }
@@ -151,9 +153,10 @@ window.addEventListener('resize', () => {
 });
 
 window.addEventListener('click', (ev) => {
-  const mouse = new THREE.Vector2();
-  mouse.x = (ev.clientX / window.innerWidth) * 2 - 1;
-  mouse.y = -(ev.clientY / window.innerHeight) * 2 + 1;
+  const mouse = new THREE.Vector2(
+    (ev.clientX / window.innerWidth) * 2 - 1,
+    -(ev.clientY / window.innerHeight) * 2 + 1
+  );
   
   const raycaster = new THREE.Raycaster();
   raycaster.setFromCamera(mouse, camera);
@@ -161,7 +164,7 @@ window.addEventListener('click', (ev) => {
 
   if (intersects.length > 0) {
     const clickedObject = intersects[0].object;
-    const index = clickedObject.userData;
+    const index = clickedObject.userData.index; // Updated to use 'index'
 
     if (clickedObject.name === 'left' || clickedObject.name === 'right') {
       const direction = clickedObject.name === 'left' ? -1 : 1;
@@ -174,6 +177,5 @@ window.addEventListener('click', (ev) => {
 document.getElementById('title').innerText = titles[0];
 document.getElementById('artist').innerText = artists[0];
 
-// Renderer initialization
-renderer.setSize(window.innerWidth, window.innerHeight);
+// Start animation
 animate();
