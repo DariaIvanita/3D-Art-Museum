@@ -1,5 +1,3 @@
-
-
 // Scene setup
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -20,31 +18,28 @@ const wallGeometry = new THREE.PlaneGeometry(20, 10);
 
 // Back wall
 const backWall = new THREE.Mesh(wallGeometry, wallMaterial);
-backWall.position.z = -10;
-backWall.position.y = 5;
+backWall.position.set(0, 5, -10);
 scene.add(backWall);
 
 // Side walls
 const leftWall = new THREE.Mesh(wallGeometry, wallMaterial);
-leftWall.position.x = -10;
-leftWall.position.y = 5;
+leftWall.position.set(-10, 5, 0);
 leftWall.rotation.y = Math.PI / 2; // Rotate to make it vertical
 scene.add(leftWall);
 
 const rightWall = new THREE.Mesh(wallGeometry, wallMaterial);
-rightWall.position.x = 10;
-rightWall.position.y = 5;
+rightWall.position.set(10, 5, 0);
 rightWall.rotation.y = -Math.PI / 2; // Rotate to make it vertical
 scene.add(rightWall);
 
 // Create paintings
 const paintings = [
-    'the_creation_of_adam.jpg.jpg',
-    'the_last_judgement.jpg.jpg',
-    'the_prophet_jeremiah.jpg.jpg',
-    'the_libyan_sibyl.jpg.jpg',
-    'the_deluge.jpg.jpg',
-    'the_seperation_of_light_and_darkness.jpg.jpg'
+    'the_creation_of_adam.jpg',
+    'the_last_judgement.jpg',
+    'the_prophet_jeremiah.jpg',
+    'the_libyan_sibyl.jpg',
+    'the_deluge.jpg',
+    'the_seperation_of_light_and_darkness.jpg'
 ];
 
 // Loading manager
@@ -64,9 +59,7 @@ paintings.forEach((painting, index) => {
     // Position paintings in a grid
     const row = Math.floor(index / 3);
     const col = index % 3;
-    mesh.position.x = col * 4 - 4; // Adjust spacing
-    mesh.position.y = 5; // Height of the paintings
-    mesh.position.z = -9; // Position in front of the back wall
+    mesh.position.set(col * 4 - 4, 5, -9); // Adjust spacing and set position
     scene.add(mesh);
 });
 
@@ -85,18 +78,32 @@ const velocity = new THREE.Vector3();
 const direction = new THREE.Vector3();
 const speed = 0.1;
 
+// Handle keyboard input
+const keys = {};
+document.addEventListener('keydown', (event) => {
+    keys[event.code] = true;
+});
+document.addEventListener('keyup', (event) => {
+    keys[event.code] = false;
+});
+
 // Animation loop
 function animate() {
     requestAnimationFrame(animate);
     
     // Update controls
-    controls.moveForward = false;
-    controls.moveBackward = false;
-    controls.moveLeft = false;
-    controls.moveRight = false;
+    if (keys['KeyW']) {
+        controls.moveForward(speed);
+    }
+    if (keys['KeyS']) {
+        controls.moveBackward(speed);
+    }
+    if (keys['KeyA']) {
+        controls.moveLeft(speed);
+    }
+    if (keys['KeyD']) {
+        controls.moveRight(speed);
+    }
 
-    // Handle keyboard input
-    document.addEventListener('keydown', (event) => {
-        switch (event.code) {
-            case 'KeyW':
-                controls
+    renderer.render(scene, camera);
+}
