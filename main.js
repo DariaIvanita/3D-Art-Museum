@@ -51,7 +51,17 @@ const loadingManager = new THREE.LoadingManager(() => {
     animate();
 });
 
-// Create paintings
+// Create paintings positions for each wall
+const paintingPositions = [
+    // Back wall positions
+    [(-4), 5, -9], [(4), 5, -9], 
+    // Left wall positions
+    [-9, 5, (-2)], [-9, 5, (-6)], 
+    // Right wall positions
+    [9, 5, (-2)], [9, 5, (-6)]
+];
+
+// Create and position paintings
 paintings.forEach((painting, index) => {
     const textureLoader = new THREE.TextureLoader(loadingManager);
     const texture = textureLoader.load(painting);
@@ -59,27 +69,13 @@ paintings.forEach((painting, index) => {
     const material = new THREE.MeshBasicMaterial({ map: texture });
     const mesh = new THREE.Mesh(geometry, material);
 
-    // Position paintings on different walls
-    if (index < 3) {
-        // Back wall
-        const offsetX = (index - 1) * 4; // Center the paintings
-        mesh.position.x = offsetX; 
-        mesh.position.y = 5; // Height of the paintings
-        mesh.position.z = -9; // Position in front of the back wall
-    } else if (index < 6) {
-        // Left wall
-        const sideIndex = index - 3;
-        const offsetY = (sideIndex - 1) * 4; // Center the paintings
-        mesh.position.x = -9; 
-        mesh.position.y = 5; // Height of the paintings
-        mesh.position.z = offsetY - 5; // Adjust to position on the left wall
-    }
-    
+    // Set the position from the defined positions
+    mesh.position.set(...paintingPositions[index]);
     scene.add(mesh);
 });
 
 // Camera position
-camera.position.set(0, 2, 10); // Adjust camera position for better view
+camera.position.set(0, 3, 15); // Adjusting camera for better 3D effects
 
 // Animation loop
 function animate() {
