@@ -37,55 +37,77 @@ scene.add(rightWall);
 
 // Create paintings
 const paintings = [
-    'the_creation_of_adam.jpg.jpg',
-    'the_last_judgement.jpg.jpg',
-    'the_prophet_jeremiah.jpg.jpg',
-    'the_libyan_sibyl.jpg.jpg',
-    'the_deluge.jpg.jpg',
-    'the_seperation_of_light_and_darkness.jpg.jpg'
+  'the_creation_of_adam.jpg.jpg',
+  'the_last_judgement.jpg.jpg',
+  'the_prophet_jeremiah.jpg.jpg',
+  'the_libyan_sibyl.jpg.jpg',
+  'the_deluge.jpg.jpg',
+  'the_seperation_of_light_and_darkness.jpg.jpg'
 ];
 
 // Loading manager
 const loadingManager = new THREE.LoadingManager(() => {
-    // Start rendering once all textures are loaded
-    animate();
+  // Start rendering once all textures are loaded
+  animate();
 });
 
 // Create paintings positions for each wall
 const paintingPositions = [
-    // Back wall positions
-    [(-4), 5, -9], [(4), 5, -9], 
-    // Left wall positions
-    [-9, 5, (-2)], [-9, 5, (-6)], 
-    // Right wall positions
-    [9, 5, (-2)], [9, 5, (-6)]
+  // Back wall positions
+  [-4, 5, -9], [4, 5, -9], 
+  // Left wall positions
+  [-9, 5, -2], [-9, 5, -6], 
+  // Right wall positions
+  [9, 5, -2], [9, 5, -6]
 ];
 
 // Create and position paintings
 paintings.forEach((painting, index) => {
-    const textureLoader = new THREE.TextureLoader(loadingManager);
-    const texture = textureLoader.load(painting);
-    const geometry = new THREE.PlaneGeometry(3, 2);
-    const material = new THREE.MeshBasicMaterial({ map: texture });
-    const mesh = new THREE.Mesh(geometry, material);
+  const textureLoader = new THREE.TextureLoader(loadingManager);
+  const texture = textureLoader.load(painting);
+  const geometry = new THREE.PlaneGeometry(3, 2);
+  const material = new THREE.MeshBasicMaterial({ map: texture });
+  const mesh = new THREE.Mesh(geometry, material);
 
-    // Set the position from the defined positions
-    mesh.position.set(...paintingPositions[index]);
-    scene.add(mesh);
+  // Set the position from the defined positions
+  mesh.position.set(...paintingPositions[index]);
+  
+  // Add a slight depth to simulate frames (3D effect)
+  const frameGeometry = new THREE.PlaneGeometry(3.2, 2.2);
+  const frameMaterial = new THREE.MeshBasicMaterial({ color: 0x8B4513, side: THREE.DoubleSide }); // Brown for frame
+  const frameMesh = new THREE.Mesh(frameGeometry, frameMaterial);
+  
+  frameMesh.position.copy(mesh.position);
+  frameMesh.position.z += 0.01; // Push the frame a little towards the camera
+
+  scene.add(frameMesh); // Add frame to the scene
+  scene.add(mesh); // Add painting to the scene
 });
+
+// Add title "Michelangelo"
+const titleGeometry = new THREE.TextGeometry('Michelangelo', {
+  font: new THREE.FontLoader().load('path/to/font.json'), // Load a font
+  size: 1,
+  height: 0.1,
+});
+const titleMaterial = new THREE.MeshBasicMaterial({ color: 0x000000 });
+const titleMesh = new THREE.Mesh(titleGeometry, titleMaterial);
+titleMesh.position.set(0, 9, -10); // Position above the back wall
+
+scene.add(titleMesh); // Add title to the scene
 
 // Camera position
 camera.position.set(0, 3, 15); // Adjusting camera for better 3D effects
 
 // Animation loop
 function animate() {
-    requestAnimationFrame(animate);
-    renderer.render(scene, camera);
+  requestAnimationFrame(animate);
+  renderer.render(scene, camera);
 }
 
 // Handle window resize
 window.addEventListener('resize', () => {
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
 });
