@@ -37,12 +37,12 @@ scene.add(rightWall);
 
 // Create paintings
 const paintings = [
-  'the_creation_of_adam.jpg',
-  'the_last_judgement.jpg',
-  'the_prophet_jeremiah.jpg',
-  'the_libyan_sibyl.jpg',
-  'the_deluge.jpg',
-  'the_seperation_of_light_and_darkness.jpg'
+  'the_creation_of_adam.jpg.jpg',
+  'the_last_judgement.jpg.jpg',
+  'the_prophet_jeremiah.jpg.jpg',
+  'the_libyan_sibyl.jpg.jpg',
+  'the_deluge.jpg.jpg',
+  'the_seperation_of_light_and_darkness.jpg.jpg'
 ];
 
 // Loading manager
