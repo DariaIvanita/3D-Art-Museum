@@ -1,5 +1,4 @@
 
-
 // Scene setup
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -61,22 +60,12 @@ paintings.forEach((painting, index) => {
     const material = new THREE.MeshBasicMaterial({ map: texture });
     const mesh = new THREE.Mesh(geometry, material);
     
-paintings.forEach((painting, index) => {
-    const textureLoader = new THREE.TextureLoader(loadingManager);
-    const texture = textureLoader.load(painting);
-    const geometry = new THREE.PlaneGeometry(3, 2);
-    const material = new THREE.MeshBasicMaterial({ map: texture });
-    const mesh = new THREE.Mesh(geometry, material);
-    
-    // Position paintings in a grid
-    const row = Math.floor(index / 3);
-    const col = index % 3;
-    mesh.position.x = col * 4 - 4; // Adjust spacing
+    // Position paintings in a single row along the back wall
+    const offsetX = (index - 2.5) * 4; // Center the paintings
+    mesh.position.x = offsetX; 
     mesh.position.y = 5; // Height of the paintings
-    mesh.position.z = row * -3 - 8; // Adjust depth based on row
+    mesh.position.z = -9; // Position in front of the back wall
     scene.add(mesh);
-});
-    
 });
 
 // Camera position
