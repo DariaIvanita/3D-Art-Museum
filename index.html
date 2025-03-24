@@ -1,60 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="utf-8">
-  <title>Art Gallery</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,100&display=swap" rel="stylesheet">
-  <style>
-    body {
-      margin: 0;
-      background-color: #f0f0f0; /* Background color */
-    }
-
-    h1,
-    h2 {
-      color: white;
-      text-align: center;
-      width: 100%;
-      font-family: 'Inter', sans-serif;
-      font-weight: 100;
-      transition: opacity 0.5s ease-in-out;
-    }
-
-    #title {
-      position: fixed;
-      font-size: 6em;
-      top: 0.5em;
-      opacity: 0.8;
-    }
-
-    #artist {
-      position: fixed;
-      font-size: 3em;
-      color: gray;
-      top: 4em;
-      opacity: 0.8;
-    }
-
-    #artImage {
-      position: fixed;
-      width: 200px; /* Adjust size as needed */
-      bottom: 1em; /* Position towards the bottom */
-      left: 50%;
-      transform: translateX(-50%); /* Center horizontally */
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Art Gallery</title>
+    <style>
+        body { margin: 0; }
+        canvas { display: block; }
+    </style>
 </head>
-
 <body>
-  <h1 id="title">Art Title</h1>
-  <h2 id="artist">Artist Name</h2>
-  <img id="artImage" src="path_to_your_art_image.jpg" alt="Art Image">
-  <script type="module" src="/main.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="main.js"></script>
 </body>
-
 </html>
 
 
