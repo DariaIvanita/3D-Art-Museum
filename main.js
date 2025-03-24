@@ -1,14 +1,15 @@
+
 import * as THREE from 'three';
 import { Reflector } from 'three/examples/jsm/objects/Reflector.js';
 import * as TWEEN from '@tweenjs/tween.js';
 
 const images = [
-  'the_creation_of_adam.jpg.jpg',
-  'the_last_judgement.jpg.jpg',
-  'the_prophet_jeremiah.jpg.jpg',
-  'the_libyan_sibyl.jpg.jpg',
-  'the_deluge.jpg.jpg',
-  'the_separation_of_light_and_darkness.jpg.jpg'
+  'the_creation_of_adam.jpg',
+  'the_last_judgement.jpg',
+  'the_prophet_jeremiah.jpg',
+  'the_libyan_sibyl.jpg',
+  'the_deluge.jpg',
+  'the_separation_of_light_and_darkness.jpg'
 ];
 
 const titles = [
@@ -41,19 +42,18 @@ document.body.appendChild(renderer.domElement);
 // Scene and Camera setup
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
-camera.position.z = 5; // Ensure camera is positioned to see content
+camera.position.z = 5;
 const root = new THREE.Object3D();
 scene.add(root);
 
 // Create artworks and arrows
-const count = images.length;
-for (let i = 0; i < count; i++) {
+for (let i = 0; i < images.length; i++) {
   const image = textureLoader.load(images[i]);
 
   const baseNode = new THREE.Object3D();
-  baseNode.rotation.y = (2 * Math.PI * (i / count));
+  baseNode.rotation.y = (2 * Math.PI * (i / images.length));
 
-  // Create border
+  // Create border and artwork mesh
   const border = new THREE.Mesh(
     new THREE.BoxGeometry(3.2, 2.2, 0.005),
     new THREE.MeshStandardMaterial({ color: 0x303030 })
@@ -61,7 +61,6 @@ for (let i = 0; i < count; i++) {
   border.position.z = -4;
   baseNode.add(border);
 
-  // Create artwork
   const artwork = new THREE.Mesh(
     new THREE.BoxGeometry(3, 2, 0.01),
     new THREE.MeshStandardMaterial({ map: image })
@@ -121,7 +120,7 @@ function animate() {
 
 // Rotate the gallery
 function rotateGallery(index, direction) {
-  const newRotationY = root.rotation.y + (direction * 2 * Math.PI) / count;
+  const newRotationY = root.rotation.y + (direction * 2 * Math.PI) / images.length;
 
   const titleElement = document.getElementById('title');
   const artistElement = document.getElementById('artist');
@@ -158,14 +157,13 @@ window.addEventListener('click', (ev) => {
     (ev.clientX / window.innerWidth) * 2 - 1,
     -(ev.clientY / window.innerHeight) * 2 + 1
   );
-  
+
   const raycaster = new THREE.Raycaster();
   raycaster.setFromCamera(mouse, camera);
   const intersects = raycaster.intersectObjects(root.children, true);
 
   if (intersects.length > 0) {
     const clickedObject = intersects[0].object;
-
     if (clickedObject.name === 'left' || clickedObject.name === 'right') {
       const index = clickedObject.userData.index;
       const direction = clickedObject.name === 'left' ? -1 : 1;
