@@ -1,0 +1,42 @@
+body {
+  margin: 0;
+  background-color: black;
+}
+
+h1, h2, h3, p {
+  color: white;
+  text-align: center;
+  width: 100%;
+  font-family: 'Inter', sans-serif;
+  font-weight: 100;
+  margin: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+#title {
+  position: fixed;
+  font-size: 6em;
+  top: 0.5em;
+}
+
+#artist {
+  position: fixed;
+  font-size: 3em;
+  color: gray;
+  top: 4em;
+}
+
+#year {
+  position: fixed;
+  font-size: 2em;
+  color: lightgray;
+  top: 7em;
+}
+
+#info {
+  position: fixed;
+  font-size: 1.5em;
+  color: white;
+  top: 10em;
+  padding: 0 20px;
+}
