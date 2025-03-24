@@ -35,7 +35,7 @@ rightWall.position.y = 5;
 rightWall.rotation.y = -Math.PI / 2; // Rotate to make it vertical
 scene.add(rightWall);
 
-// Create paintings array
+// Create paintings
 const paintings = [
     'the_creation_of_adam.jpg.jpg',
     'the_last_judgement.jpg.jpg',
@@ -51,28 +51,32 @@ const loadingManager = new THREE.LoadingManager(() => {
     animate();
 });
 
-// Create paintings on walls
-const createPaintings = (wall, zOffset) => {
-    paintings.slice(0, 3).forEach((painting, index) => {
-        const textureLoader = new THREE.TextureLoader(loadingManager);
-        const texture = textureLoader.load(painting);
-        const geometry = new THREE.PlaneGeometry(3, 2);
-        const material = new THREE.MeshBasicMaterial({ map: texture });
-        const mesh = new THREE.Mesh(geometry, material);
-        
-        // Positioning paintings
-        const offsetX = (index - 1) * 4; // Center the paintings on their respective wall
-        mesh.position.x = offsetX;
-        mesh.position.y = 5; // Height of the paintings
-        mesh.position.z = zOffset; // Z offset for depth effect
-        wall.add(mesh);
-    });
-};
+// Create paintings
+paintings.forEach((painting, index) => {
+    const textureLoader = new THREE.TextureLoader(loadingManager);
+    const texture = textureLoader.load(painting);
+    const geometry = new THREE.PlaneGeometry(3, 2);
+    const material = new THREE.MeshBasicMaterial({ map: texture });
+    const mesh = new THREE.Mesh(geometry, material);
 
-// Add paintings to walls
-createPaintings(backWall, -9); // For back wall
-createPaintings(leftWall, -9);  // For left wall (zOffset can be adjusted for depth)
-createPaintings(rightWall, -9); // For right wall (zOffset can be adjusted for depth)
+    // Position paintings on different walls
+    if (index < 3) {
+        // Back wall
+        const offsetX = (index - 1) * 4; // Center the paintings
+        mesh.position.x = offsetX; 
+        mesh.position.y = 5; // Height of the paintings
+        mesh.position.z = -9; // Position in front of the back wall
+    } else if (index < 6) {
+        // Left wall
+        const sideIndex = index - 3;
+        const offsetY = (sideIndex - 1) * 4; // Center the paintings
+        mesh.position.x = -9; 
+        mesh.position.y = 5; // Height of the paintings
+        mesh.position.z = offsetY - 5; // Adjust to position on the left wall
+    }
+    
+    scene.add(mesh);
+});
 
 // Camera position
 camera.position.set(0, 2, 10); // Adjust camera position for better view
