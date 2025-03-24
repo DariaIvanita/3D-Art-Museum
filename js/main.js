@@ -1,3 +1,4 @@
+
 import * as THREE from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
 
 // Scene Setup
@@ -44,12 +45,12 @@ scene.add(wall4);
 // Load Textures for Paintings (Michelangelo's Paintings)
 const textureLoader = new THREE.TextureLoader();
 const paintingTextures = [
-  textureLoader.load('the_creation_of_adam.jpg.jpg'),
-  textureLoader.load('the_last_judgement.jpg.jpg'),
-  textureLoader.load('the_prophet_jeremiah.jpg.jpg'),
-  textureLoader.load('the_libyan_sibyl.jpg.jpg'),
-  textureLoader.load('the_deluge.jpg.jpg'),
-  textureLoader.load('the_seperation_of_light_and_darkness.jpg.jpg')
+  textureLoader.load('images/the_creation_of_adam.jpg'),
+  textureLoader.load('images/the_last_judgement.jpg'),
+  textureLoader.load('images/the_prophet_jeremiah.jpg'),
+  textureLoader.load('images/the_libyan_sibyl.jpg'),
+  textureLoader.load('images/the_deluge.jpg'),
+  textureLoader.load('images/the_seperation_of_light_and_darkness.jpg')
 ];
 
 // Painting Geometry
@@ -101,7 +102,6 @@ window.addEventListener('keydown', (event) => {
   if (event.key === 'ArrowLeft') camera.position.x -= speed;
   if (event.key === 'ArrowRight') camera.position.x += speed;
 });
-
 
 
 
