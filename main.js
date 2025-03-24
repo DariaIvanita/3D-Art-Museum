@@ -12,11 +12,11 @@ const galleryWidth = 10;
 const galleryHeight = 6;
 const paintings = [
     'path/to//the_creation_of_adam.jpg.jpg',
-    'path/to/the_last_judgement.jpg',
-    'path/to/the_prophet_jeremiah.jp',
-    'path/to/the_libyan_sibyl.jpg',
-    'path/to/the_deluge.jpg',
-    'path/to/the_seperation_of_light_and_darkness.jpg'
+    'path/to/the_last_judgement.jpg.jpg',
+    'path/to/the_prophet_jeremiah.jpg.jpg',
+    'path/to/the_libyan_sibyl.jpg.jpg',
+    'path/to/the_deluge.jpg.jpg',
+    'path/to/the_seperation_of_light_and_darkness.jpg.jpg'
 ];
 
 // Create paintings
