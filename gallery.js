@@ -37,12 +37,12 @@ scene.add(wall4);
 // Load images for the gallery
 const textureLoader = new THREE.TextureLoader();
 const images = [
-    'https://via.placeholder.com/150/FF0000/FFFFFF?text=Image+1',
-    'https://via.placeholder.com/150/00FF00/FFFFFF?text=Image+2',
-    'https://via.placeholder.com/150/0000FF/FFFFFF?text=Image+3',
-    'https://via.placeholder.com/150/FFFF00/FFFFFF?text=Image+4',
-    'https://via.placeholder.com/150/FF00FF/FFFFFF?text=Image+5',
-    'https://via.placeholder.com/150/00FFFF/FFFFFF?text=Image+6'
+    'the_creation_of_adam.jpg.jpg',
+    'the_last_judgement.jpg.jpg',
+    'the_prophet._jeremiah.jpg.jpg',
+    'the_libyan_sibyl.jpg.jpg',
+    'the_deluge.jpg.jpg',
+    'the_seperation_of_light_and_darkness.jpg.jpg',
 ];
 
 const positions = [
