@@ -4,12 +4,12 @@ import { Reflector } from 'three/examples/jsm/objects/Reflector.js';
 import * as TWEEN from '@tweenjs/tween.js';
 
 const images = [
-  'the_creation_of_adam.jpg',
-  'the_last_judgement.jpg',
-  'the_prophet_jeremiah.jpg',
-  'the_libyan_sibyl.jpg',
-  'the_deluge.jpg',
-  'the_separation_of_light_and_darkness.jpg'
+  'the_creation_of_adam.jpg.jpg',
+  'the_last_judgement.jpg.jpg',
+  'the_prophet_jeremiah.jpg.jpg',
+  'the_libyan_sibyl.jpg.jpg',
+  'the_deluge.jpg.jpg',
+  'the_separation_of_light_and_darkness.jpg.jpg'
 ];
 
 const titles = [
