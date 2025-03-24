@@ -1,4 +1,5 @@
-import * as THREE from 'https://unpkg.com/three/build/three.module.js';
+import * as THREE from 'https://unpkg.com/three@0.160.0/build/three.module.js';
+import { Reflector } from 'https://unpkg.com/three@0.160.0/examples/jsm/objects/Reflector.js';
 import { TWEEN } from 'https://unpkg.com/@tweenjs/tween.js@18.6.4/dist/tween.esm.js';
 
 // Images and Information
@@ -9,6 +10,24 @@ const images = [
   'the_libyan_sibyl.jpg',
   'the_deluge.jpg',
   'the_separation_of_light_and_darkness.jpg'
+];
+
+const titles = [
+  'The Creation of Adam',
+  'The Last Judgement',
+  'The Prophet Jeremiah',
+  'The Libyan Sibyl',
+  'The Deluge',
+  'The Separation of Light and Darkness'
+];
+
+const artists = [
+  'Michelangelo',
+  'Michelangelo',
+  'Michelangelo',
+  'Michelangelo',
+  'Michelangelo',
+  'Michelangelo'
 ];
 
 const years = [
@@ -30,15 +49,22 @@ const information = [
 ];
 
 // Scene and Renderer
+const textureLoader = new THREE.TextureLoader();
+const leftArrowImage = textureLoader.load('left.png');
+const rightArrowImage = textureLoader.load('right.png');
+
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setAnimationLoop(animate);
+renderer.setPixelRatio(window.devicePixelRatio);
+renderer.toneMapping = THREE.NeutralToneMapping;
+renderer.toneMappingExposure = 2;
 document.body.appendChild(renderer.domElement);
 
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
-camera.position.set(0, 0, 8);
+camera.position.set(0, 0, 6);
 
-const textureLoader = new THREE.TextureLoader();
 const root = new THREE.Object3D();
 scene.add(root);
 
@@ -46,6 +72,19 @@ scene.add(root);
 const spotlight = new THREE.SpotLight(0xffffff, 5.0, 20, Math.PI / 6, 0.5);
 spotlight.position.set(5, 5, 5);
 scene.add(spotlight);
+
+// Mirror
+const mirror = new Reflector(
+  new THREE.CircleGeometry(40, 64),
+  {
+    color: 0x505050,
+    textureWidth: window.innerWidth * window.devicePixelRatio,
+    textureHeight: window.innerHeight * window.devicePixelRatio,
+  }
+);
+mirror.position.set(0, -1.1, 0);
+mirror.rotateX(-Math.PI / 2);
+scene.add(mirror);
 
 // Add Artworks
 for (let i = 0; i < images.length; i++) {
@@ -68,32 +107,36 @@ for (let i = 0; i < images.length; i++) {
   artwork.position.z = -4.95;
   baseNode.add(artwork);
 
+  const leftArrow = new THREE.Mesh(
+    new THREE.BoxGeometry(0.3, 0.3, 0.01),
+    new THREE.MeshStandardMaterial({ map: leftArrowImage, transparent: true })
+  );
+  leftArrow.name = 'left';
+  leftArrow.position.set(2.9, 0, -4);
+  baseNode.add(leftArrow);
+
+  const rightArrow = new THREE.Mesh(
+    new THREE.BoxGeometry(0.3, 0.3, 0.01),
+    new THREE.MeshStandardMaterial({ map: rightArrowImage, transparent: true })
+  );
+  rightArrow.name = 'right';
+  rightArrow.position.set(-2.9, 0, -4);
+  baseNode.add(rightArrow);
+
   root.add(baseNode);
 }
 
-// Left and Right Arrows
-const createArrow = (file, xPosition, name) => {
-  const arrowTexture = textureLoader.load(file);
-  const arrow = new THREE.Mesh(
-    new THREE.PlaneGeometry(1, 1),
-    new THREE.MeshBasicMaterial({ map: arrowTexture, transparent: true })
-  );
-  arrow.position.set(xPosition, 0, 4);
-  arrow.name = name;
-  scene.add(arrow);
-};
-
-createArrow('left.png', -4, 'left');
-createArrow('right.png', 4, 'right');
-
 // Display Information
 function updateInfo(index) {
+  document.getElementById('title').innerText = titles[index];
+  document.getElementById('artist').innerText = artists[index];
   document.getElementById('year').innerText = `Year: ${years[index]}`;
   document.getElementById('info').innerText = information[index];
 }
+
 updateInfo(0);
 
-// Animation
+// Rotate Gallery
 function rotateGallery(index, direction) {
   const newRotationY = root.rotation.y + (direction * 2 * Math.PI) / images.length;
 
@@ -101,10 +144,7 @@ function rotateGallery(index, direction) {
     .to({ y: newRotationY }, 1500)
     .easing(TWEEN.Easing.Quadratic.InOut)
     .start()
-    .onComplete(() => {
-      const newIndex = (index + direction + images.length) % images.length;
-      updateInfo(newIndex);
-    });
+    .onComplete(() => updateInfo(index));
 }
 
 // Click Events
@@ -115,16 +155,15 @@ window.addEventListener('click', (ev) => {
 
   const raycaster = new THREE.Raycaster();
   raycaster.setFromCamera(mouse, camera);
+  const intersects = raycaster.intersectObjects(root.children, true);
 
-  const intersects = raycaster.intersectObjects(scene.children, true);
   if (intersects.length > 0) {
     const clickedObject = intersects[0].object;
-    const index = Math.round(root.rotation.y / (2 * Math.PI / images.length)) % images.length;
+    const index = Math.floor(root.rotation.y / (2 * Math.PI / images.length)) % images.length;
 
-    if (clickedObject.name === 'left') {
-      rotateGallery(index, -1);
-    } else if (clickedObject.name === 'right') {
-      rotateGallery(index, 1);
+    if (clickedObject.name === 'left' || clickedObject.name === 'right') {
+      const direction = clickedObject.name === 'left' ? -1 : 1;
+      rotateGallery(index, direction);
     }
   }
 });
@@ -135,7 +174,15 @@ function animate() {
   renderer.render(scene, camera);
   requestAnimationFrame(animate);
 }
-animate();
+
+// Resize Event
+window.addEventListener('resize', () => {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+
+  renderer.setSize(window.innerWidth, window.innerHeight);
+});
+
 
 
 
