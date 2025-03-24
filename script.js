@@ -52,21 +52,27 @@ scene.add(ambientLight);
 camera.position.set(0, 150, 500);
 camera.lookAt(0, 150, 0); // Ensure the camera faces the center
 
-// Debugging: Add a simple cube to check visibility
-const geometry = new THREE.BoxGeometry(50, 50, 50);
-const material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
-const cube = new THREE.Mesh(geometry, material);
-cube.position.set(0, 50, 0);  // Position cube in the center
-scene.add(cube);
+// Texture loader
+const textureLoader = new THREE.TextureLoader();
 
-// Display Paintings (Placeholder for now)
+// Array to hold textures for the paintings
+const paintingTextures = [
+  textureLoader.load('painting1.jpg'),
+  textureLoader.load('painting2.jpg'),
+  textureLoader.load('painting3.jpg'),
+  textureLoader.load('painting4.jpg'),
+  textureLoader.load('painting5.jpg'),
+  textureLoader.load('painting6.jpg')
+];
+
+// Display Paintings (With Textures)
 const paintingWidth = 150;
 const paintingHeight = 200;
 const paintingsMesh = [];
 
 // Front Wall
 for (let i = 0; i < 3; i++) {
-  const paintingMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00 }); // Placeholder color
+  const paintingMaterial = new THREE.MeshBasicMaterial({ map: paintingTextures[i] });
   const paintingGeometry = new THREE.PlaneGeometry(paintingWidth, paintingHeight);
   const painting = new THREE.Mesh(paintingGeometry, paintingMaterial);
   painting.position.set(-150 + i * 150, 300, -250); // Adjust position for spacing
@@ -76,7 +82,7 @@ for (let i = 0; i < 3; i++) {
 
 // Back Wall
 for (let i = 0; i < 3; i++) {
-  const paintingMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00 }); // Placeholder color
+  const paintingMaterial = new THREE.MeshBasicMaterial({ map: paintingTextures[i + 3] });
   const paintingGeometry = new THREE.PlaneGeometry(paintingWidth, paintingHeight);
   const painting = new THREE.Mesh(paintingGeometry, paintingMaterial);
   painting.position.set(-150 + i * 150, 300, 250); // Adjust position for spacing
