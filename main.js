@@ -1,37 +1,36 @@
 import * as THREE from 'three';
-import { Reflector } from 'three/addons/objects/Reflector.js';
-import * as TWEEN from 'tween';
+import { Reflector } from 'three/examples/jsm/objects/Reflector.js';
+import TWEEN from '@tweenjs/tween.js';
 
 const images = [
-  'socrates.jpg',
-  'stars.jpg',
-  'wave.jpg',
-  'spring.jpg',
-  'mountain.jpg',
-  'sunday.jpg'
+  'the creation of adam.jpg',
+  'the last judgement.jpg',
+  'the prophet jeremiah.jpg',
+  'the libyan sibyl.jpg',
+  'the deluge.jpg',
+  'the separation of light and darkness.jpg',
 ];
 
-const titles = [
-  'The Death of Socrates',
-  'Starry Night',
-  'The Great Wave off Kanagawa',
-  'Effect of Spring, Giverny',
-  'Mount Corcoran',
-  'A Sunday on La Grande Jatte'
+const years = [
+  'The Creation of Adam 1511-1512',
+  'The Last Judgement 1536-1541',
+  'The Prophet Jeremiah 1511',
+  'The Libyan Sibyl 1511-1512',
+  'The Deluge 1508-1512',
+  'The Separation of Light and Darkness 1511',
 ];
 
-const artists = [
-  'Jacques-Louis David',
-  'Vincent Van Gogh',
-  'Katsushika Hokusai',
-  'Claude Monet',
-  'Albert Bierstadt',
-  'George Seurat'
+const information = [
+  'Depicts God giving life to Adam.',
+  'Fresco on Sistine Chapels altar wall illustrating the final judgement of souls.',
+  'Portrays the contemplative prophet located on the Sistine Chapel ceiling.',
+  'Illustrates Noah flood one of the central panels on the Sistine Chapel ceiling.',
+  'Shows God dividing light from darkness, a scene from the Sistine Chapel ceiling.',
 ];
 
 const textureLoader = new THREE.TextureLoader();
-const leftArrowImage = textureLoader.load('./left.png', () => console.log('Left Arrow Loaded'), undefined, (err) => console.error('Error loading left.png:', err));
-const rightArrowImage = textureLoader.load('./right.png', () => console.log('Right Arrow Loaded'), undefined, (err) => console.error('Error loading right.png:', err));
+const leftArrowImage = textureLoader.load('left.png');
+const rightArrowImage = textureLoader.load('right.png');
 
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
@@ -41,6 +40,7 @@ document.body.appendChild(renderer.domElement);
 
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+camera.position.set(0, 0, 6);
 
 const root = new THREE.Object3D();
 scene.add(root);
@@ -50,7 +50,7 @@ for (let i = 0; i < count; i++) {
   const image = textureLoader.load(images[i]);
 
   const baseNode = new THREE.Object3D();
-  baseNode.rotation.y = 2 * Math.PI * (i / count);
+  baseNode.rotation.y = (2 * Math.PI * i) / count;
 
   const border = new THREE.Mesh(
     new THREE.BoxGeometry(3.2, 2.2, 0.005),
@@ -72,7 +72,7 @@ for (let i = 0; i < count; i++) {
   );
   leftArrow.name = 'left';
   leftArrow.userData = i;
-  leftArrow.position.set(2.9, 0, -4);
+  leftArrow.position.set(-2.9, 0, -4);
   baseNode.add(leftArrow);
 
   const rightArrow = new THREE.Mesh(
@@ -81,7 +81,7 @@ for (let i = 0; i < count; i++) {
   );
   rightArrow.name = 'right';
   rightArrow.userData = i;
-  rightArrow.position.set(-2.9, 0, -4);
+  rightArrow.position.set(2.9, 0, -4);
   baseNode.add(rightArrow);
 
   root.add(baseNode);
@@ -93,14 +93,12 @@ spotlight.target.position.set(0, 1, -5);
 scene.add(spotlight);
 scene.add(spotlight.target);
 
-const mirror = new Reflector(
-  new THREE.CircleGeometry(40, 64),
-  {
-    color: 0x505050,
-    textureWidth: window.innerWidth * window.devicePixelRatio,
-    textureHeight: window.innerHeight * window.devicePixelRatio,
-  }
-);
+const mirror = new Reflector(new THREE.CircleGeometry(40, 64), {
+  color: 0x505050,
+  textureWidth: window.innerWidth * window.devicePixelRatio,
+  textureHeight: window.innerHeight * window.devicePixelRatio,
+});
+
 mirror.position.set(0, -1.1, 0);
 mirror.rotateX(-Math.PI / 2);
 scene.add(mirror);
@@ -113,8 +111,8 @@ function animate() {
 function rotateGallery(index, direction) {
   const newRotationY = root.rotation.y + (direction * 2 * Math.PI) / count;
 
-  const titleElement = document.getElementById('title');
-  const artistElement = document.getElementById('artist');
+  const titleElement = document.getElementById('year');
+  const artistElement = document.getElementById('information');
 
   new TWEEN.Tween(root.rotation)
     .to({ y: newRotationY }, 1500)
@@ -125,8 +123,8 @@ function rotateGallery(index, direction) {
       artistElement.style.opacity = 0;
     })
     .onComplete(() => {
-      titleElement.innerText = titles[index];
-      artistElement.innerText = artists[index];
+      titleElement.innerText = years[index];
+      artistElement.innerText = information[index];
       titleElement.style.opacity = 1;
       artistElement.style.opacity = 1;
     });
@@ -138,9 +136,8 @@ window.addEventListener('resize', () => {
   renderer.setSize(window.innerWidth, window.innerHeight);
 });
 
-document.getElementById('title').innerText = titles[0];
-document.getElementById('artist').innerText = artists[0];
-
+document.getElementById('year').innerText = years[0];
+document.getElementById('information').innerText = information[0];
 
 
 
