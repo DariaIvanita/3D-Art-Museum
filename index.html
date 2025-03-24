@@ -1,42 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <title>Art Gallery</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Art Display</title>
     <style>
         body {
             margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
             background-color: #f0f0f0;
+            flex-direction: column;
         }
         h1, h2 {
-            color: white;
-            text-align: center;
-            width: 100%;
-            font-family: 'Inter', sans-serif;
-            font-weight: 100;
-            transition: opacity 0.5s ease-in-out;
+            margin: 0;
+            color: #333;
         }
-        #title {
-            position: fixed;
-            font-size: 6em;
-            top: 0.5em;
-        }
-        #artist {
-            position: fixed;
-            font-size: 3em;
-            color: gray;
-            top: 4em;
+        #artImage {
+            margin-top: 20px;
+            width: 200px; /* Adjust size as needed */
         }
     </style>
 </head>
 <body>
-    <h1 id="title"></h1>
-    <h2 id="artist"></h2>
+    <h1>Art Title</h1>
+    <h2>Artist Name</h2>
+    <img id="artImage" src="path_to_your_art_image.jpg" alt="Art Image">
     
-    <script type="module" src="main.js"></script> <!-- Link to JavaScript file -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="app.js"></script> <!-- Link to the Three.js JavaScript file -->
 </body>
 </html>
 
