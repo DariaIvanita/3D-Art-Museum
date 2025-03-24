@@ -1,35 +1,29 @@
-
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="utf-8">
     <title>Art Gallery</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,100&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100&display=swap" rel="stylesheet">
     <style>
         body {
             margin: 0;
-            background-color: #f0f0f0;  /* Optional: Adds a light gray background */
+            background-color: #f0f0f0;
         }
-
-        h1,
-        h2 {
+        h1, h2 {
             color: white;
             text-align: center;
             width: 100%;
-            font-family: 'Inter';
+            font-family: 'Inter', sans-serif;
             font-weight: 100;
             transition: opacity 0.5s ease-in-out;
         }
-
         #title {
             position: fixed;
             font-size: 6em;
             top: 0.5em;
         }
-
         #artist {
             position: fixed;
             font-size: 3em;
@@ -38,16 +32,12 @@
         }
     </style>
 </head>
-
 <body>
-    <script type="module">
-        document.getElementById('title').textContent = "David";  // Art title
-        document.getElementById('artist').textContent = "Michelangelo";  // Artist name
-    </script>
     <h1 id="title"></h1>
     <h2 id="artist"></h2>
+    
+    <script type="module" src="main.js"></script> <!-- Link to JavaScript file -->
 </body>
-
 </html>
 
 
