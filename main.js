@@ -38,11 +38,7 @@ const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
 camera.position.set(0, 0, 6);
 
-// Load Textures
 const textureLoader = new THREE.TextureLoader();
-const leftArrowImage = textureLoader.load('left.png');
-const rightArrowImage = textureLoader.load('right.png');
-
 const root = new THREE.Object3D();
 scene.add(root);
 
@@ -58,7 +54,6 @@ for (let i = 0; i < images.length; i++) {
   const baseNode = new THREE.Object3D();
   baseNode.rotation.y = (2 * Math.PI * i) / images.length;
 
-  // Frame
   const frame = new THREE.Mesh(
     new THREE.BoxGeometry(3.2, 2.2, 0.05),
     new THREE.MeshStandardMaterial({ color: 0x303030 })
@@ -66,33 +61,12 @@ for (let i = 0; i < images.length; i++) {
   frame.position.z = -5;
   baseNode.add(frame);
 
-  // Artwork
   const artwork = new THREE.Mesh(
     new THREE.PlaneGeometry(3, 2),
     new THREE.MeshBasicMaterial({ map: texture })
   );
   artwork.position.z = -4.95;
   baseNode.add(artwork);
-
-  // Left Arrow
-  const leftArrow = new THREE.Mesh(
-    new THREE.PlaneGeometry(0.5, 0.5),
-    new THREE.MeshBasicMaterial({ map: leftArrowImage, transparent: true })
-  );
-  leftArrow.name = 'left';
-  leftArrow.userData = i;
-  leftArrow.position.set(-2, 0, -5);
-  baseNode.add(leftArrow);
-
-  // Right Arrow
-  const rightArrow = new THREE.Mesh(
-    new THREE.PlaneGeometry(0.5, 0.5),
-    new THREE.MeshBasicMaterial({ map: rightArrowImage, transparent: true })
-  );
-  rightArrow.name = 'right';
-  rightArrow.userData = i;
-  rightArrow.position.set(2, 0, -5);
-  baseNode.add(rightArrow);
 
   root.add(baseNode);
 }
@@ -127,7 +101,7 @@ window.addEventListener('click', (ev) => {
   const intersects = raycaster.intersectObjects(root.children, true);
   if (intersects.length > 0) {
     const clickedObject = intersects[0].object;
-    const index = clickedObject.userData;
+    const index = Math.floor(root.rotation.y / (2 * Math.PI / images.length)) % images.length;
 
     if (clickedObject.name === 'left') {
       rotateGallery(index, -1);
