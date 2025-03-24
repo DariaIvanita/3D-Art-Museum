@@ -1,4 +1,3 @@
-// app.js
 
 // Scene setup
 const scene = new THREE.Scene();
@@ -11,17 +10,24 @@ document.body.appendChild(renderer.domElement);
 const galleryWidth = 10;
 const galleryHeight = 6;
 const paintings = [
-    'path/to//the_creation_of_adam.jpg.jpg',
-    'path/to/the_last_judgement.jpg.jpg',
-    'path/to/the_prophet_jeremiah.jpg.jpg',
-    'path/to/the_libyan_sibyl.jpg.jpg',
-    'path/to/the_deluge.jpg.jpg',
-    'path/to/the_seperation_of_light_and_darkness.jpg.jpg'
+    'the_creation_of_adam.jpg.jpg',
+    'the_last_judgement.jpg.jpg',
+    'the_prophet_jeremiah.jpg.jpg',
+    'the_libyan_sibyl.jpg.jpg',
+    'the_deluge.jpg.jpg',
+    'the_seperation_of_light_and_darkness.jpg.jpg'
 ];
+
+// Loading manager
+const loadingManager = new THREE.LoadingManager(() => {
+    // Start rendering once all textures are loaded
+    animate();
+});
 
 // Create paintings
 paintings.forEach((painting, index) => {
-    const texture = new THREE.TextureLoader().load(painting);
+    const textureLoader = new THREE.TextureLoader(loadingManager);
+    const texture = textureLoader.load(painting);
     const geometry = new THREE.PlaneGeometry(3, 2);
     const material = new THREE.MeshBasicMaterial({ map: texture });
     const mesh = new THREE.Mesh(geometry, material);
@@ -41,7 +47,6 @@ function animate() {
     requestAnimationFrame(animate);
     renderer.render(scene, camera);
 }
-animate();
 
 // Handle window resize
 window.addEventListener('resize', () => {
