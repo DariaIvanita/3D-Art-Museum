@@ -1,4 +1,4 @@
-// app.js
+
 
 // Scene setup
 const scene = new THREE.Scene();
@@ -73,30 +73,15 @@ paintings.forEach((painting, index) => {
 // Camera position
 camera.position.set(0, 2, 10); // Adjust camera position for better view
 
-// Pointer Lock Controls
-const controls = new THREE.PointerLockControls(camera, document.body);
-document.body.appendChild(controls.getObject());
-document.addEventListener('click', () => {
-    controls.lock();
-});
-
-// Movement variables
-const velocity = new THREE.Vector3();
-const direction = new THREE.Vector3();
-const speed = 0.1;
-
 // Animation loop
 function animate() {
     requestAnimationFrame(animate);
-    
-    // Update controls
-    controls.moveForward = false;
-    controls.moveBackward = false;
-    controls.moveLeft = false;
-    controls.moveRight = false;
+    renderer.render(scene, camera);
+}
 
-    // Handle keyboard input
-    document.addEventListener('keydown', (event) => {
-        switch (event.code) {
-            case 'KeyW':
-                controls
+// Handle window resize
+window.addEventListener('resize', () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+});
