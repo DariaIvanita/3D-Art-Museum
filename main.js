@@ -1,103 +1,51 @@
-import * as THREE from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
+// app.js
 
-// Scene Setup
+// Scene setup
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
-document.getElementById("gallery-container").appendChild(renderer.domElement);
+document.body.appendChild(renderer.domElement);
 
-// Floor
-const floorGeometry = new THREE.PlaneGeometry(500, 500);
-const floorMaterial = new THREE.MeshBasicMaterial({ color: 0x999999, side: THREE.DoubleSide });
-const floor = new THREE.Mesh(floorGeometry, floorMaterial);
-floor.rotation.x = - Math.PI / 2;
-scene.add(floor);
-
-// Walls (4 walls of the gallery)
-const wallGeometry = new THREE.PlaneGeometry(500, 500);
-const wallMaterial = new THREE.MeshBasicMaterial({ color: 0xdddddd, side: THREE.DoubleSide });
-
-// Front Wall
-const wall1 = new THREE.Mesh(wallGeometry, wallMaterial);
-wall1.position.set(0, 250, -250);
-wall1.rotation.y = Math.PI;
-scene.add(wall1);
-
-// Right Wall
-const wall2 = new THREE.Mesh(wallGeometry, wallMaterial);
-wall2.position.set(250, 250, 0);
-wall2.rotation.y = Math.PI / 2;
-scene.add(wall2);
-
-// Left Wall
-const wall3 = new THREE.Mesh(wallGeometry, wallMaterial);
-wall3.position.set(-250, 250, 0);
-wall3.rotation.y = -Math.PI / 2;
-scene.add(wall3);
-
-// Back Wall
-const wall4 = new THREE.Mesh(wallGeometry, wallMaterial);
-wall4.position.set(0, 250, 250);
-scene.add(wall4);
-
-// Load Textures for Paintings (Michelangelo's Paintings)
-const textureLoader = new THREE.TextureLoader();
-const paintingTextures = [
-  textureLoader.load('images/the_creation_of_adam.jpg'),
-  textureLoader.load('images/the_last_judgement.jpg'),
-  textureLoader.load('images/the_prophet_jeremiah.jpg'),
-  textureLoader.load('images/the_libyan_sibyl.jpg'),
-  textureLoader.load('images/the_deluge.jpg'),
-  textureLoader.load('images/the_seperation_of_light_and_darkness.jpg')
+// Gallery dimensions
+const galleryWidth = 10;
+const galleryHeight = 6;
+const paintings = [
+    'path/to/michelangelo_painting1.jpg',
+    'path/to/michelangelo_painting2.jpg',
+    'path/to/michelangelo_painting3.jpg',
+    'path/to/michelangelo_painting4.jpg',
+    'path/to/michelangelo_painting5.jpg',
+    'path/to/michelangelo_painting6.jpg'
 ];
 
-// Painting Geometry
-const paintingWidth = 150;
-const paintingHeight = 200;
-const paintings = [];
+// Create paintings
+paintings.forEach((painting, index) => {
+    const texture = new THREE.TextureLoader().load(painting);
+    const geometry = new THREE.PlaneGeometry(3, 2);
+    const material = new THREE.MeshBasicMaterial({ map: texture });
+    const mesh = new THREE.Mesh(geometry, material);
+    
+    // Position paintings in a grid
+    mesh.position.x = (index % 3) * (galleryWidth / 3) - galleryWidth / 2 + 1.5;
+    mesh.position.y = (Math.floor(index / 3) * (galleryHeight / 2)) - galleryHeight / 2 + 1;
+    mesh.position.z = -5; // Move back to view
+    scene.add(mesh);
+});
 
-// Front Wall Paintings
-for (let i = 0; i < 3; i++) {
-  const paintingMaterial = new THREE.MeshBasicMaterial({ map: paintingTextures[i] });
-  const paintingGeometry = new THREE.PlaneGeometry(paintingWidth, paintingHeight);
-  const painting = new THREE.Mesh(paintingGeometry, paintingMaterial);
-  painting.position.set(-150 + i * 150, 300, -250); // Adjust position for spacing
-  scene.add(painting);
-  paintings.push(painting);
-}
+// Camera position
+camera.position.z = 5;
 
-// Back Wall Paintings
-for (let i = 0; i < 3; i++) {
-  const paintingMaterial = new THREE.MeshBasicMaterial({ map: paintingTextures[i + 3] });
-  const paintingGeometry = new THREE.PlaneGeometry(paintingWidth, paintingHeight);
-  const painting = new THREE.Mesh(paintingGeometry, paintingMaterial);
-  painting.position.set(-150 + i * 150, 300, 250); // Adjust position for spacing
-  scene.add(painting);
-  paintings.push(painting);
-}
-
-// Light Source
-const light = new THREE.PointLight(0xffffff, 1, 1000);
-light.position.set(0, 500, 0);
-scene.add(light);
-
-// Camera Position
-camera.position.set(0, 150, 500);
-camera.lookAt(0, 150, 0); // Ensure the camera faces the center
-
-// Animation Loop
+// Animation loop
 function animate() {
-  requestAnimationFrame(animate);
-  renderer.render(scene, camera);
+    requestAnimationFrame(animate);
+    renderer.render(scene, camera);
 }
 animate();
 
-// Handle Keyboard for Navigation
-window.addEventListener('keydown', (event) => {
-  const speed = 10;
-  if (event.key === 'ArrowUp') camera.position.z -= speed;
-  if (event.key === 'ArrowDown') camera.position.z += speed;
-  if (event.key === 'ArrowLeft') camera.position.x -= speed;
-  if (event.key === 'ArrowRight') camera.position.x += speed;
+// Handle window resize
+window.addEventListener('resize', () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
 });
