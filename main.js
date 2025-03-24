@@ -11,12 +11,12 @@ document.body.appendChild(renderer.domElement);
 const galleryWidth = 10;
 const galleryHeight = 6;
 const paintings = [
-    'path/to/michelangelo_painting1.jpg',
-    'path/to/michelangelo_painting2.jpg',
-    'path/to/michelangelo_painting3.jpg',
-    'path/to/michelangelo_painting4.jpg',
-    'path/to/michelangelo_painting5.jpg',
-    'path/to/michelangelo_painting6.jpg'
+    'path/to//the_creation_of_adam.jpg.jpg',
+    'path/to/the_last_judgement.jpg',
+    'path/to/the_prophet_jeremiah.jp',
+    'path/to/the_libyan_sibyl.jpg',
+    'path/to/the_deluge.jpg',
+    'path/to/the_seperation_of_light_and_darkness.jpg'
 ];
 
 // Create paintings
