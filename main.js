@@ -1,4 +1,4 @@
-import * as THREE from 'https://unpkg.com/three@0.160.0/build/three.module.js';
+import * as THREE from 'https://unpkg.com/three/build/three.module.js';
 import { TWEEN } from 'https://unpkg.com/@tweenjs/tween.js@18.6.4/dist/tween.esm.js';
 
 // Images and Information
@@ -36,7 +36,7 @@ document.body.appendChild(renderer.domElement);
 
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
-camera.position.set(0, 0, 6);
+camera.position.set(0, 0, 8);
 
 const textureLoader = new THREE.TextureLoader();
 const root = new THREE.Object3D();
@@ -71,6 +71,21 @@ for (let i = 0; i < images.length; i++) {
   root.add(baseNode);
 }
 
+// Left and Right Arrows
+const createArrow = (file, xPosition, name) => {
+  const arrowTexture = textureLoader.load(file);
+  const arrow = new THREE.Mesh(
+    new THREE.PlaneGeometry(1, 1),
+    new THREE.MeshBasicMaterial({ map: arrowTexture, transparent: true })
+  );
+  arrow.position.set(xPosition, 0, 4);
+  arrow.name = name;
+  scene.add(arrow);
+};
+
+createArrow('left.png', -4, 'left');
+createArrow('right.png', 4, 'right');
+
 // Display Information
 function updateInfo(index) {
   document.getElementById('year').innerText = `Year: ${years[index]}`;
@@ -86,7 +101,10 @@ function rotateGallery(index, direction) {
     .to({ y: newRotationY }, 1500)
     .easing(TWEEN.Easing.Quadratic.InOut)
     .start()
-    .onComplete(() => updateInfo(index));
+    .onComplete(() => {
+      const newIndex = (index + direction + images.length) % images.length;
+      updateInfo(newIndex);
+    });
 }
 
 // Click Events
@@ -98,10 +116,10 @@ window.addEventListener('click', (ev) => {
   const raycaster = new THREE.Raycaster();
   raycaster.setFromCamera(mouse, camera);
 
-  const intersects = raycaster.intersectObjects(root.children, true);
+  const intersects = raycaster.intersectObjects(scene.children, true);
   if (intersects.length > 0) {
     const clickedObject = intersects[0].object;
-    const index = Math.floor(root.rotation.y / (2 * Math.PI / images.length)) % images.length;
+    const index = Math.round(root.rotation.y / (2 * Math.PI / images.length)) % images.length;
 
     if (clickedObject.name === 'left') {
       rotateGallery(index, -1);
@@ -118,6 +136,7 @@ function animate() {
   requestAnimationFrame(animate);
 }
 animate();
+
 
 
 
