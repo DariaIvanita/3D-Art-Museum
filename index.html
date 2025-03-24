@@ -12,54 +12,58 @@
     body {
       margin: 0;
       background-color: black;
+      overflow: hidden;
     }
 
     h1, h2, h3, p {
       color: white;
       text-align: center;
-      width: 100%;
       font-family: 'Inter', sans-serif;
       font-weight: 100;
       margin: 0;
+      padding: 0;
       transition: opacity 0.5s ease-in-out;
     }
 
     #title {
       position: fixed;
       font-size: 6em;
-      top: 0.5em;
+      top: 5vh;
+      width: 100%;
     }
 
     #artist {
       position: fixed;
       font-size: 3em;
       color: gray;
-      top: 4em;
+      top: 15vh;
+      width: 100%;
     }
 
     #year {
       position: fixed;
       font-size: 2em;
       color: lightgray;
-      top: 7em;
+      top: 25vh;
+      width: 100%;
     }
 
     #info {
       position: fixed;
       font-size: 1.5em;
       color: white;
-      top: 10em;
-      padding: 0 20px;
+      top: 35vh;
+      width: 100%;
+      padding: 0 10vw;
+      box-sizing: border-box;
     }
   </style>
 </head>
 
 <body>
+  <h3 id="year">Loading...</h3>
+  <p id="info">Loading information...</p>
   <script type="module" src="/main.js"></script>
-  <h1 id="title"></h1>
-  <h2 id="artist"></h2>
-  <h3 id="year"></h3>
-  <p id="info"></p>
 </body>
 
 </html>
