@@ -5,27 +5,15 @@ body {
   font-family: Arial, sans-serif;
 }
 
-h1, h2, h3 {
+h1 {
   color: white;
   text-align: center;
-  position: fixed;
-  width: 100%;
-  margin: 0;
-  pointer-events: none;
-  transition: opacity 0.5s ease-in-out;
-}
-
-#title {
   font-size: 4em;
-  top: 10%;
+  margin-top: 20px;
 }
 
-#year {
-  font-size: 2em;
-  top: 30%;
+h2, p {
+  color: white;
+  text-align: center;
 }
 
-#info {
-  font-size: 1.5em;
-  top: 35%;
-}
