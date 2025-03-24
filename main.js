@@ -20,22 +20,19 @@ const wallGeometry = new THREE.PlaneGeometry(20, 10);
 
 // Back wall
 const backWall = new THREE.Mesh(wallGeometry, wallMaterial);
-backWall.position.z = -10;
-backWall.position.y = 5;
+backWall.position.set(0, 5, -10); // Centered position
 backWall.receiveShadow = true;
 scene.add(backWall);
 
 // Side walls
 const leftWall = new THREE.Mesh(wallGeometry, wallMaterial);
-leftWall.position.x = -10;
-leftWall.position.y = 5;
+leftWall.position.set(-10, 5, 0); // Positioning left wall
 leftWall.rotation.y = Math.PI / 2; // Rotate to make it vertical
 leftWall.receiveShadow = true;
 scene.add(leftWall);
 
 const rightWall = new THREE.Mesh(wallGeometry, wallMaterial);
-rightWall.position.x = 10;
-rightWall.position.y = 5;
+rightWall.position.set(10, 5, 0); // Positioning right wall
 rightWall.rotation.y = -Math.PI / 2; // Rotate to make it vertical
 rightWall.receiveShadow = true;
 scene.add(rightWall);
@@ -51,12 +48,12 @@ scene.add(directionalLight);
 
 // Create paintings
 const paintings = [
-  'the_creation_of_adam.jpg.jpg',
-  'the_last_judgement.jpg.jpg',
-  'the_prophet_jeremiah.jpg.jpg',
-  'the_libyan_sibyl.jpg.jpg',
-  'the_deluge.jpg.jpg',
-  'the_separation_of_light_and_darkness.jpg.jpg'
+  'the_creation_of_adam.jpg',
+  'the_last_judgement.jpg',
+  'the_prophet_jeremiah.jpg',
+  'the_libyan_sibyl.jpg',
+  'the_deluge.jpg',
+  'the_separation_of_light_and_darkness.jpg'
 ];
 
 // Loading manager
@@ -65,14 +62,11 @@ const loadingManager = new THREE.LoadingManager(() => {
   animate();
 });
 
-// Create paintings positions for each wall
+// Paintings positions for each wall
 const paintingPositions = [
-  // Back wall positions
-  [-4, 5, -9], [4, 5, -9], 
-  // Left wall positions
-  [-9, 5, -2], [-9, 5, -6], 
-  // Right wall positions
-  [9, 5, -2], [9, 5, -6]
+  [-4, 5, -9], [4, 5, -9], // Back wall positions
+  [-9, 5, -2], [-9, 5, -6], // Left wall positions
+  [9, 5, -2], [9, 5, -6]    // Right wall positions
 ];
 
 // Create and position paintings
@@ -87,10 +81,10 @@ paintings.forEach((painting, index) => {
     mesh.position.set(...paintingPositions[index]);
    
     // Add 3D effect for frame
-    const frameGeometry = new THREE.BoxGeometry(3.2, 2.2, 0.05); // Changed to BoxGeometry for frame
+    const frameGeometry = new THREE.BoxGeometry(3.2, 2.2, 0.05); // BoxGeometry for frame
     const frameMaterial = new THREE.MeshStandardMaterial({ color: 0x8B4513 }); // Brown for frame
     const frameMesh = new THREE.Mesh(frameGeometry, frameMaterial);
-
+    
     frameMesh.position.copy(mesh.position);
     frameMesh.position.z += 0.01; // Push the frame a little towards the camera
 
@@ -107,7 +101,7 @@ fontLoader.load('path/to/font.json', (font) => {
   const titleGeometry = new THREE.TextGeometry('Michelangelo', {
     font: font,
     size: 1,
-    height: 0.2, // Increased height for a more pronounced effect
+    height: 0.2, // Height for a more pronounced effect
   });
   
   const titleMaterial = new THREE.MeshStandardMaterial({ color: 0x000000 });
@@ -132,3 +126,6 @@ window.addEventListener('resize', () => {
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
 });
+
+// Start rendering for the first time
+animate();
