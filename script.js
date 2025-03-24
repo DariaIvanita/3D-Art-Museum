@@ -45,29 +45,28 @@ light.position.set(0, 500, 0);
 scene.add(light);
 
 // Ambient Light
-const ambientLight = new THREE.AmbientLight(0x404040); // Soft light
+const ambientLight = new THREE.AmbientLight(0x404040, 2); // Increased intensity
 scene.add(ambientLight);
 
-// Painting Texture Loading
-const textureLoader = new THREE.TextureLoader();
-const paintings = [
-  'the_creation_of_adam.jpg,jpg',
-  'the_last_judgement.jpg.jpg',
-  'the_prophet.jpg.jpg',
-  'the_libyan_sibyl.jpg.jpg',
-  'the_deluge.jpg.jpg',
-  'the_seperation_of_light_and_darkness.jpg.jpg'
-];
+// Camera Position
+camera.position.set(0, 150, 500);
+camera.lookAt(0, 150, 0); // Ensure the camera faces the center
 
-// Display Paintings
+// Debugging: Add a simple cube to check visibility
+const geometry = new THREE.BoxGeometry(50, 50, 50);
+const material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+const cube = new THREE.Mesh(geometry, material);
+cube.position.set(0, 50, 0);  // Position cube in the center
+scene.add(cube);
+
+// Display Paintings (Placeholder for now)
 const paintingWidth = 150;
 const paintingHeight = 200;
 const paintingsMesh = [];
 
 // Front Wall
 for (let i = 0; i < 3; i++) {
-  const texture = textureLoader.load(paintings[i]);
-  const paintingMaterial = new THREE.MeshBasicMaterial({ map: texture });
+  const paintingMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00 }); // Placeholder color
   const paintingGeometry = new THREE.PlaneGeometry(paintingWidth, paintingHeight);
   const painting = new THREE.Mesh(paintingGeometry, paintingMaterial);
   painting.position.set(-150 + i * 150, 300, -250); // Adjust position for spacing
@@ -77,17 +76,13 @@ for (let i = 0; i < 3; i++) {
 
 // Back Wall
 for (let i = 0; i < 3; i++) {
-  const texture = textureLoader.load(paintings[i + 3]);
-  const paintingMaterial = new THREE.MeshBasicMaterial({ map: texture });
+  const paintingMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00 }); // Placeholder color
   const paintingGeometry = new THREE.PlaneGeometry(paintingWidth, paintingHeight);
   const painting = new THREE.Mesh(paintingGeometry, paintingMaterial);
   painting.position.set(-150 + i * 150, 300, 250); // Adjust position for spacing
   scene.add(painting);
   paintingsMesh.push(painting);
 }
-
-// Camera Position
-camera.position.z = 500;
 
 // Animation Loop
 function animate() {
