@@ -2,50 +2,57 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8">
-    <title>3D Art Gallery</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,100&display=swap" rel="stylesheet">
-    <style>
-        body {
-            margin: 0;
-            font-family: 'Inter', sans-serif;
-        }
+  <meta charset="utf-8">
+  <title>Art Gallery</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,100&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      background-color: #efefef; /* Light gray background */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+    }
 
-        h1,
-        h2 {
-            color: white;
-            text-align: center;
-            width: 100%;
-            transition: opacity 0.5s ease-in-out;
-        }
+    h1,
+    h2 {
+      color: white;
+      text-align: center;
+      width: 100%;
+      font-family: 'Inter';
+      font-weight: 100;
+      transition: opacity 0.5s ease-in-out;
+      position: absolute;
+    }
 
-        #title {
-            position: fixed;
-            font-size: 6em;
-            top: 0.5em;
-        }
+    #title {
+      font-size: 6em;
+      top: 15%;
+    }
 
-        #artist {
-            position: fixed;
-            font-size: 3em;
-            color: gray;
-            top: 4em;
-        }
+    #artist {
+      font-size: 3em;
+      color: gray;
+      top: 30%;
+    }
 
-        canvas {
-            display: block;
-            margin: 0 auto;
-        }
-    </style>
+    #art-image {
+      width: 80%; /* Adjusts the image size */
+      position: absolute;
+      bottom: 10%; /* Positioning the image */
+    }
+  </style>
 </head>
 
 <body>
-    <h1 id="title"></h1>
-    <h2 id="artist"></h2>
-    <script type="module" src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script type="module" src="main.js"></script>
+  <h1 id="title">Art Title</h1>
+  <h2 id="artist">Artist Name</h2>
+  <img id="art-image" src="path-to-your-image.png" alt="Art Image" />
+  <script type="module" src="/main.js"></script>
 </body>
 
 </html>
