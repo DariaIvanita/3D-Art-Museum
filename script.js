@@ -44,12 +44,12 @@ scene.add(wall4);
 // Load Textures for Paintings (Michelangelo's Paintings)
 const textureLoader = new THREE.TextureLoader();
 const paintingTextures = [
-  textureLoader.load('painting1.jpg'),
-  textureLoader.load('painting2.jpg'),
-  textureLoader.load('painting3.jpg'),
-  textureLoader.load('painting4.jpg'),
-  textureLoader.load('painting5.jpg'),
-  textureLoader.load('painting6.jpg')
+  textureLoader.load('the_creation_of_adam.jpg.jpg'),
+  textureLoader.load('the_last_judgement.jpg.jpg'),
+  textureLoader.load('the_prophet_jeremiah.jpg.jpg'),
+  textureLoader.load('the_libyan_sibyl.jpg.jpg'),
+  textureLoader.load('the_deluge.jpg.jpg'),
+  textureLoader.load('the_seperation_of_light_and_darkness.jpg.jpg')
 ];
 
 // Painting Geometry
