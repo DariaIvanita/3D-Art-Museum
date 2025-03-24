@@ -51,12 +51,12 @@ scene.add(ambientLight);
 // Painting Texture Loading
 const textureLoader = new THREE.TextureLoader();
 const paintings = [
-  'path_to_painting_1.jpg',
-  'path_to_painting_2.jpg',
-  'path_to_painting_3.jpg',
-  'path_to_painting_4.jpg',
-  'path_to_painting_5.jpg',
-  'path_to_painting_6.jpg'
+  'the_creation_of_adam.jpg',
+  'the_last_judgement.jpg',
+  'the_prophet.jpg',
+  'the_libyan_sibyl.jpg',
+  'the_deluge.jpg',
+  'the_seperation_of_light_and_darkness.jpg'
 ];
 
 // Display Paintings
