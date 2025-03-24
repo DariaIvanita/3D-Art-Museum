@@ -41,6 +41,7 @@ document.body.appendChild(renderer.domElement);
 // Scene and Camera setup
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+camera.position.z = 5; // Ensure camera is positioned to see content
 const root = new THREE.Object3D();
 scene.add(root);
 
@@ -74,7 +75,7 @@ for (let i = 0; i < count; i++) {
     new THREE.MeshStandardMaterial({ map: leftArrowImage, transparent: true })
   );
   leftArrow.name = 'left';
-  leftArrow.userData.index = i; // Updated to use 'index'
+  leftArrow.userData.index = i;
   leftArrow.position.set(2.9, 0, -4);
   baseNode.add(leftArrow);
 
@@ -84,7 +85,7 @@ for (let i = 0; i < count; i++) {
     new THREE.MeshStandardMaterial({ map: rightArrowImage, transparent: true })
   );
   rightArrow.name = 'right';
-  rightArrow.userData.index = i; // Updated to use 'index'
+  rightArrow.userData.index = i;
   rightArrow.position.set(-2.9, 0, -4);
   baseNode.add(rightArrow);
 
@@ -92,7 +93,7 @@ for (let i = 0; i < count; i++) {
 }
 
 // Spotlights
-const spotlight = new THREE.SpotLight(0xffffff, 100.0, 10, 0.65, 1);
+const spotlight = new THREE.SpotLight(0xffffff, 100, 10, 0.65, 1);
 spotlight.position.set(0, 5, 0);
 spotlight.target.position.set(0, 1, -5);
 scene.add(spotlight);
@@ -164,9 +165,9 @@ window.addEventListener('click', (ev) => {
 
   if (intersects.length > 0) {
     const clickedObject = intersects[0].object;
-    const index = clickedObject.userData.index; // Updated to use 'index'
 
     if (clickedObject.name === 'left' || clickedObject.name === 'right') {
+      const index = clickedObject.userData.index;
       const direction = clickedObject.name === 'left' ? -1 : 1;
       rotateGallery(index, direction);
     }
