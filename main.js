@@ -61,13 +61,22 @@ paintings.forEach((painting, index) => {
     const material = new THREE.MeshBasicMaterial({ map: texture });
     const mesh = new THREE.Mesh(geometry, material);
     
+paintings.forEach((painting, index) => {
+    const textureLoader = new THREE.TextureLoader(loadingManager);
+    const texture = textureLoader.load(painting);
+    const geometry = new THREE.PlaneGeometry(3, 2);
+    const material = new THREE.MeshBasicMaterial({ map: texture });
+    const mesh = new THREE.Mesh(geometry, material);
+    
     // Position paintings in a grid
     const row = Math.floor(index / 3);
     const col = index % 3;
     mesh.position.x = col * 4 - 4; // Adjust spacing
     mesh.position.y = 5; // Height of the paintings
-    mesh.position.z = -9; // Position in front of the back wall
+    mesh.position.z = row * -3 - 8; // Adjust depth based on row
     scene.add(mesh);
+});
+    
 });
 
 // Camera position
