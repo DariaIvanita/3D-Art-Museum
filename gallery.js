@@ -88,7 +88,7 @@ paintings.forEach((painting, index) => {
       const imgMaterial = new THREE.MeshLambertMaterial({ map: texture });
       const imgMesh = new THREE.Mesh(imgGeometry, imgMaterial);
       imgMesh.position.set(positions[index].x, positions[index].y, positions[index].z);
-      imgMesh.lookAt(new THREE.Vector3(0, 5, 25));
+      imgMesh.lookAt(new THREE.Vector3(0, 5, 20));
       imgMesh.userData = { title: painting.title };
       scene.add(imgMesh);
       paintingMeshes.push(imgMesh);
@@ -140,13 +140,6 @@ function animate() {
 }
 
 animate();
-
-
-
-
-
-
-
 
 
 
