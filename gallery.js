@@ -1,3 +1,4 @@
+
 // Scene setup
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -56,14 +57,14 @@ const imageHeight = 2.4;
 // Image Positions
 const positions = [
     // Front Wall - 2 images
-    { x: -3, y: 2.5, z: -5 },
-    { x: 3, y: 2.5, z: -5 },
+    { x: -3.5, y: 2.5, z: -5 },
+    { x: 3.5, y: 2.5, z: -5 },
     // Left Wall - 2 images
-    { x: -5.5, y: 2.5, z: -1.5 },
-    { x: -5.5, y: 2.5, z: 1.5 },
+    { x: -6, y: 2.5, z: -1.5 },
+    { x: -6, y: 2.5, z: 1.5 },
     // Right Wall - 2 images
-    { x: 5.5, y: 2.5, z: -1.5 },
-    { x: 5.5, y: 2.5, z: 1.5 }
+    { x: 6, y: 2.5, z: -1.5 },
+    { x: 6, y: 2.5, z: 1.5 }
 ];
 
 // Painting Info Box
