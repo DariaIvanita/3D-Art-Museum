@@ -23,26 +23,26 @@ const floor = new THREE.Mesh(floorGeometry, floorMaterial);
 floor.rotation.x = -Math.PI / 2; // Rotate to make it horizontal
 scene.add(floor);
 
-// Create walls
-const wallMaterial = new THREE.MeshLambertMaterial({ color: 0xffffff });
+// Create walls with the same material
+const wallMaterial = new THREE.MeshLambertMaterial({ color: 0xcccccc }); // Same light color for walls
 
 const wall1 = new THREE.Mesh(new THREE.PlaneGeometry(10, 5), wallMaterial);
-wall1.position.set(0, 2.5, -5);
+wall1.position.set(0, 2.5, -5);  // Back wall
 scene.add(wall1);
 
 const wall2 = new THREE.Mesh(new THREE.PlaneGeometry(10, 5), wallMaterial);
-wall2.position.set(0, 2.5, 5);
-wall2.rotation.y = Math.PI;
+wall2.position.set(0, 2.5, 5); // Front wall
+wall2.rotation.y = Math.PI; // Rotate to face the opposite direction
 scene.add(wall2);
 
 const wall3 = new THREE.Mesh(new THREE.PlaneGeometry(10, 5), wallMaterial);
-wall3.position.set(-5, 2.5, 0);
-wall3.rotation.y = Math.PI / 2;
+wall3.position.set(-5, 2.5, 0);  // Left wall
+wall3.rotation.y = Math.PI / 2; // Rotate to make it face the left
 scene.add(wall3);
 
 const wall4 = new THREE.Mesh(new THREE.PlaneGeometry(10, 5), wallMaterial);
-wall4.position.set(5, 2.5, 0);
-wall4.rotation.y = -Math.PI / 2;
+wall4.position.set(5, 2.5, 0);  // Right wall
+wall4.rotation.y = -Math.PI / 2; // Rotate to make it face the right
 scene.add(wall4);
 
 // Load images for the gallery
@@ -57,7 +57,7 @@ const images = [
 ];
 
 const positions = [
-    { x: -4, y: 2.5, z: -4 },
+    { x: -4, y: 2.5, z: -4 }, // position for the paintings
     { x: 4, y: 2.5, z: -4 },
     { x: -4, y: 2.5, z: 4 },
     { x: 4, y: 2.5, z: 4 },
@@ -69,7 +69,7 @@ const positions = [
 images.forEach((image, index) => {
     textureLoader.load(image, (texture) => {
         const imgMaterial = new THREE.MeshLambertMaterial({ map: texture });
-        const imgGeometry = new THREE.PlaneGeometry(2, 1.5);  // Adjust the size if needed
+        const imgGeometry = new THREE.PlaneGeometry(2, 1.5);  // Adjust size for the painting
         const imgMesh = new THREE.Mesh(imgGeometry, imgMaterial);
         imgMesh.position.set(positions[index].x, positions[index].y, positions[index].z);
         imgMesh.lookAt(camera.position);  // Make sure images face the camera
@@ -97,6 +97,7 @@ function animate() {
     renderer.render(scene, camera);
 }
 animate();
+
 
 
 
