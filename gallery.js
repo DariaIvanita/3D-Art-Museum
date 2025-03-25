@@ -105,9 +105,9 @@ function animate() {
 
     if (intersects.length > 0) {
         const intersected = intersects[0].object;
-        if (intersected.userData) {
+        if (intersected.userData && intersected.userData.title) {
             infoDiv.style.display = 'block';
-            infoDiv.innerHTML = `${intersected.userData.title} by ${intersected.userData.artist}`; // Display title and artist
+            infoDiv.innerHTML = `Title: ${intersected.userData.title}<br>Artist: ${intersected.userData.artist}`; // Display title and artist
         }
     } else {
         infoDiv.style.display = 'none';
@@ -118,6 +118,7 @@ function animate() {
 }
 
 animate();
+
 
 
 
