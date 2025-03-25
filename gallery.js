@@ -56,16 +56,20 @@ const paintings = [
 const imageWidth = 1.8;
 const imageHeight = 1.4;
 
-// Adjusted positions with all 8 paintings on the front wall
+// Image Positions
 const positions = [
-    { x: -3.5, y: 2.5, z: -5 }, // Leftmost
-    { x: -2.5, y: 2.5, z: -5 },
-    { x: -1.5, y: 2.5, z: -5 },
-    { x: -0.5, y: 2.5, z: -5 },
-    { x: 0.5, y: 2.5, z: -5 },
-    { x: 1.5, y: 2.5, z: -5 },
-    { x: 2.5, y: 2.5, z: -5 },
-    { x: 3.5, y: 2.5, z: -5 } // Rightmost
+    // Front Wall - 2 on the sides
+    { x: -3, y: 2.5, z: -5 },
+    { x: 3, y: 2.5, z: -5 },
+    // Middle of Front Wall - 2 in the center
+    { x: -1, y: 2.5, z: -5 },
+    { x: 1, y: 2.5, z: -5 },
+    // Left Wall - 2 images
+    { x: -5, y: 2.5, z: -1.5 },
+    { x: -5, y: 2.5, z: 1.5 },
+    // Right Wall - 2 images
+    { x: 5, y: 2.5, z: -1.5 },
+    { x: 5, y: 2.5, z: 1.5 }
 ];
 
 // Painting Info Box
@@ -135,6 +139,7 @@ function animate() {
 }
 
 animate();
+
 
 
 
