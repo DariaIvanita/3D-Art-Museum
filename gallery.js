@@ -42,12 +42,12 @@ walls.forEach(wall => {
 // Load images for the gallery
 const textureLoader = new THREE.TextureLoader();
 const paintings = [
-    { title: 'The Creation of Adam', artist: 'Michelangelo', 'image: 'images/the_creation_of_adam.jpg' },
-    { title: 'The Last Judgement', artist: 'Michelangelo', 'image: 'images/the_last_judgement.jpg' },
-    { title: 'The Prophet Jeremiah', artist: 'Michelangelo', 'image: 'images/the_prophet_jeremiah.jpg' },
-    { title: 'The Libyan Sibyl', artist: 'Michelangelo', 'image: 'images/the_libyan_sibyl.jpg' },
-    { title: 'The Deluge', artist: 'Michelangelo', 'image: 'images/the_deluge.jpg' }
-    { title: 'Separation of Light and Darkness', artist: 'Michelangelo', 'image: 'images/the_separation_of_light_and_darkness.jpg' },
+    { title: 'The Creation of Adam', artist: 'Michelangelo', image: 'images/the_creation_of_adam.jpg },
+    { title: 'The Last Judgement', artist: 'Michelangelo', image: 'images/the_last_judgement.jpg },
+    { title: 'The Prophet Jeremiah', artist: 'Michelangelo', image: 'images/the_prophet_jeremiah.jpg },
+    { title: 'The Libyan Sibyl', artist: 'Michelangelo', image: 'images/the_libyan_sibyl.jpg },
+    { title: 'The Deluge', artist: 'Michelangelo', image: 'images/the_deluge.jpg }
+    { title: 'Separation of Light and Darkness', artist: 'Michelangelo', image:'images/the_separation_of_light_and_darkness.jpg },
 ];
 
 const positions = [
