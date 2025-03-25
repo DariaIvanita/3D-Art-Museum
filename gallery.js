@@ -24,7 +24,7 @@ floor.rotation.x = -Math.PI / 2;
 scene.add(floor);
 
 // Create walls
-const wallMaterial = new THREE.MeshLambertMaterial({ color: 0xcccccc });
+const wallMaterial = new THREE.MeshLambertMaterial({ color: 0xeeeeee });
 const wallGeometry = new THREE.PlaneGeometry(20, 7);
 
 // Front Wall
@@ -61,48 +61,35 @@ const paintings = [
     { title: 'Separation of Light and Darkness', image: 'https://raw.githubusercontent.com/DariaIvanita/3D-Art-Museum/main/images/separation_of_light_and_darkness.jpg' }
 ];
 
-// Adjusted smaller size for visibility
-const imageWidth = 3.5;
-const imageHeight = 2.5;
+// Adjusted size to fit on walls
+const imageWidth = 3;
+const imageHeight = 2;
 
 // Adjusted positions to fit all 6 paintings
 const positions = [
-    { x: -5, y: 3.5, z: -9.9 },  // Front Wall (1)
-    { x: 5, y: 3.5, z: -9.9 },   // Front Wall (2)
-    { x: -5, y: 3.5, z: 9.9 },   // Back Wall (3)
-    { x: 5, y: 3.5, z: 9.9 },    // Back Wall (4)
+    { x: -4, y: 3.5, z: -9.9 },  // Front Wall (1)
+    { x: 4, y: 3.5, z: -9.9 },   // Front Wall (2)
+    { x: -4, y: 3.5, z: 9.9 },   // Back Wall (3)
+    { x: 4, y: 3.5, z: 9.9 },    // Back Wall (4)
     { x: -9.9, y: 3.5, z: 0 },   // Left Wall (5)
     { x: 9.9, y: 3.5, z: 0 }     // Right Wall (6)
 ];
 
-// Painting Info Box
-const infoDiv = document.createElement('div');
-infoDiv.style.position = 'absolute';
-infoDiv.style.top = '10px';
-infoDiv.style.left = '10px';
-infoDiv.style.background = 'rgba(0, 0, 0, 0.7)';
-infoDiv.style.color = '#fff';
-infoDiv.style.padding = '10px';
-infoDiv.style.display = 'none';
-document.body.appendChild(infoDiv);
-
 // Load images as textures
-const paintingMeshes = [];
 paintings.forEach((painting, index) => {
     textureLoader.load(painting.image, (texture) => {
         const imgGeometry = new THREE.PlaneGeometry(imageWidth, imageHeight);
         const imgMaterial = new THREE.MeshLambertMaterial({ map: texture });
         const imgMesh = new THREE.Mesh(imgGeometry, imgMaterial);
         imgMesh.position.set(positions[index].x, positions[index].y, positions[index].z);
-        imgMesh.lookAt(camera.position);
-        imgMesh.userData = { title: painting.title };
         scene.add(imgMesh);
-        paintingMeshes.push(imgMesh);
+    }, undefined, (error) => {
+        console.error(`Failed to load image: ${painting.image}`, error);
     });
 });
 
-// Camera Position
-camera.position.set(0, 3, 20);
+// Camera Position - Adjusted for a better view
+camera.position.set(0, 5, 20);
 camera.lookAt(0, 3.5, 0);
 
 // Handle Resize
@@ -114,34 +101,13 @@ window.addEventListener('resize', () => {
     camera.updateProjectionMatrix();
 });
 
-// Raycaster for Hover Effect
-const raycaster = new THREE.Raycaster();
-const mouse = new THREE.Vector2();
-
-window.addEventListener('mousemove', (event) => {
-    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-    mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-});
-
+// Animation Loop
 function animate() {
     requestAnimationFrame(animate);
-    raycaster.setFromCamera(mouse, camera);
-    const intersects = raycaster.intersectObjects(paintingMeshes);
-
-    if (intersects.length > 0) {
-        const intersected = intersects[0].object;
-        intersected.scale.set(1.2, 1.2, 1);
-        infoDiv.style.display = 'block';
-        infoDiv.innerHTML = `Title: ${intersected.userData.title}`;
-    } else {
-        paintingMeshes.forEach(mesh => mesh.scale.set(1, 1, 1));
-        infoDiv.style.display = 'none';
-    }
-
     renderer.render(scene, camera);
 }
-
 animate();
+
 
 
 
