@@ -37,12 +37,12 @@ scene.add(wall4);
 // Load images for the gallery
 const textureLoader = new THREE.TextureLoader();
 const images = [
-    'images/the_creation_of_adam.jpg',
-    'images/the_last_judgement.jpg',
-    'images/the_prophet_jeremiah.jpg',
-    'images/the_libyan_sibyl.jpg',
-    'images/the_deluge.jpg',
-    'images/the_separation_of_light_and_darkness.jpg',
+    'https://raw.githubusercontent.com/DariaIvanita/3D-Art-Museum/main/images/the_creation_of_adam.jpg',
+    'https://raw.githubusercontent.com/DariaIvanita/3D-Art-Museum/main/images/the_last_judgement.jpg',
+    'https://raw.githubusercontent.com/DariaIvanita/3D-Art-Museum/main/images/the_prophet_jeremiah.jpg',
+    'https://raw.githubusercontent.com/DariaIvanita/3D-Art-Museum/main/images/the_libyan_sibyl.jpg',
+    'https://raw.githubusercontent.com/DariaIvanita/3D-Art-Museum/main/images/the_deluge.jpg',
+    'https://raw.githubusercontent.com/DariaIvanita/3D-Art-Museum/main/images/the_separation_of_light_and_darkness.jpg',
 ];
 
 const positions = [
@@ -86,6 +86,7 @@ function animate() {
     renderer.render(scene, camera);
 }
 animate();
+
 
 
 
