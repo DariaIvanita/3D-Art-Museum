@@ -41,29 +41,26 @@ walls.forEach(wall => {
 // Load images
 const textureLoader = new THREE.TextureLoader();
 const paintings = [
-    { title: 'The Creation of Adam', image: 'the_creation_of_adam.jpg' },
-    { title: 'The Last Judgment', image: 'the_last_judgement.jpg' },
-    { title: 'The Prophet Jeremiah', image: 'the_prophet_jeremiah.jpg' },
-    { title: 'The Libyan Sibyl', image: 'the_libyan_sibyl.jpg' },
-    { title: 'The Deluge', image: 'the_deluge.jpg' },
-    { title: 'Separation of Light and Darkness', image: 'the_separation_of_light_and_darkness.jpg' }
+    { title: 'The Creation of Adam', image: 'images/the_creation_of_adam.jpg' },
+    { title: 'The Last Judgment', image: 'images/the_last_judgement.jpg' },
+    { title: 'The Prophet Jeremiah', image: 'images/the_prophet_jeremiah.jpg' },
+    { title: 'The Libyan Sibyl', image: 'images/the_libyan_sibyl.jpg' },
+    { title: 'The Deluge', image: 'images/the_deluge.jpg' },
+    { title: 'Separation of Light and Darkness', image: 'images/the_separation_of_light_and_darkness.jpg' }
 ];
 
-// Image size (Adjusted for better fit)
-const imageWidth = 6;  // Adjusted image width for better fit
-const imageHeight = 4; // Height for images
-  
-// Image Positions (Adjusted to fit on walls with better spacing)
+// Image size
+const imageWidth = 6;
+const imageHeight = 4;
+
+// Image Positions (Adjusted to fit on walls)
 const positions = [
-    // Front Wall - 2 images
-    { x: -4, y: 5, z: -7 },  // Left Image
-    { x: 4, y: 5, z: -7 },   // Right Image
-    // Left Wall - 2 images
-    { x: -7.5, y: 5, z: -4 }, // Left Image
-    { x: -7.5, y: 5, z: 4 },  // Right Image
-    // Right Wall - 2 images
-    { x: 7.5, y: 5, z: -4 },  // Left Image
-    { x: 7.5, y: 5, z: 4 }    // Right Image
+    { x: -4, y: 5, z: -7 },  // Front Wall - Left Image
+    { x: 4, y: 5, z: -7 },   // Front Wall - Right Image
+    { x: -7.5, y: 5, z: -4 }, // Left Wall - Left Image
+    { x: -7.5, y: 5, z: 4 },  // Left Wall - Right Image
+    { x: 7.5, y: 5, z: -4 },  // Right Wall - Left Image
+    { x: 7.5, y: 5, z: 4 }    // Right Wall - Right Image
 ];
 
 // Painting Info Box
@@ -92,8 +89,8 @@ paintings.forEach((painting, index) => {
     });
 });
 
-// Camera Position (Adjusted to view all images)
-camera.position.set(0, 2, 25);  // Adjusted position to view all images
+// Camera Position
+camera.position.set(0, 2, 25);
 camera.updateProjectionMatrix();
 
 // Handle Resize
@@ -133,6 +130,7 @@ function animate() {
 }
 
 animate();
+
 
 
 
