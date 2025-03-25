@@ -59,11 +59,11 @@ const positions = [
     { x: -7, y: 5.5, z: -7 },
     { x: 7, y: 5.5, z: -7 },
     // Left Wall - 2 images
-    { x: -7, y: 5.5, z: -3.5 },
-    { x: -7, y: 5.5, z: 3.5 },
+    { x: -7, y: 5.5, z: -7.5 },
+    { x: -7, y: 5.5, z: 7.5 },
     // Right Wall - 2 images
-    { x: 7, y: 5.5, z: -3.5 },
-    { x: 7, y: 5.5, z: 3.5 }
+    { x: 7, y: 5.5, z: -7.5 },
+    { x: 7, y: 5.5, z: 7.5 }
 ];
 
 // Painting Info Box
