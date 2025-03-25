@@ -56,8 +56,8 @@ const imageHeight = 2.4;
 // Image Positions (Fixing the spacing for all walls)
 const positions = [
     // Front Wall - 2 images
-    { x: -4, y: 3.5, z: -7 },
-    { x: 4, y: 3.5, z: -7 },
+    { x: -6, y: 3.5, z: -7 },
+    { x: 6, y: 3.5, z: -7 },
     // Left Wall - 2 images
     { x: -7, y: 3.5, z: -2.5 },
     { x: -7, y: 3.5, z: 2.5 },
