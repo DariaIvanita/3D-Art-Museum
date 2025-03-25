@@ -77,7 +77,7 @@ const paintingMeshes = [];
 paintings.forEach((painting, index) => {
     textureLoader.load(painting.image, (texture) => {
         // Adjust size for the paintings on the left and right walls to make them smaller
-        const imgGeometry = new THREE.PlaneGeometry(index >= 4 ? 2 : 2.5, index >= 4 ? 1.6 : 2); // Smaller for left/right walls
+        const imgGeometry = new THREE.PlaneGeometry(index >= 6 ? 2 : 2.5, index >= 6 ? 1.6 : 2); // Smaller for left/right walls
 
         const imgMaterial = new THREE.MeshLambertMaterial({ map: texture });
         const imgMesh = new THREE.Mesh(imgGeometry, imgMaterial);
