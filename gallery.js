@@ -57,12 +57,12 @@ const images = [
 ];
 
 const positions = [
-    { x: -4, y: 2.5, z: -4 }, // position for the paintings
-    { x: 4, y: 2.5, z: -4 },
-    { x: -4, y: 2.5, z: 4 },
-    { x: 4, y: 2.5, z: 4 },
-    { x: 0, y: 2.5, z: -4 },
-    { x: 0, y: 2.5, z: 4 }
+    { x: -6, y: 2.5, z: -6}, // position for the paintings
+    { x: 6, y: 2.5, z: -6 },
+    { x: -6, y: 2.5, z: 6 },
+    { x: 6, y: 2.5, z: 6 },
+    { x: 0, y: 2.5, z: -6 },
+    { x: 0, y: 2.5, z: 6 }
 ];
 
 // Loading the images as textures and adding them to the scene
