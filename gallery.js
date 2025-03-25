@@ -1,4 +1,3 @@
-
 // Scene setup
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -64,12 +63,21 @@ images.forEach((image, index) => {
         imgMesh.rotation.y = Math.PI; // Rotate to face the camera
         scene.add(imgMesh);
     }, undefined, (error) => {
-        console.error('An error occurred loading the texture:', error);
+        console.error(`An error occurred loading the texture for ${image}:`, error);
     });
 });
 
 // Camera position
-camera.position.z = 5;
+camera.position.set(0, 2, 5); // Adjusted for better view
+
+// Handle window resize
+window.addEventListener('resize', () => {
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+    renderer.setSize(width, height);
+    camera.aspect = width / height;
+    camera.updateProjectionMatrix();
+});
 
 // Animation loop
 function animate() {
