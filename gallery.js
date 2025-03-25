@@ -1,54 +1,12 @@
-// Scene setup
-const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-const renderer = new THREE.WebGLRenderer();
-renderer.setSize(window.innerWidth, window.innerHeight);
-document.body.appendChild(renderer.domElement);
-
-// Set a background color for the renderer
-renderer.setClearColor(0xcccccc, 1); // Light gray background
-
-// Add a light source to illuminate the scene
-const ambientLight = new THREE.AmbientLight(0x404040);
-scene.add(ambientLight);
-
-const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-directionalLight.position.set(5, 10, 5);
-scene.add(directionalLight);
-
-// Create floor
-const floorGeometry = new THREE.PlaneGeometry(10, 10);
-const floorMaterial = new THREE.MeshLambertMaterial({ color: 0xaaaaaa, side: THREE.DoubleSide });
-const floor = new THREE.Mesh(floorGeometry, floorMaterial);
-floor.rotation.x = -Math.PI / 2;
-scene.add(floor);
-
-// Create walls
-const wallMaterial = new THREE.MeshLambertMaterial({ color: 0xcccccc });
-
-const walls = [
-    { position: [0, 2.5, -5], rotation: [0, 0, 0] },
-    { position: [0, 2.5, 5], rotation: [0, Math.PI, 0] },
-    { position: [-5, 2.5, 0], rotation: [0, Math.PI / 2, 0] },
-    { position: [5, 2.5, 0], rotation: [0, -Math.PI / 2, 0] }
-];
-
-walls.forEach(wall => {
-    const wallMesh = new THREE.Mesh(new THREE.PlaneGeometry(10, 5), wallMaterial);
-    wallMesh.position.set(...wall.position);
-    wallMesh.rotation.set(...wall.rotation);
-    scene.add(wallMesh);
-});
-
 // Load images for the gallery
 const textureLoader = new THREE.TextureLoader();
 const paintings = [
-    { title: 'The Creation of Adam', artist: 'Michelangelo', image: 'https://raw.githubusercontent.com/yourusername/yourrepository/main/images/the_creation_of_adam.jpg' },
-    { title: 'The Last Judgement', artist: 'Michelangelo', image: 'https://raw.githubusercontent.com/yourusername/yourrepository/main/images/the_last_judgement.jpg' },
-    { title: 'The Prophet Jeremiah', artist: 'Michelangelo', image: 'https://raw.githubusercontent.com/yourusername/yourrepository/main/images/the_prophet_jeremiah.jpg' },
-    { title: 'The Libyan Sibyl', artist: 'Michelangelo', image: 'https://raw.githubusercontent.com/yourusername/yourrepository/main/images/the_libyan_sibyl.jpg' },
-    { title: 'The Deluge', artist: 'Michelangelo', image: 'https://raw.githubusercontent.com/yourusername/yourrepository/main/images/the_deluge.jpg' },
-    { title: 'Separation of Light and Darkness', artist: 'Michelangelo', image: 'https://raw.githubusercontent.com/yourusername/yourrepository/main/images/separation_of_light_and_darkness.jpg' },
+    { title: 'The Creation of Adam', artist: 'Michelangelo', image: 'https://raw.githubusercontent.com/DariaIvanita/3D-Art-Museum/main/images/the_creation_of_adam.jpg' },
+    { title: 'The Last Judgement', artist: 'Michelangelo', image: 'https://raw.githubusercontent.com/DariaIvanita/3D-Art-Museum/main/images/the_last_judgement.jpg' },
+    { title: 'The Prophet Jeremiah', artist: 'Michelangelo', image: 'https://raw.githubusercontent.com/DariaIvanita/3D-Art-Museum/main/images/the_prophet_jeremiah.jpg' },
+    { title: 'The Libyan Sibyl', artist: 'Michelangelo', image: 'https://raw.githubusercontent.com/DariaIvanita/3D-Art-Museum/main/images/the_libyan_sibyl.jpg' },
+    { title: 'The Deluge', artist: 'Michelangelo', image: 'https://raw.githubusercontent.com/DariaIvanita/3D-Art-Museum/main/images/the_deluge.jpg' },
+    { title: 'Separation of Light and Darkness', artist: 'Michelangelo', image: 'https://raw.githubusercontent.com/DariaIvanita/3D-Art-Museum/main/images/separation_of_light_and_darkness.jpg' },
 ];
 
 const positions = [
@@ -70,7 +28,6 @@ infoDiv.style.padding = '10px';
 infoDiv.style.display = 'none'; // Initially hidden
 document.body.appendChild(infoDiv);
 
-// Create paintings with images
 paintings.forEach((painting, index) => {
     textureLoader.load(painting.image, (texture) => {
         const imgMaterial = new THREE.MeshLambertMaterial({ map: texture });
@@ -81,18 +38,6 @@ paintings.forEach((painting, index) => {
         imgMesh.userData = { title: painting.title, artist: painting.artist }; // Store painting details
         scene.add(imgMesh);
     });
-});
-
-// Camera position
-camera.position.set(0, 2, 8);
-
-// Handle window resize
-window.addEventListener('resize', () => {
-    const width = window.innerWidth;
-    const height = window.innerHeight;
-    renderer.setSize(width, height);
-    camera.aspect = width / height;
-    camera.updateProjectionMatrix();
 });
 
 // Raycaster for hover effect
@@ -111,8 +56,10 @@ function animate() {
 
     if (intersects.length > 0) {
         const intersected = intersects[0].object;
-        infoDiv.style.display = 'block';
-        infoDiv.innerHTML = `${intersected.userData.title} by ${intersected.userData.artist}`;
+        if (intersected.userData) {
+            infoDiv.style.display = 'block';
+            infoDiv.innerHTML = `${intersected.userData.title} by ${intersected.userData.artist}`;
+        }
     } else {
         infoDiv.style.display = 'none';
     }
@@ -120,6 +67,7 @@ function animate() {
     renderer.render(scene, camera);
 }
 animate();
+
 
 
 
