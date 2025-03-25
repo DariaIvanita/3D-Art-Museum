@@ -1,4 +1,3 @@
-
 // Scene setup
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -54,11 +53,11 @@ const paintings = [
 const imageWidth = 3;  // Adjusted larger image for visibility
 const imageHeight = 2.4;  
 
-// Image Positions
+// Image Positions (Fixing the spacing for all walls)
 const positions = [
     // Front Wall - 2 images
-    { x: -3.5, y: 2.5, z: -5 },
-    { x: 3.5, y: 2.5, z: -5 },
+    { x: -3, y: 2.5, z: -5 },
+    { x: 3, y: 2.5, z: -5 },
     // Left Wall - 2 images
     { x: -6, y: 2.5, z: -1.5 },
     { x: -6, y: 2.5, z: 1.5 },
@@ -147,6 +146,7 @@ function animate() {
 }
 
 animate();
+
 
 
 
