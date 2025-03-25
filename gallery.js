@@ -56,14 +56,14 @@ const imageHeight = 2.4;
 // Image Positions (Fixing the spacing for all walls)
 const positions = [
     // Front Wall - 2 images
-    { x: -3, y: 5.5, z: -7 },
-    { x: 3, y: 5.5, z: -7 },
+    { x: -3.5, y: 5.5, z: -7 },  // Adjusted spacing for better alignment
+    { x: 3.5, y: 5.5, z: -7 },   // Adjusted spacing for better alignment
     // Left Wall - 2 images
-    { x: -7, y: 5.5, z: -7.5 },
-    { x: -7, y: 5.5, z: 7.5 },
+    { x: -7, y: 5.5, z: -6 },    // Moved images further from the wall
+    { x: -7, y: 5.5, z: 6 },     // Moved images further from the wall
     // Right Wall - 2 images
-    { x: 7, y: 5.5, z: -7.5 },
-    { x: 7, y: 5.5, z: 7.5 }
+    { x: 7, y: 5.5, z: -6 },     // Moved images further from the wall
+    { x: 7, y: 5.5, z: 6 }      // Moved images further from the wall
 ];
 
 // Painting Info Box
@@ -106,7 +106,7 @@ paintings.forEach((painting, index) => {
 });
 
 // Camera Position
-camera.position.set(0, 2, 8);  // Adjust camera position to view all images
+camera.position.set(0, 2, 12);  // Moved the camera back to capture all the images
 camera.updateProjectionMatrix();
 
 // Handle Resize
@@ -146,6 +146,7 @@ function animate() {
 }
 
 animate();
+
 
 
 
