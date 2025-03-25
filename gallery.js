@@ -49,21 +49,21 @@ const paintings = [
     { title: 'Separation of Light and Darkness', image: 'the_separation_of_light_and_darkness.jpg' }
 ];
 
-// Image size
-const imageWidth = 4;  // Adjusted image width for better fit
-const imageHeight = 3;  // Height for images
+// Image size (Adjusted for better fit)
+const imageWidth = 6;  // Adjusted image width for better fit
+const imageHeight = 4; // Height for images
   
-// Image Positions (Adjusted to fit on walls)
+// Image Positions (Adjusted to fit on walls with better spacing)
 const positions = [
     // Front Wall - 2 images
-    { x: -3.5, y: 5, z: -7 },     // Left Image
-    { x: 3.5, y: 5, z: -7 },      // Right Image
+    { x: -4, y: 5, z: -7 },  // Left Image
+    { x: 4, y: 5, z: -7 },   // Right Image
     // Left Wall - 2 images
-    { x: -7, y: 5, z: -3 },      // Left Image
-    { x: -7, y: 5, z: 3 },       // Right Image
+    { x: -7.5, y: 5, z: -4 }, // Left Image
+    { x: -7.5, y: 5, z: 4 },  // Right Image
     // Right Wall - 2 images
-    { x: 7, y: 5, z: -3 },       // Left Image
-    { x: 7, y: 5, z: 3 }         // Right Image
+    { x: 7.5, y: 5, z: -4 },  // Left Image
+    { x: 7.5, y: 5, z: 4 }    // Right Image
 ];
 
 // Painting Info Box
@@ -92,8 +92,8 @@ paintings.forEach((painting, index) => {
     });
 });
 
-// Camera Position
-camera.position.set(0, 2, 15);  // Adjusted position to view all images
+// Camera Position (Adjusted to view all images)
+camera.position.set(0, 2, 25);  // Adjusted position to view all images
 camera.updateProjectionMatrix();
 
 // Handle Resize
