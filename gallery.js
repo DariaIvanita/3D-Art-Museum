@@ -83,17 +83,23 @@ document.body.appendChild(infoDiv);
 
 // Load images as textures
 const paintingMeshes = [];
+
 paintings.forEach((painting, index) => {
-  textureLoader.load(painting.image, (texture) => {
-    const imgGeometry = new THREE.PlaneGeometry(imageWidth, imageHeight);
-    const imgMaterial = new THREE.MeshLambertMaterial({ map: texture });
-    const imgMesh = new THREE.Mesh(imgGeometry, imgMaterial);
-    imgMesh.position.set(positions[index].x, positions[index].y, positions[index].z);
-    imgMesh.lookAt(new THREE.Vector3(0, 5, 25));
-    imgMesh.userData = { title: painting.title };
-    scene.add(imgMesh);
-    paintingMeshes.push(imgMesh);
-  });
+  textureLoader.load(
+    painting.image,
+    (texture) => {
+      const imgGeometry = new THREE.PlaneGeometry(imageWidth, imageHeight);
+      const imgMaterial = new THREE.MeshLambertMaterial({ map: texture });
+      const imgMesh = new THREE.Mesh(imgGeometry, imgMaterial);
+      imgMesh.position.set(positions[index].x, positions[index].y, positions[index].z);
+      imgMesh.lookAt(new THREE.Vector3(0, 5, 25));
+      imgMesh.userData = { title: painting.title };
+      scene.add(imgMesh);
+      paintingMeshes.push(imgMesh);
+    },
+    undefined,
+    (error) => console.error('Error loading image:', painting.image, error)
+  );
 });
 
 // Camera Position
@@ -128,7 +134,7 @@ function animate() {
     infoDiv.style.display = 'block';
     infoDiv.innerHTML = `Title: ${intersected.userData.title}`;
   } else {
-    paintingMeshes.forEach(mesh => mesh.scale.set(1, 1, 1));
+    paintingMeshes.forEach((mesh) => mesh.scale.set(1, 1, 1));
     infoDiv.style.display = 'none';
   }
 
