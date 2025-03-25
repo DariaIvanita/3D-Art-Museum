@@ -46,22 +46,18 @@ const paintings = [
     { title: 'The Prophet Jeremiah', image: 'the_prophet_jeremiah.jpg' },
     { title: 'The Libyan Sibyl', image: 'the_libyan_sibyl.jpg' },
     { title: 'The Deluge', image: 'the_deluge.jpg' },
-    { title: 'Separation of Light and Darkness', image: 'the_separation_of_light_and_darkness.jpg' },
-    { title: 'The Sacrifice of Noah', image: 'the_sacrifice_of_noah.jpg' },
-    { title: 'The Fall of Man', image: 'the_fall_of_man.jpg' }
+    { title: 'Separation of Light and Darkness', image: 'the_separation_of_light_and_darkness.jpg' }
 ];
 
 // Image size
-const imageWidth = 1.5;
-const imageHeight = 1.2;
+const imageWidth = 2.5; // Larger image for visibility
+const imageHeight = 2;  
 
 // Image Positions
 const positions = [
-    // Front Wall - 4 images (2 sides + 2 in the middle)
-    { x: -3, y: 2.5, z: -5 },
-    { x: 3, y: 2.5, z: -5 },
-    { x: -1, y: 2.5, z: -5 },
-    { x: 1, y: 2.5, z: -5 },
+    // Front Wall - 2 images
+    { x: -2, y: 2.5, z: -5 },
+    { x: 2, y: 2.5, z: -5 },
     // Left Wall - 2 images
     { x: -5, y: 2.5, z: -2 },
     { x: -5, y: 2.5, z: 2 },
