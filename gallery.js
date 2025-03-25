@@ -26,9 +26,9 @@ scene.add(floor);
 // Create walls
 const wallMaterial = new THREE.MeshLambertMaterial({ color: 0xcccccc });
 const walls = [
-    { position: [0, 2.5, -7], rotation: [0, 0, 0] }, // Front Wall
-    { position: [-7, 2.5, 0], rotation: [0, Math.PI / 2, 0] }, // Left Wall
-    { position: [7, 2.5, 0], rotation: [0, -Math.PI / 2, 0] } // Right Wall
+    { position: [0, 3.5, -7], rotation: [0, 0, 0] }, // Front Wall
+    { position: [-7, 3.5, 0], rotation: [0, Math.PI / 3, 0] }, // Left Wall
+    { position: [7, 3.5, 0], rotation: [0, -Math.PI / 3, 0] } // Right Wall
 ];
 
 walls.forEach(wall => {
