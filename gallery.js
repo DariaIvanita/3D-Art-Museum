@@ -26,13 +26,13 @@ scene.add(floor);
 // Create walls
 const wallMaterial = new THREE.MeshLambertMaterial({ color: 0xcccccc });
 const walls = [
-    { position: [0, 2.5, -5], rotation: [0, 0, 0] }, // Front Wall
-    { position: [-5, 2.5, 0], rotation: [0, Math.PI / 2, 0] }, // Left Wall
-    { position: [5, 2.5, 0], rotation: [0, -Math.PI / 2, 0] } // Right Wall
+    { position: [0, 2.5, -6], rotation: [0, 0, 0] }, // Front Wall
+    { position: [-6, 2.5, 0], rotation: [0, Math.PI / 2, 0] }, // Left Wall
+    { position: [6, 2.5, 0], rotation: [0, -Math.PI / 2, 0] } // Right Wall
 ];
 
 walls.forEach(wall => {
-    const wallMesh = new THREE.Mesh(new THREE.PlaneGeometry(10, 5), wallMaterial);
+    const wallMesh = new THREE.Mesh(new THREE.PlaneGeometry(10, 6), wallMaterial);
     wallMesh.position.set(...wall.position);
     wallMesh.rotation.set(...wall.rotation);
     scene.add(wallMesh);
@@ -56,8 +56,8 @@ const imageHeight = 2.4;
 // Image Positions (Fixing the spacing for all walls)
 const positions = [
     // Front Wall - 2 images
-    { x: -3, y: 2.5, z: -5 },
-    { x: 3, y: 2.5, z: -5 },
+    { x: -3, y: 2.5, z: -6 },
+    { x: 3, y: 2.5, z: -6 },
     // Left Wall - 2 images
     { x: -6, y: 2.5, z: -1.5 },
     { x: -6, y: 2.5, z: 1.5 },
