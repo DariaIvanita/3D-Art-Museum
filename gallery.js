@@ -39,7 +39,7 @@ const textureLoader = new THREE.TextureLoader();
 const images = [
     'the_creation_of_adam.jpg',
     'the_last_judgement.jpg',
-    'the_prophet._jeremiah.jpg',
+    'the_prophet_jeremiah.jpg',
     'the_libyan_sibyl.jpg',
     'the_deluge.jpg',
     'the_seperation_of_light_and_darkness.jpg',
