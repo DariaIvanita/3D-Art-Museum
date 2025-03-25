@@ -1,4 +1,3 @@
-
 // Scene setup
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -6,11 +5,11 @@ const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
-// Set a background color for the renderer
-renderer.setClearColor(0xcccccc, 1); // Light gray background
+// Set background color
+renderer.setClearColor(0xcccccc, 1);
 
-// Add a light source to illuminate the scene
-const ambientLight = new THREE.AmbientLight(0x404040, 2); // Increased intensity
+// Lighting
+const ambientLight = new THREE.AmbientLight(0x404040, 2);
 scene.add(ambientLight);
 
 const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
@@ -21,7 +20,7 @@ scene.add(directionalLight);
 const floorGeometry = new THREE.PlaneGeometry(10, 10);
 const floorMaterial = new THREE.MeshLambertMaterial({ color: 0xaaaaaa, side: THREE.DoubleSide });
 const floor = new THREE.Mesh(floorGeometry, floorMaterial);
-floor.rotation.x = -Math.PI / 2; // Rotate to make it horizontal
+floor.rotation.x = -Math.PI / 2;
 scene.add(floor);
 
 // Create walls
@@ -40,28 +39,28 @@ walls.forEach(wall => {
     scene.add(wallMesh);
 });
 
-// Load images for the gallery
+// Load images
 const textureLoader = new THREE.TextureLoader();
 const paintings = [
-    { title: 'The Creation of Adam', artist: 'Michelangelo', image: 'the_creation_of_adam.jpg' },
-    { title: 'The Last Judgement', artist: 'Michelangelo', image: 'the_last_judgement.jpg' },
-    { title: 'The Prophet Jeremiah', artist: 'Michelangelo', image: 'the_prophet_jeremiah.jpg' },
-    { title: 'The Libyan Sibyl', artist: 'Michelangelo', image: 'the_libyan_sibyl.jpg' },
-    { title: 'The Deluge', artist: 'Michelangelo', image: 'the_deluge.jpg' },
-    { title: 'Separation of Light and Darkness', artist: 'Michelangelo', image: 'the_separation_of_light_and_darkness.jpg' },
+    { title: 'The Creation of Adam', image: 'the_creation_of_adam.jpg' },
+    { title: 'The Last Judgment', image: 'the_last_judgement.jpg' },
+    { title: 'The Prophet Jeremiah', image: 'the_prophet_jeremiah.jpg' },
+    { title: 'The Libyan Sibyl', image: 'the_libyan_sibyl.jpg' },
+    { title: 'The Deluge', image: 'the_deluge.jpg' },
+    { title: 'Separation of Light and Darkness', image: 'the_separation_of_light_and_darkness.jpg' }
 ];
 
-// Adjust the positions for the paintings
+// Adjusted positions to fit all 6 paintings
 const positions = [
-    { x: -3.5, y: 2.5, z: -5 },  // Wall 1 (front wall)
-    { x: 3.5, y: 2.5, z: -5 },   // Wall 2 (front wall)
-    { x: -3.5, y: 2.5, z: 5 },   // Wall 3 (back wall)
-    { x: 3.5, y: 2.5, z: 5 },    // Wall 4 (back wall)
-    { x: -4.5, y: 2.5, z: 0 },   // Wall 5 (left wall) - Smaller and moved
-    { x: 4.5, y: 2.5, z: 0 }     // Wall 6 (right wall) - Smaller and moved
+    { x: -2.5, y: 2.5, z: -5 },  // Front Wall (1)
+    { x: 2.5, y: 2.5, z: -5 },   // Front Wall (2)
+    { x: -2.5, y: 2.5, z: 5 },   // Back Wall (3)
+    { x: 2.5, y: 2.5, z: 5 },    // Back Wall (4)
+    { x: -4.5, y: 2.5, z: 0 },   // Left Wall (5) - Smaller
+    { x: 4.5, y: 2.5, z: 0 }     // Right Wall (6) - Smaller
 ];
 
-// Create a div for displaying painting information
+// Painting Info Box
 const infoDiv = document.createElement('div');
 infoDiv.style.position = 'absolute';
 infoDiv.style.top = '10px';
@@ -69,32 +68,29 @@ infoDiv.style.left = '10px';
 infoDiv.style.background = 'rgba(0, 0, 0, 0.7)';
 infoDiv.style.color = '#fff';
 infoDiv.style.padding = '10px';
-infoDiv.style.display = 'none'; // Initially hidden
+infoDiv.style.display = 'none';
 document.body.appendChild(infoDiv);
 
-// Loading the images as textures and adding them to the scene
+// Load images as textures
 const paintingMeshes = [];
 paintings.forEach((painting, index) => {
     textureLoader.load(painting.image, (texture) => {
-        // Adjust size for the paintings on the left and right walls to make them smaller
-        const imgGeometry = new THREE.PlaneGeometry(index >= 6 ? 2 : 2.5, index >= 6 ? 1.6 : 2); // Smaller for left/right walls
-
+        const imgGeometry = new THREE.PlaneGeometry(index >= 4 ? 1.8 : 2.5, index >= 4 ? 1.5 : 2); // Smaller for side walls
         const imgMaterial = new THREE.MeshLambertMaterial({ map: texture });
         const imgMesh = new THREE.Mesh(imgGeometry, imgMaterial);
         imgMesh.position.set(positions[index].x, positions[index].y, positions[index].z);
-        imgMesh.lookAt(camera.position); // Make sure images face the camera
-        imgMesh.userData = { title: painting.title, artist: painting.artist }; // Store painting details
+        imgMesh.lookAt(camera.position); // Face the camera
+        imgMesh.userData = { title: painting.title };
         scene.add(imgMesh);
-        paintingMeshes.push(imgMesh); // Store mesh for raycasting
+        paintingMeshes.push(imgMesh);
     });
 });
 
 // Camera position
 camera.position.set(0, 2, 8);
-camera.fov = 75; // Adjust the field of view
 camera.updateProjectionMatrix();
 
-// Handle window resize
+// Handle resize
 window.addEventListener('resize', () => {
     const width = window.innerWidth;
     const height = window.innerHeight;
@@ -114,24 +110,19 @@ window.addEventListener('mousemove', (event) => {
 
 function animate() {
     requestAnimationFrame(animate);
-
-    // Update the raycaster to detect intersected objects
     raycaster.setFromCamera(mouse, camera);
     const intersects = raycaster.intersectObjects(paintingMeshes);
 
     if (intersects.length > 0) {
         const intersected = intersects[0].object;
-        intersected.scale.set(1.2, 1.2, 1); // Scale up the painting on hover
-        if (intersected.userData && intersected.userData.title) {
-            infoDiv.style.display = 'block';
-            infoDiv.innerHTML = `Title: ${intersected.userData.title}<br>Artist: ${intersected.userData.artist}`; // Display title and artist
-        }
+        intersected.scale.set(1.2, 1.2, 1);
+        infoDiv.style.display = 'block';
+        infoDiv.innerHTML = `Title: ${intersected.userData.title}`;
     } else {
-        paintingMeshes.forEach(mesh => mesh.scale.set(1, 1, 1)); // Reset scale
+        paintingMeshes.forEach(mesh => mesh.scale.set(1, 1, 1));
         infoDiv.style.display = 'none';
     }
 
-    // Render the scene
     renderer.render(scene, camera);
 }
 
