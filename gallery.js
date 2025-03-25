@@ -50,8 +50,8 @@ const paintings = [
 ];
 
 // Image size
-const imageWidth = 6;  // Adjusted larger image for visibility
-const imageHeight = 5.4;  
+const imageWidth = 7;  // Adjusted larger image for visibility
+const imageHeight = 6.4;  
 
 // Image Positions (Fixing the spacing for all walls)
 const positions = [
