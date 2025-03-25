@@ -26,10 +26,10 @@ scene.add(floor);
 // Create walls
 const wallMaterial = new THREE.MeshLambertMaterial({ color: 0xcccccc });
 const walls = [
-    { position: [0, 2.5, -5], rotation: [0, 0, 0] },
-    { position: [0, 2.5, 5], rotation: [0, Math.PI, 0] },
-    { position: [-5, 2.5, 0], rotation: [0, Math.PI / 2, 0] },
-    { position: [5, 2.5, 0], rotation: [0, -Math.PI / 2, 0] }
+    { position: [0, 2.5, -5], rotation: [0, 0, 0] }, // Front wall
+    { position: [0, 2.5, 5], rotation: [0, Math.PI, 0] }, // Back wall
+    { position: [-5, 2.5, 0], rotation: [0, Math.PI / 2, 0] }, // Left wall
+    { position: [5, 2.5, 0], rotation: [0, -Math.PI / 2, 0] } // Right wall
 ];
 
 walls.forEach(wall => {
@@ -50,13 +50,14 @@ const paintings = [
     { title: 'Separation of Light and Darkness', artist: 'Michelangelo', image: 'the_separation_of_light_and_darkness.jpg' },
 ];
 
+// Define positions for the paintings on the walls
 const positions = [
-    { x: -5, y: 2.5, z: -5 }, // Wall 1 (front wall)
-    { x: 5, y: 2.5, z: -5 },  // Wall 2 (front wall)
-    { x: -5, y: 2.5, z: 5 },  // Wall 3 (back wall)
-    { x: 5, y: 2.5, z: 5 },   // Wall 4 (back wall)
-    { x: -5, y: 2.5, z: 0 },  // Wall 5 (left wall)
-    { x: 5, y: 2.5, z: 0 }    // Wall 6 (right wall)
+    { x: -4, y: 2.5, z: -4 }, // Front wall left
+    { x: 4, y: 2.5, z: -4 },  // Front wall right
+    { x: -4, y: 2.5, z: 4 },  // Back wall left
+    { x: 4, y: 2.5, z: 4 },   // Back wall right
+    { x: -4, y: 2.5, z: 0 },  // Left wall
+    { x: 4, y: 2.5, z: 0 }    // Right wall
 ];
 
 // Create a div for displaying painting information
@@ -86,7 +87,7 @@ paintings.forEach((painting, index) => {
 });
 
 // Camera position
-camera.position.set(0, 2, 12); // Move the camera further back to see all the paintings
+camera.position.set(0, 2, 10); // Set camera further back to see the paintings clearly
 
 // Handle window resize
 window.addEventListener('resize', () => {
@@ -130,6 +131,7 @@ function animate() {
 }
 
 animate();
+
 
 
 
