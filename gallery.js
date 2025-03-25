@@ -1,4 +1,3 @@
-
 // Scene setup
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -82,7 +81,20 @@ document.body.appendChild(infoDiv);
 const paintingMeshes = [];
 paintings.forEach((painting, index) => {
     textureLoader.load(painting.image, (texture) => {
-        const imgGeometry = new THREE.PlaneGeometry(imageWidth, imageHeight);
+        // Get the aspect ratio of the image
+        const aspectRatio = texture.image.width / texture.image.height;
+        
+        // Calculate the correct size while maintaining aspect ratio
+        let width = imageWidth;
+        let height = width / aspectRatio;
+
+        // If height is greater than the allowed height, adjust the height and width accordingly
+        if (height > imageHeight) {
+            height = imageHeight;
+            width = height * aspectRatio;
+        }
+
+        const imgGeometry = new THREE.PlaneGeometry(width, height);
         const imgMaterial = new THREE.MeshLambertMaterial({ map: texture });
         const imgMesh = new THREE.Mesh(imgGeometry, imgMaterial);
         imgMesh.position.set(positions[index].x, positions[index].y, positions[index].z);
@@ -134,6 +146,7 @@ function animate() {
 }
 
 animate();
+
 
 
 
