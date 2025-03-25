@@ -1,3 +1,4 @@
+
 // Scene setup
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -56,8 +57,8 @@ const positions = [
     { x: 3.5, y: 2.5, z: -5 },   // Wall 2 (front wall)
     { x: -3.5, y: 2.5, z: 5 },   // Wall 3 (back wall)
     { x: 3.5, y: 2.5, z: 5 },    // Wall 4 (back wall)
-    { x: -5, y: 2.5, z: 0 },     // Wall 5 (left wall)
-    { x: 5, y: 2.5, z: 0 }       // Wall 6 (right wall)
+    { x: -4.5, y: 2.5, z: 0 },   // Wall 5 (left wall) - Smaller and moved
+    { x: 4.5, y: 2.5, z: 0 }     // Wall 6 (right wall) - Smaller and moved
 ];
 
 // Create a div for displaying painting information
@@ -75,8 +76,8 @@ document.body.appendChild(infoDiv);
 const paintingMeshes = [];
 paintings.forEach((painting, index) => {
     textureLoader.load(painting.image, (texture) => {
-        // Adjust size for all paintings to ensure full visibility
-        const imgGeometry = new THREE.PlaneGeometry(2.5, 2); // Adjusted for better visibility
+        // Adjust size for the paintings on the left and right walls to make them smaller
+        const imgGeometry = new THREE.PlaneGeometry(index >= 4 ? 2 : 2.5, index >= 4 ? 1.6 : 2); // Smaller for left/right walls
 
         const imgMaterial = new THREE.MeshLambertMaterial({ map: texture });
         const imgMesh = new THREE.Mesh(imgGeometry, imgMaterial);
@@ -135,7 +136,6 @@ function animate() {
 }
 
 animate();
-
 
 
 
