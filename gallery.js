@@ -48,24 +48,24 @@ const paintings = [
     { title: 'The Libyan Sibyl', image: 'the_libyan_sibyl.jpg' },
     { title: 'The Deluge', image: 'the_deluge.jpg' },
     { title: 'Separation of Light and Darkness', image: 'the_separation_of_light_and_darkness.jpg' },
-    { title: 'The Sacrifice of Noah', image: 'the_sacrifice_of_noah.jpg' }, // New Image 1
-    { title: 'The Fall of Man', image: 'the_fall_of_man.jpg' } // New Image 2
+    { title: 'The Sacrifice of Noah', image: 'the_sacrifice_of_noah.jpg' },
+    { title: 'The Fall of Man', image: 'the_fall_of_man.jpg' }
 ];
 
-// Adjusted smaller size for visibility
-const imageWidth = 1.5;
-const imageHeight = 1.2;
+// Same size for all images
+const imageWidth = 1.8;
+const imageHeight = 1.4;
 
-// Adjusted positions to fit all 8 paintings
+// Adjusted positions with all 8 paintings on the front wall
 const positions = [
-    { x: -4, y: 2.5, z: -5 },  // Front Wall (1)
-    { x: -1.5, y: 2.5, z: -5 },  // Front Wall (2 - New)
-    { x: 1.5, y: 2.5, z: -5 },   // Front Wall (3 - New)
-    { x: 4, y: 2.5, z: -5 },    // Front Wall (4)
-    { x: -2.5, y: 2.5, z: 5 },   // Back Wall (5)
-    { x: 2.5, y: 2.5, z: 5 },    // Back Wall (6)
-    { x: -4.5, y: 2.5, z: 0 },   // Left Wall (7)
-    { x: 4.5, y: 2.5, z: 0 }     // Right Wall (8)
+    { x: -3.5, y: 2.5, z: -5 }, // Leftmost
+    { x: -2.5, y: 2.5, z: -5 },
+    { x: -1.5, y: 2.5, z: -5 },
+    { x: -0.5, y: 2.5, z: -5 },
+    { x: 0.5, y: 2.5, z: -5 },
+    { x: 1.5, y: 2.5, z: -5 },
+    { x: 2.5, y: 2.5, z: -5 },
+    { x: 3.5, y: 2.5, z: -5 } // Rightmost
 ];
 
 // Painting Info Box
@@ -135,6 +135,7 @@ function animate() {
 }
 
 animate();
+
 
 
 
