@@ -63,7 +63,7 @@ const positions = [
     { x: -7, y: 5.5, z: 4 },     // Right Image
     // Right Wall - 2 images
     { x: 7, y: 5.5, z: -4 },     // Left Image
-    { x: 7, y: 5.5, z: 4 }      // Right Image
+    { x: 7, y: 5.5, z: 4 }       // Right Image
 ];
 
 // Painting Info Box
@@ -106,7 +106,7 @@ paintings.forEach((painting, index) => {
 });
 
 // Camera Position
-camera.position.set(0, 2, 13;  // Moved the camera back to capture all the images
+camera.position.set(0, 2, 15);  // Moved the camera back to capture all the images
 camera.updateProjectionMatrix();
 
 // Handle Resize
@@ -146,7 +146,6 @@ function animate() {
 }
 
 animate();
-
 
 
 
