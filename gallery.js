@@ -1,3 +1,4 @@
+
 // Scene setup
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -55,7 +56,10 @@ const positions = [
 ];
 
 images.forEach((image, index) => {
+    console.log(`Loading image: ${image}`);
+    
     textureLoader.load(image, (texture) => {
+        console.log(`Successfully loaded: ${image}`);
         const imgMaterial = new THREE.MeshBasicMaterial({ map: texture });
         const imgGeometry = new THREE.PlaneGeometry(2, 1.5);
         const imgMesh = new THREE.Mesh(imgGeometry, imgMaterial);
@@ -64,7 +68,7 @@ images.forEach((image, index) => {
         scene.add(imgMesh);
     }, undefined, (error) => {
         console.error(`An error occurred loading the texture for ${image}:`, error);
-        // Add fallback image or message
+        // Add a fallback image
         const errorTexture = new THREE.TextureLoader().load('default_error_image.jpg');
         const imgMaterial = new THREE.MeshBasicMaterial({ map: errorTexture });
         const imgGeometry = new THREE.PlaneGeometry(2, 1.5);
