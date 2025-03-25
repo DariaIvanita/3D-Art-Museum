@@ -56,14 +56,14 @@ const imageHeight = 2.4;
 // Image Positions (Fixing the spacing for all walls)
 const positions = [
     // Front Wall - 2 images
-    { x: -4, y: 4.5, z: -6 },
-    { x: 4, y: 4.5, z: -6 },
+    { x: -4, y: 3.5, z: -6 },
+    { x: 4, y: 3.5, z: -6 },
     // Left Wall - 2 images
-    { x: -6, y: 4.5, z: -1.5 },
-    { x: -6, y: 4.5, z: 1.5 },
+    { x: -6, y: 3.5, z: -2.5 },
+    { x: -6, y: 3.5, z: 2.5 },
     // Right Wall - 2 images
-    { x: 6, y: 4.5, z: -1.5 },
-    { x: 6, y: 4.5, z: 1.5 }
+    { x: 6, y: 3.5, z: -2.5 },
+    { x: 6, y: 3.5, z: 2.5 }
 ];
 
 // Painting Info Box
