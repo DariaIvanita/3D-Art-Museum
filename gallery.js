@@ -30,42 +30,42 @@ const wallGeometry = new THREE.PlaneGeometry(20, 10);
 
 // Front Wall
 const frontWall = new THREE.Mesh(wallGeometry, wallMaterial);
-frontWall.position.set(0, 5, -12);
+frontWall.position.set(0, 5, -10);
 scene.add(frontWall);
 
 // Left Wall
 const leftWall = new THREE.Mesh(wallGeometry, wallMaterial);
-leftWall.position.set(-12, 5, 0);
+leftWall.position.set(-10, 5, 0);
 leftWall.rotation.y = Math.PI / 2;
 scene.add(leftWall);
 
 // Right Wall
 const rightWall = new THREE.Mesh(wallGeometry, wallMaterial);
-rightWall.position.set(12, 5, 0);
+rightWall.position.set(10, 5, 0);
 rightWall.rotation.y = -Math.PI / 2;
 scene.add(rightWall);
 
 // Load images
 const textureLoader = new THREE.TextureLoader();
 const paintings = [
-  { title: 'The Creation of Adam', image: 'the_creation_of_adam.jpg' },
-  { title: 'The Last Judgment', image: 'the_last_judgement.jpg' },
-  { title: 'The Prophet Jeremiah', image: 'the_prophet_jeremiah.jpg' },
-  { title: 'The Libyan Sibyl', image: 'the_libyan_sibyl.jpg' },
-  { title: 'The Deluge', image: 'the_deluge.jpg' },
-  { title: 'Separation of Light and Darkness', image: 'the_separation_of_light_and_darkness.jpg' }
+  { title: 'The Creation of Adam', image: 'images/the_creation_of_adam.jpg' },
+  { title: 'The Last Judgment', image: 'images/the_last_judgement.jpg' },
+  { title: 'The Prophet Jeremiah', image: 'images/the_prophet_jeremiah.jpg' },
+  { title: 'The Libyan Sibyl', image: 'images/the_libyan_sibyl.jpg' },
+  { title: 'The Deluge', image: 'images/the_deluge.jpg' },
+  { title: 'Separation of Light and Darkness', image: 'images/the_separation_of_light_and_darkness.jpg' }
 ];
 
 const imageWidth = 6;
 const imageHeight = 4;
 
 const positions = [
-  { x: -6, y: 5, z: -11 },
-  { x: 6, y: 5, z: -11 },
-  { x: -11, y: 5, z: -3 },
-  { x: -11, y: 5, z: 3 },
-  { x: 11, y: 5, z: -3 },
-  { x: 11, y: 5, z: 3 }
+  { x: -6, y: 5, z: -9 },
+  { x: 6, y: 5, z: -9 },
+  { x: -9.5, y: 5, z: -3 },
+  { x: -9.5, y: 5, z: 3 },
+  { x: 9.5, y: 5, z: -3 },
+  { x: 9.5, y: 5, z: 3 }
 ];
 
 // Painting Info Box
@@ -89,7 +89,7 @@ paintings.forEach((painting, index) => {
       const imgMaterial = new THREE.MeshLambertMaterial({ map: texture });
       const imgMesh = new THREE.Mesh(imgGeometry, imgMaterial);
       imgMesh.position.set(positions[index].x, positions[index].y, positions[index].z);
-      imgMesh.lookAt(new THREE.Vector3(0, 5, 0));
+      imgMesh.lookAt(new THREE.Vector3(0, 5, 20));
       imgMesh.userData = { title: painting.title };
       scene.add(imgMesh);
       paintingMeshes.push(imgMesh);
@@ -102,7 +102,7 @@ paintings.forEach((painting, index) => {
 });
 
 // Camera Position
-camera.position.set(0, 5, 25);
+camera.position.set(0, 5, 20);
 
 // Handle Resize
 window.addEventListener('resize', () => {
