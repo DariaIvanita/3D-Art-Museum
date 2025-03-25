@@ -90,6 +90,8 @@ paintings.forEach((painting, index) => {
 
 // Camera position
 camera.position.set(0, 2, 8);
+camera.fov = 75; // Adjust the field of view
+camera.updateProjectionMatrix();
 
 // Handle window resize
 window.addEventListener('resize', () => {
