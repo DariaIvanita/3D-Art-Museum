@@ -25,8 +25,6 @@ scene.add(floor);
 
 // Create walls
 const wallMaterial = new THREE.MeshLambertMaterial({ color: 0xcccccc });
-
-// Wall Dimensions
 const wallGeometry = new THREE.PlaneGeometry(20, 10);
 
 // Front Wall
@@ -60,7 +58,6 @@ const paintings = [
 const imageWidth = 6;
 const imageHeight = 4;
 
-// Image Positions
 const positions = [
   { x: -6, y: 5, z: -9 },
   { x: 6, y: 5, z: -9 },
@@ -81,9 +78,8 @@ infoDiv.style.padding = '10px';
 infoDiv.style.display = 'none';
 document.body.appendChild(infoDiv);
 
-// Load images as textures
+// Load images with error handling
 const paintingMeshes = [];
-
 paintings.forEach((painting, index) => {
   textureLoader.load(
     painting.image,
@@ -98,7 +94,9 @@ paintings.forEach((painting, index) => {
       paintingMeshes.push(imgMesh);
     },
     undefined,
-    (error) => console.error('Error loading image:', painting.image, error)
+    (error) => {
+      console.error(`Failed to load image: ${painting.image}`, error);
+    }
   );
 });
 
@@ -142,6 +140,7 @@ function animate() {
 }
 
 animate();
+
 
 
 
