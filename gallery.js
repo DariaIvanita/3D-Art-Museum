@@ -43,12 +43,12 @@ walls.forEach(wall => {
 // Load images for the gallery
 const textureLoader = new THREE.TextureLoader();
 const paintings = [
-    { title: 'The Creation of Adam', artist: 'Michelangelo', image: 'the_creation_of_adam.jpg' },
-    { title: 'The Last Judgement', artist: 'Michelangelo', image: 'the_last_judgement.jpg' },
-    { title: 'The Prophet Jeremiah', artist: 'Michelangelo', image: 'the_prophet_jeremiah.jpg' },
-    { title: 'The Libyan Sibyl', artist: 'Michelangelo', image: 'the_libyan.jpg' },
-    { title: 'The Deluge', artist: 'Michelangelo', image: 'the_deluge.jpg' },
-    { title: 'Separation of Light and Darkness', artist: 'Michelangelo', image: 'separation_of_light_and_darkness.jpg' },
+    { title: 'The Creation of Adam', artist: 'Michelangelo', image: 'https://raw.githubusercontent.com/yourusername/yourrepository/main/images/the_creation_of_adam.jpg' },
+    { title: 'The Last Judgement', artist: 'Michelangelo', image: 'https://raw.githubusercontent.com/yourusername/yourrepository/main/images/the_last_judgement.jpg' },
+    { title: 'The Prophet Jeremiah', artist: 'Michelangelo', image: 'https://raw.githubusercontent.com/yourusername/yourrepository/main/images/the_prophet_jeremiah.jpg' },
+    { title: 'The Libyan Sibyl', artist: 'Michelangelo', image: 'https://raw.githubusercontent.com/yourusername/yourrepository/main/images/the_libyan_sibyl.jpg' },
+    { title: 'The Deluge', artist: 'Michelangelo', image: 'https://raw.githubusercontent.com/yourusername/yourrepository/main/images/the_deluge.jpg' },
+    { title: 'Separation of Light and Darkness', artist: 'Michelangelo', image: 'https://raw.githubusercontent.com/yourusername/yourrepository/main/images/separation_of_light_and_darkness.jpg' },
 ];
 
 const positions = [
@@ -60,8 +60,17 @@ const positions = [
     { x: 0, y: 2.5, z: 6 }
 ];
 
-const infoDiv = document.getElementById('info');
+const infoDiv = document.createElement('div');
+infoDiv.style.position = 'absolute';
+infoDiv.style.top = '10px';
+infoDiv.style.left = '10px';
+infoDiv.style.background = 'rgba(0, 0, 0, 0.7)';
+infoDiv.style.color = '#fff';
+infoDiv.style.padding = '10px';
+infoDiv.style.display = 'none'; // Initially hidden
+document.body.appendChild(infoDiv);
 
+// Create paintings with images
 paintings.forEach((painting, index) => {
     textureLoader.load(painting.image, (texture) => {
         const imgMaterial = new THREE.MeshLambertMaterial({ map: texture });
@@ -111,6 +120,7 @@ function animate() {
     renderer.render(scene, camera);
 }
 animate();
+
 
 
 
