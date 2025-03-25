@@ -1,3 +1,4 @@
+
 // Scene setup
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -37,12 +38,12 @@ scene.add(wall4);
 // Load images for the gallery
 const textureLoader = new THREE.TextureLoader();
 const images = [
-    'the_creation_of_adam.jpg.jpg',
-    'the_last_judgement.jpg.jpg',
-    'the_prophet._jeremiah.jpg.jpg',
-    'the_libyan_sibyl.jpg.jpg',
-    'the_deluge.jpg.jpg',
-    'the_seperation_of_light_and_darkness.jpg.jpg',
+    'the_creation_of_adam.jpg',
+    'the_last_judgement.jpg',
+    'the_prophet._jeremiah.jpg',
+    'the_libyan_sibyl.jpg',
+    'the_deluge.jpg',
+    'the_seperation_of_light_and_darkness.jpg',
 ];
 
 const positions = [
@@ -55,13 +56,16 @@ const positions = [
 ];
 
 images.forEach((image, index) => {
-    const texture = textureLoader.load(image);
-    const imgMaterial = new THREE.MeshBasicMaterial({ map: texture });
-    const imgGeometry = new THREE.PlaneGeometry(2, 1.5);
-    const imgMesh = new THREE.Mesh(imgGeometry, imgMaterial);
-    imgMesh.position.set(positions[index].x, positions[index].y, positions[index].z);
-    imgMesh.rotation.y = Math.PI; // Rotate to face the camera
-    scene.add(imgMesh);
+    textureLoader.load(image, (texture) => {
+        const imgMaterial = new THREE.MeshBasicMaterial({ map: texture });
+        const imgGeometry = new THREE.PlaneGeometry(2, 1.5);
+        const imgMesh = new THREE.Mesh(imgGeometry, imgMaterial);
+        imgMesh.position.set(positions[index].x, positions[index].y, positions[index].z);
+        imgMesh.rotation.y = Math.PI; // Rotate to face the camera
+        scene.add(imgMesh);
+    }, undefined, (error) => {
+        console.error('An error occurred loading the texture:', error);
+    });
 });
 
 // Camera position
