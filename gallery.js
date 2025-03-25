@@ -63,29 +63,7 @@ images.forEach((image, index) => {
         imgMesh.position.set(positions[index].x, positions[index].y, positions[index].z);
         imgMesh.lookAt(camera.position);  // Make sure images face the camera
         scene.add(imgMesh);
-    }, undefined, (error) => {
-        console.error(`An error occurred loading the texture for ${image}:`, error);
-    });
-});
-
-// Camera position
-camera.position.set(0, 2, 8); // Adjusted for better view
-
-// Handle window resize
-window.addEventListener('resize', () => {
-    const width = window.innerWidth;
-    const height = window.innerHeight;
-    renderer.setSize(width, height);
-    camera.aspect = width / height;
-    camera.updateProjectionMatrix();
-});
-
-// Animation loop
-function animate() {
-    requestAnimationFrame(animate);
-    renderer.render(scene, camera);
-}
-animate();
+    }, undefined, (error) =>
 
 
 
