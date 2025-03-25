@@ -13,7 +13,7 @@ const ambientLight = new THREE.AmbientLight(0x404040, 2);
 scene.add(ambientLight);
 
 const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-directionalLight.position.set(6, 10, 6);
+directionalLight.position.set(5, 10, 5);
 scene.add(directionalLight);
 
 // Floor
@@ -50,20 +50,20 @@ const paintings = [
 ];
 
 // Image size
-const imageWidth = 4;  // Adjusted larger image for visibility
+const imageWidth = 6;  // Adjusted larger image for visibility
 const imageHeight = 2.4;  
 
 // Image Positions (Fixing the spacing for all walls)
 const positions = [
     // Front Wall - 2 images
-    { x: -4, y: 2.5, z: -6 },
-    { x: 4, y: 2.5, z: -6 },
+    { x: -4, y: 4.5, z: -6 },
+    { x: 4, y: 4.5, z: -6 },
     // Left Wall - 2 images
-    { x: -6, y: 2.5, z: -1.5 },
-    { x: -6, y: 2.5, z: 1.5 },
+    { x: -6, y: 4.5, z: -1.5 },
+    { x: -6, y: 4.5, z: 1.5 },
     // Right Wall - 2 images
-    { x: 6, y: 2.5, z: -1.5 },
-    { x: 6, y: 2.5, z: 1.5 }
+    { x: 6, y: 4.5, z: -1.5 },
+    { x: 6, y: 4.5, z: 1.5 }
 ];
 
 // Painting Info Box
