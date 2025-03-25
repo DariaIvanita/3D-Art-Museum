@@ -60,18 +60,7 @@ const positions = [
 ];
 
 // Create a div for displaying painting information
-const infoDiv = document.createElement('div');
-infoDiv.style.position = 'absolute';
-infoDiv.style.top = '10px';
-infoDiv.style.left = '10px';
-infoDiv.style.background = 'rgba(0, 0, 0, 0.7)';
-infoDiv.style.color = '#fff';
-infoDiv.style.padding = '10px';
-infoDiv.style.display = 'none'; // Initially hidden
-document.body.appendChild(infoDiv);
-
-// Array to hold the meshes of the paintings for raycasting
-const paintingMeshes = [];
+const infoDiv = document.getElementById('info');
 
 // Loading the images as textures and adding them to the scene
 paintings.forEach((painting, index) => {
@@ -83,9 +72,6 @@ paintings.forEach((painting, index) => {
         imgMesh.lookAt(camera.position); // Make sure images face the camera
         imgMesh.userData = { title: painting.title, artist: painting.artist }; // Store painting details
         scene.add(imgMesh);
-
-        // Push the painting mesh into the array for raycasting
-        paintingMeshes.push(imgMesh);
     });
 });
 
@@ -112,9 +98,10 @@ window.addEventListener('mousemove', (event) => {
 
 function animate() {
     requestAnimationFrame(animate);
-    raycaster.setFromCamera(mouse, camera);
 
-    const intersects = raycaster.intersectObjects(paintingMeshes);
+    // Update the raycaster to detect intersected objects
+    raycaster.setFromCamera(mouse, camera);
+    const intersects = raycaster.intersectObjects(scene.children);
 
     if (intersects.length > 0) {
         const intersected = intersects[0].object;
@@ -126,10 +113,12 @@ function animate() {
         infoDiv.style.display = 'none';
     }
 
+    // Render the scene
     renderer.render(scene, camera);
 }
 
 animate();
+
 
 
 
