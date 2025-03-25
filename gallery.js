@@ -27,7 +27,6 @@ scene.add(floor);
 const wallMaterial = new THREE.MeshLambertMaterial({ color: 0xcccccc });
 const walls = [
     { position: [0, 2.5, -5], rotation: [0, 0, 0] }, // Front Wall
-    { position: [0, 2.5, 5], rotation: [0, Math.PI, 0] }, // Back Wall
     { position: [-5, 2.5, 0], rotation: [0, Math.PI / 2, 0] }, // Left Wall
     { position: [5, 2.5, 0], rotation: [0, -Math.PI / 2, 0] } // Right Wall
 ];
@@ -52,24 +51,23 @@ const paintings = [
     { title: 'The Fall of Man', image: 'the_fall_of_man.jpg' }
 ];
 
-// Same size for all images
-const imageWidth = 1.8;
-const imageHeight = 1.4;
+// Image size
+const imageWidth = 1.5;
+const imageHeight = 1.2;
 
 // Image Positions
 const positions = [
-    // Front Wall - 2 on the sides
+    // Front Wall - 4 images (2 sides + 2 in the middle)
     { x: -3, y: 2.5, z: -5 },
     { x: 3, y: 2.5, z: -5 },
-    // Middle of Front Wall - 2 in the center
     { x: -1, y: 2.5, z: -5 },
     { x: 1, y: 2.5, z: -5 },
     // Left Wall - 2 images
-    { x: -5, y: 2.5, z: -1.5 },
-    { x: -5, y: 2.5, z: 1.5 },
+    { x: -5, y: 2.5, z: -2 },
+    { x: -5, y: 2.5, z: 2 },
     // Right Wall - 2 images
-    { x: 5, y: 2.5, z: -1.5 },
-    { x: 5, y: 2.5, z: 1.5 }
+    { x: 5, y: 2.5, z: -2 },
+    { x: 5, y: 2.5, z: 2 }
 ];
 
 // Painting Info Box
@@ -139,6 +137,7 @@ function animate() {
 }
 
 animate();
+
 
 
 
