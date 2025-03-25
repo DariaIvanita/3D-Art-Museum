@@ -13,7 +13,7 @@ const ambientLight = new THREE.AmbientLight(0x404040, 2);
 scene.add(ambientLight);
 
 const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-directionalLight.position.set(5, 10, 5);
+directionalLight.position.set(6, 10, 6);
 scene.add(directionalLight);
 
 // Floor
@@ -27,8 +27,8 @@ scene.add(floor);
 const wallMaterial = new THREE.MeshLambertMaterial({ color: 0xcccccc });
 const walls = [
     { position: [0, 3.5, -7], rotation: [0, 0, 0] }, // Front Wall
-    { position: [-7, 3.5, 0], rotation: [0, Math.PI / 3, 0] }, // Left Wall
-    { position: [7, 3.5, 0], rotation: [0, -Math.PI / 3, 0] } // Right Wall
+    { position: [-7, 3.5, 0], rotation: [0, Math.PI / 6, 0] }, // Left Wall
+    { position: [7, 3.5, 0], rotation: [0, -Math.PI / 6, 0] } // Right Wall
 ];
 
 walls.forEach(wall => {
