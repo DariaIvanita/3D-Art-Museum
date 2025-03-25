@@ -1,4 +1,3 @@
-
 // Scene setup
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -27,10 +26,10 @@ scene.add(floor);
 // Create walls
 const wallMaterial = new THREE.MeshLambertMaterial({ color: 0xcccccc });
 const walls = [
-    { position: [0, 2.5, -5], rotation: [0, 0, 0] },
-    { position: [0, 2.5, 5], rotation: [0, Math.PI, 0] },
-    { position: [-5, 2.5, 0], rotation: [0, Math.PI / 2, 0] },
-    { position: [5, 2.5, 0], rotation: [0, -Math.PI / 2, 0] }
+    { position: [0, 2.5, -5], rotation: [0, 0, 0] }, // Front wall
+    { position: [0, 2.5, 5], rotation: [0, Math.PI, 0] }, // Back wall
+    { position: [-5, 2.5, 0], rotation: [0, Math.PI / 2, 0] }, // Left wall
+    { position: [5, 2.5, 0], rotation: [0, -Math.PI / 2, 0] } // Right wall
 ];
 
 walls.forEach(wall => {
@@ -51,13 +50,14 @@ const paintings = [
     { title: 'Separation of Light and Darkness', artist: 'Michelangelo', image: 'the_separation_of_light_and_darkness.jpg' },
 ];
 
+// Adjust the positions for the paintings
 const positions = [
-    { x: -5, y: 2.5, z: -5 }, // Wall 1 (front wall)
-    { x: 5, y: 2.5, z: -5 },  // Wall 2 (front wall)
-    { x: -5, y: 2.5, z: 5 },  // Wall 3 (back wall)
-    { x: 5, y: 2.5, z: 5 },   // Wall 4 (back wall)
-    { x: -5, y: 2.5, z: 0 },  // Wall 5 (left wall)
-    { x: 5, y: 2.5, z: 0 }    // Wall 6 (right wall)
+    { x: -3.5, y: 2.5, z: -5 },  // Wall 1 (front wall)
+    { x: 3.5, y: 2.5, z: -5 },   // Wall 2 (front wall)
+    { x: -3.5, y: 2.5, z: 5 },   // Wall 3 (back wall)
+    { x: 3.5, y: 2.5, z: 5 },    // Wall 4 (back wall)
+    { x: -5, y: 2.5, z: 0 },     // Wall 5 (left wall)
+    { x: 5, y: 2.5, z: 0 }       // Wall 6 (right wall)
 ];
 
 // Create a div for displaying painting information
@@ -76,7 +76,7 @@ const paintingMeshes = [];
 paintings.forEach((painting, index) => {
     textureLoader.load(painting.image, (texture) => {
         // Adjust size for all paintings to ensure full visibility
-        const imgGeometry = new THREE.PlaneGeometry(3, 2); // Standard size for all images
+        const imgGeometry = new THREE.PlaneGeometry(2.5, 2); // Adjusted for better visibility
 
         const imgMaterial = new THREE.MeshLambertMaterial({ map: texture });
         const imgMesh = new THREE.Mesh(imgGeometry, imgMaterial);
@@ -133,6 +133,7 @@ function animate() {
 }
 
 animate();
+
 
 
 
