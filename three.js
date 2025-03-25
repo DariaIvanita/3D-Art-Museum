@@ -1,3 +1,4 @@
+
 // Scene setup
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.3, 1000);
@@ -44,15 +45,15 @@ rightWall.position.set(10, 5, 0);
 rightWall.rotation.y = -Math.PI / 2;
 scene.add(rightWall);
 
-// Load images
+// Load images (adjusted paths if not in a folder)
 const textureLoader = new THREE.TextureLoader();
 const paintings = [
-  { title: 'The Creation of Adam', image: 'images/the_creation_of_adam.jpg' },
-  { title: 'The Last Judgment', image: 'images/the_last_judgement.jpg' },
-  { title: 'The Prophet Jeremiah', image: 'images/the_prophet_jeremiah.jpg' },
-  { title: 'The Libyan Sibyl', image: 'images/the_libyan_sibyl.jpg' },
-  { title: 'The Deluge', image: 'images/the_deluge.jpg' },
-  { title: 'Separation of Light and Darkness', image: 'images/the_separation_of_light_and_darkness.jpg' }
+  { title: 'The Creation of Adam', image: 'the_creation_of_adam.jpg' },
+  { title: 'The Last Judgment', image: 'the_last_judgement.jpg' },
+  { title: 'The Prophet Jeremiah', image: 'the_prophet_jeremiah.jpg' },
+  { title: 'The Libyan Sibyl', image: 'the_libyan_sibyl.jpg' },
+  { title: 'The Deluge', image: 'the_deluge.jpg' },
+  { title: 'Separation of Light and Darkness', image: 'the_separation_of_light_and_darkness.jpg' }
 ];
 
 const imageWidth = 6;
