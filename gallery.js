@@ -53,17 +53,17 @@ const paintings = [
 const imageWidth = 7;  // Adjusted larger image for visibility
 const imageHeight = 2.4;  
 
-// Image Positions (Fixing the spacing for all walls)
+// Image Positions (Adjusted positions to prevent cutting off)
 const positions = [
     // Front Wall - 2 images
-    { x: -3.5, y: 5.5, z: -7 },  // Adjusted spacing for better alignment
-    { x: 3.5, y: 5.5, z: -7 },   // Adjusted spacing for better alignment
+    { x: -3.5, y: 5.5, z: -7 },  // Left Image
+    { x: 3.5, y: 5.5, z: -7 },   // Right Image
     // Left Wall - 2 images
-    { x: -7, y: 5.5, z: -6 },    // Moved images further from the wall
-    { x: -7, y: 5.5, z: 6 },     // Moved images further from the wall
+    { x: -7, y: 5.5, z: -4 },    // Left Image
+    { x: -7, y: 5.5, z: 4 },     // Right Image
     // Right Wall - 2 images
-    { x: 7, y: 5.5, z: -6 },     // Moved images further from the wall
-    { x: 7, y: 5.5, z: 6 }      // Moved images further from the wall
+    { x: 7, y: 5.5, z: -4 },     // Left Image
+    { x: 7, y: 5.5, z: 4 }      // Right Image
 ];
 
 // Painting Info Box
@@ -146,6 +146,7 @@ function animate() {
 }
 
 animate();
+
 
 
 
