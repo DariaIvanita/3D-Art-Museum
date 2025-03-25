@@ -50,20 +50,20 @@ const paintings = [
 ];
 
 // Image size
-const imageWidth = 7;  // Adjusted larger image for visibility
-const imageHeight = 2.4;  
-
-// Image Positions (Adjusted positions to prevent cutting off)
+const imageWidth = 4;  // Adjusted image width for better fit
+const imageHeight = 3;  // Height for images
+  
+// Image Positions (Adjusted to fit on walls)
 const positions = [
     // Front Wall - 2 images
-    { x: -3.5, y: 5.5, z: -7 },  // Left Image
-    { x: 3.5, y: 5.5, z: -7 },   // Right Image
+    { x: -3.5, y: 5, z: -7 },     // Left Image
+    { x: 3.5, y: 5, z: -7 },      // Right Image
     // Left Wall - 2 images
-    { x: -7, y: 5.5, z: -4 },    // Left Image
-    { x: -7, y: 5.5, z: 4 },     // Right Image
+    { x: -7, y: 5, z: -3 },      // Left Image
+    { x: -7, y: 5, z: 3 },       // Right Image
     // Right Wall - 2 images
-    { x: 7, y: 5.5, z: -4 },     // Left Image
-    { x: 7, y: 5.5, z: 4 }       // Right Image
+    { x: 7, y: 5, z: -3 },       // Left Image
+    { x: 7, y: 5, z: 3 }         // Right Image
 ];
 
 // Painting Info Box
@@ -81,20 +81,7 @@ document.body.appendChild(infoDiv);
 const paintingMeshes = [];
 paintings.forEach((painting, index) => {
     textureLoader.load(painting.image, (texture) => {
-        // Get the aspect ratio of the image
-        const aspectRatio = texture.image.width / texture.image.height;
-        
-        // Calculate the correct size while maintaining aspect ratio
-        let width = imageWidth;
-        let height = width / aspectRatio;
-
-        // If height is greater than the allowed height, adjust the height and width accordingly
-        if (height > imageHeight) {
-            height = imageHeight;
-            width = height * aspectRatio;
-        }
-
-        const imgGeometry = new THREE.PlaneGeometry(width, height);
+        const imgGeometry = new THREE.PlaneGeometry(imageWidth, imageHeight);
         const imgMaterial = new THREE.MeshLambertMaterial({ map: texture });
         const imgMesh = new THREE.Mesh(imgGeometry, imgMaterial);
         imgMesh.position.set(positions[index].x, positions[index].y, positions[index].z);
@@ -106,7 +93,7 @@ paintings.forEach((painting, index) => {
 });
 
 // Camera Position
-camera.position.set(0, 2, 15);  // Moved the camera back to capture all the images
+camera.position.set(0, 2, 15);  // Adjusted position to view all images
 camera.updateProjectionMatrix();
 
 // Handle Resize
@@ -146,7 +133,6 @@ function animate() {
 }
 
 animate();
-
 
 
 
