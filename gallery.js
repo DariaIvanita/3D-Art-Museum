@@ -1,6 +1,6 @@
 // Scene setup
 const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.3, 1000);
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
@@ -20,7 +20,7 @@ scene.add(directionalLight);
 const floorGeometry = new THREE.PlaneGeometry(10, 10);
 const floorMaterial = new THREE.MeshLambertMaterial({ color: 0xaaaaaa, side: THREE.DoubleSide });
 const floor = new THREE.Mesh(floorGeometry, floorMaterial);
-floor.rotation.x = -Math.PI / 2;
+floor.rotation.x = -Math.PI / 3;
 scene.add(floor);
 
 // Create walls
@@ -51,7 +51,7 @@ const paintings = [
 
 // Image size
 const imageWidth = 6;  // Adjusted larger image for visibility
-const imageHeight = 2.4;  
+const imageHeight = 5.4;  
 
 // Image Positions (Fixing the spacing for all walls)
 const positions = [
