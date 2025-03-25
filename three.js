@@ -1,4 +1,3 @@
-
 // Scene setup
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.3, 1000);
@@ -81,7 +80,7 @@ paintings.forEach((painting, index) => {
       const imgMaterial = new THREE.MeshLambertMaterial({ map: texture });
       const imgMesh = new THREE.Mesh(imgGeometry, imgMaterial);
       imgMesh.position.set(positions[index].x, positions[index].y, positions[index].z);
-      imgMesh.lookAt(new THREE.Vector3(0, 5, 20));
+      imgMesh.lookAt(new THREE.Vector3(0, 5, 0)); // Adjusted to look at the center
       imgMesh.userData = { title: painting.title };
       scene.add(imgMesh);
       paintingMeshes.push(imgMesh);
