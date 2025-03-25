@@ -51,12 +51,12 @@ const paintings = [
 ];
 
 const positions = [
-    { x: -5.5, y: 2.5, z: -5 }, // Wall 1 (front wall)
-    { x: 5.5, y: 2.5, z: -5 },  // Wall 2 (front wall)
-    { x: -5.5, y: 2.5, z: 5 },  // Wall 3 (back wall)
-    { x: 5.5, y: 2.5, z: 5 },   // Wall 4 (back wall)
-    { x: -5.5, y: 2.5, z: 0 },  // Wall 5 (left wall)
-    { x: 5.5, y: 2.5, z: 0 }    // Wall 6 (right wall)
+    { x: -5, y: 2.5, z: -5 }, // Wall 1 (front wall)
+    { x: 5, y: 2.5, z: -5 },  // Wall 2 (front wall)
+    { x: -5, y: 2.5, z: 5 },  // Wall 3 (back wall)
+    { x: 5, y: 2.5, z: 5 },   // Wall 4 (back wall)
+    { x: -5, y: 2.5, z: 0 },  // Wall 5 (left wall)
+    { x: 5, y: 2.5, z: 0 }    // Wall 6 (right wall)
 ];
 
 // Create a div for displaying painting information
@@ -86,7 +86,7 @@ paintings.forEach((painting, index) => {
 });
 
 // Camera position
-camera.position.set(0, 2, 8);
+camera.position.set(0, 2, 12); // Move the camera further back to see all the paintings
 
 // Handle window resize
 window.addEventListener('resize', () => {
