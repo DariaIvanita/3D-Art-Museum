@@ -1,3 +1,4 @@
+
 // Scene setup
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -66,35 +67,7 @@ const positions = [
 images.forEach((image, index) => {
     textureLoader.load(image, (texture) => {
         const imgMaterial = new THREE.MeshLambertMaterial({ map: texture });
-        const imgGeometry = new THREE.PlaneGeometry(2, 1.5);  // Adjust the size if needed
-        const imgMesh = new THREE.Mesh(imgGeometry, imgMaterial);
-        imgMesh.position.set(positions[index].x, positions[index].y, positions[index].z);
-        imgMesh.lookAt(camera.position);  // Make sure images face the camera
-        scene.add(imgMesh);
-    }, undefined, (error) => {
-        console.error(`An error occurred loading the texture for ${image}:`, error);
-    });
-});
-
-// Camera position
-camera.position.set(0, 2, 8); // Adjusted for better view
-
-// Handle window resize
-window.addEventListener('resize', () => {
-    const width = window.innerWidth;
-    const height = window.innerHeight;
-    renderer.setSize(width, height);
-    camera.aspect = width / height;
-    camera.updateProjectionMatrix();
-});
-
-// Animation loop
-function animate() {
-    requestAnimationFrame(animate);
-    renderer.render(scene, camera);
-}
-animate();
-
+        const imgGeometry = new THREE.PlaneGeometry(
 
 
 
