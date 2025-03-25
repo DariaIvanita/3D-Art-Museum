@@ -1,4 +1,3 @@
-
 // Scene setup
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -38,26 +37,26 @@ scene.add(wall4);
 // Load images for the gallery
 const textureLoader = new THREE.TextureLoader();
 const images = [
-    'the_creation_of_adam.jpg',
-    'the_last_judgement.jpg',
-    'the_prophet_jeremiah.jpg',
-    'the_libyan_sibyl.jpg',
-    'the_deluge.jpg',
-    'the_separation_of_light_and_darkness.jpg',
+    'images/the_creation_of_adam.jpg',
+    'images/the_last_judgement.jpg',
+    'images/the_prophet_jeremiah.jpg',
+    'images/the_libyan_sibyl.jpg',
+    'images/the_deluge.jpg',
+    'images/the_separation_of_light_and_darkness.jpg',
 ];
 
 const positions = [
-    { x: -4, y: 2.5, z: -4 },
-    { x: 4, y: 2.5, z: -4 },
-    { x: -4, y: 2.5, z: 4 },
-    { x: 4, y: 2.5, z: 4 },
-    { x: 0, y: 2.5, z: -4 },
-    { x: 0, y: 2.5, z: 4 }
+    { x: -6, y: 2.5, z: -4 },
+    { x: 6, y: 2.5, z: -4 },
+    { x: -6, y: 2.5, z: 4 },
+    { x: 6, y: 2.5, z: 4 },
+    { x: 0, y: 2.5, z: -6 },
+    { x: 0, y: 2.5, z: 6 }
 ];
 
 images.forEach((image, index) => {
-    console.log(`Loading image: ${image}`);
-    
+    console.log(`Attempting to load image: ${image}`);
+
     textureLoader.load(image, (texture) => {
         console.log(`Successfully loaded: ${image}`);
         const imgMaterial = new THREE.MeshBasicMaterial({ map: texture });
@@ -68,14 +67,6 @@ images.forEach((image, index) => {
         scene.add(imgMesh);
     }, undefined, (error) => {
         console.error(`An error occurred loading the texture for ${image}:`, error);
-        // Add a fallback image
-        const errorTexture = new THREE.TextureLoader().load('default_error_image.jpg');
-        const imgMaterial = new THREE.MeshBasicMaterial({ map: errorTexture });
-        const imgGeometry = new THREE.PlaneGeometry(2, 1.5);
-        const imgMesh = new THREE.Mesh(imgGeometry, imgMaterial);
-        imgMesh.position.set(positions[index].x, positions[index].y, positions[index].z);
-        imgMesh.lookAt(0, 2.5, 0);
-        scene.add(imgMesh);
     });
 });
 
@@ -97,6 +88,7 @@ function animate() {
     renderer.render(scene, camera);
 }
 animate();
+
 
 
 
