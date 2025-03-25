@@ -9,10 +9,10 @@ document.body.appendChild(renderer.domElement);
 renderer.setClearColor(0xcccccc, 1); // Light gray background
 
 // Add a light source to illuminate the scene
-const ambientLight = new THREE.AmbientLight(0x404040); // Ambient light to brighten the scene
+const ambientLight = new THREE.AmbientLight(0x404040);
 scene.add(ambientLight);
 
-const directionalLight = new THREE.DirectionalLight(0xffffff, 1); // Directional light for better contrast
+const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
 directionalLight.position.set(5, 10, 5);
 scene.add(directionalLight);
 
@@ -20,44 +20,39 @@ scene.add(directionalLight);
 const floorGeometry = new THREE.PlaneGeometry(10, 10);
 const floorMaterial = new THREE.MeshLambertMaterial({ color: 0xaaaaaa, side: THREE.DoubleSide });
 const floor = new THREE.Mesh(floorGeometry, floorMaterial);
-floor.rotation.x = -Math.PI / 2; // Rotate to make it horizontal
+floor.rotation.x = -Math.PI / 2;
 scene.add(floor);
 
-// Create walls with the same material
-const wallMaterial = new THREE.MeshLambertMaterial({ color: 0xcccccc }); // Same light color for walls
+// Create walls
+const wallMaterial = new THREE.MeshLambertMaterial({ color: 0xcccccc });
 
-const wall1 = new THREE.Mesh(new THREE.PlaneGeometry(10, 5), wallMaterial);
-wall1.position.set(0, 2.5, -5);  // Back wall
-scene.add(wall1);
+const walls = [
+    { position: [0, 2.5, -5], rotation: [0, 0, 0] },
+    { position: [0, 2.5, 5], rotation: [0, Math.PI, 0] },
+    { position: [-5, 2.5, 0], rotation: [0, Math.PI / 2, 0] },
+    { position: [5, 2.5, 0], rotation: [0, -Math.PI / 2, 0] }
+];
 
-const wall2 = new THREE.Mesh(new THREE.PlaneGeometry(10, 5), wallMaterial);
-wall2.position.set(0, 2.5, 5); // Front wall
-wall2.rotation.y = Math.PI; // Rotate to face the opposite direction
-scene.add(wall2);
-
-const wall3 = new THREE.Mesh(new THREE.PlaneGeometry(10, 5), wallMaterial);
-wall3.position.set(-5, 2.5, 0);  // Left wall
-wall3.rotation.y = Math.PI / 2; // Rotate to make it face the left
-scene.add(wall3);
-
-const wall4 = new THREE.Mesh(new THREE.PlaneGeometry(10, 5), wallMaterial);
-wall4.position.set(5, 2.5, 0);  // Right wall
-wall4.rotation.y = -Math.PI / 2; // Rotate to make it face the right
-scene.add(wall4);
+walls.forEach(wall => {
+    const wallMesh = new THREE.Mesh(new THREE.PlaneGeometry(10, 5), wallMaterial);
+    wallMesh.position.set(...wall.position);
+    wallMesh.rotation.set(...wall.rotation);
+    scene.add(wallMesh);
+});
 
 // Load images for the gallery
 const textureLoader = new THREE.TextureLoader();
-const images = [
-    'the_creation_of_adam.jpg',
-    'the_last_judgement.jpg',
-    'the_prophet_jeremiah.jpg',
-    'the_libyan_sibyl.jpg',
-    'the_deluge.jpg',
-    'the_separation_of_light_and_darkness.jpg',
+const paintings = [
+    { title: 'The Creation of Adam', artist: 'Michelangelo', image: 'path/to/image1.jpg' },
+    { title: 'The Last Judgement', artist: 'Michelangelo', image: 'path/to/image2.jpg' },
+    { title: 'The Prophet Jeremiah', artist: 'Michelangelo', image: 'path/to/image3.jpg' },
+    { title: 'The Libyan Sibyl', artist: 'Michelangelo', image: 'path/to/image4.jpg' },
+    { title: 'The Deluge', artist: 'Michelangelo', image: 'path/to/image5.jpg' },
+    { title: 'Separation of Light and Darkness', artist: 'Michelangelo', image: 'path/to/image6.jpg' },
 ];
 
 const positions = [
-    { x: -6, y: 2.5, z: -6}, // position for the paintings
+    { x: -6, y: 2.5, z: -6 },
     { x: 6, y: 2.5, z: -6 },
     { x: -6, y: 2.5, z: 6 },
     { x: 6, y: 2.5, z: 6 },
@@ -65,23 +60,22 @@ const positions = [
     { x: 0, y: 2.5, z: 6 }
 ];
 
-// Loading the images as textures and adding them to the scene
-images.forEach((image, index) => {
-    textureLoader.load(image, (texture) => {
-        console.log(`Loaded texture for ${image}`); // Debugging: Check if the texture loads
+const infoDiv = document.getElementById('info');
+
+paintings.forEach((painting, index) => {
+    textureLoader.load(painting.image, (texture) => {
         const imgMaterial = new THREE.MeshLambertMaterial({ map: texture });
-        const imgGeometry = new THREE.PlaneGeometry(2, 1.5);  // Adjust size for the painting
+        const imgGeometry = new THREE.PlaneGeometry(2, 1.5);
         const imgMesh = new THREE.Mesh(imgGeometry, imgMaterial);
         imgMesh.position.set(positions[index].x, positions[index].y, positions[index].z);
-        imgMesh.lookAt(camera.position);  // Make sure images face the camera
+        imgMesh.lookAt(camera.position);
+        imgMesh.userData = { title: painting.title, artist: painting.artist }; // Store painting details
         scene.add(imgMesh);
-    }, undefined, (error) => {
-        console.error(`An error occurred loading the texture for ${image}:`, error); // Error handling
     });
 });
 
 // Camera position
-camera.position.set(0, 2, 8); // Adjusted for better view
+camera.position.set(0, 2, 8);
 
 // Handle window resize
 window.addEventListener('resize', () => {
@@ -92,12 +86,32 @@ window.addEventListener('resize', () => {
     camera.updateProjectionMatrix();
 });
 
-// Animation loop
+// Raycaster for hover effect
+const raycaster = new THREE.Raycaster();
+const mouse = new THREE.Vector2();
+
+window.addEventListener('mousemove', (event) => {
+    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+    mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+});
+
 function animate() {
     requestAnimationFrame(animate);
+    raycaster.setFromCamera(mouse, camera);
+    const intersects = raycaster.intersectObjects(scene.children);
+
+    if (intersects.length > 0) {
+        const intersected = intersects[0].object;
+        infoDiv.style.display = 'block';
+        infoDiv.innerHTML = `${intersected.userData.title} by ${intersected.userData.artist}`;
+    } else {
+        infoDiv.style.display = 'none';
+    }
+
     renderer.render(scene, camera);
 }
 animate();
+
 
 
 
