@@ -5,15 +5,23 @@ const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
+// Add a light source to illuminate the scene
+const ambientLight = new THREE.AmbientLight(0x404040); // Ambient light to brighten the scene
+scene.add(ambientLight);
+
+const directionalLight = new THREE.DirectionalLight(0xffffff, 1); // Directional light for better contrast
+directionalLight.position.set(5, 10, 5);
+scene.add(directionalLight);
+
 // Create floor
 const floorGeometry = new THREE.PlaneGeometry(10, 10);
-const floorMaterial = new THREE.MeshBasicMaterial({ color: 0xaaaaaa, side: THREE.DoubleSide });
+const floorMaterial = new THREE.MeshLambertMaterial({ color: 0xaaaaaa, side: THREE.DoubleSide });
 const floor = new THREE.Mesh(floorGeometry, floorMaterial);
 floor.rotation.x = -Math.PI / 2; // Rotate to make it horizontal
 scene.add(floor);
 
 // Create walls
-const wallMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
+const wallMaterial = new THREE.MeshLambertMaterial({ color: 0xffffff });
 
 const wall1 = new THREE.Mesh(new THREE.PlaneGeometry(10, 5), wallMaterial);
 wall1.position.set(0, 2.5, -5);
@@ -57,14 +65,35 @@ const positions = [
 // Loading the images as textures and adding them to the scene
 images.forEach((image, index) => {
     textureLoader.load(image, (texture) => {
-        const imgMaterial = new THREE.MeshBasicMaterial({ map: texture });
+        const imgMaterial = new THREE.MeshLambertMaterial({ map: texture });
         const imgGeometry = new THREE.PlaneGeometry(2, 1.5);  // Adjust the size if needed
         const imgMesh = new THREE.Mesh(imgGeometry, imgMaterial);
         imgMesh.position.set(positions[index].x, positions[index].y, positions[index].z);
         imgMesh.lookAt(camera.position);  // Make sure images face the camera
         scene.add(imgMesh);
-    }, undefined, (error) =>
+    }, undefined, (error) => {
+        console.error(`An error occurred loading the texture for ${image}:`, error);
+    });
+});
 
+// Camera position
+camera.position.set(0, 2, 8); // Adjusted for better view
+
+// Handle window resize
+window.addEventListener('resize', () => {
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+    renderer.setSize(width, height);
+    camera.aspect = width / height;
+    camera.updateProjectionMatrix();
+});
+
+// Animation loop
+function animate() {
+    requestAnimationFrame(animate);
+    renderer.render(scene, camera);
+}
+animate();
 
 
 
