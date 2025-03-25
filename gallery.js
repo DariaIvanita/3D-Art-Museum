@@ -5,6 +5,9 @@ const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
+// Set a background color for the renderer
+renderer.setClearColor(0xcccccc, 1); // Light gray background
+
 // Add a light source to illuminate the scene
 const ambientLight = new THREE.AmbientLight(0x404040); // Ambient light to brighten the scene
 scene.add(ambientLight);
@@ -66,7 +69,35 @@ const positions = [
 images.forEach((image, index) => {
     textureLoader.load(image, (texture) => {
         const imgMaterial = new THREE.MeshLambertMaterial({ map: texture });
-        const imgGeometry = new THREE.PlaneGeometry(
+        const imgGeometry = new THREE.PlaneGeometry(2, 1.5);  // Adjust the size if needed
+        const imgMesh = new THREE.Mesh(imgGeometry, imgMaterial);
+        imgMesh.position.set(positions[index].x, positions[index].y, positions[index].z);
+        imgMesh.lookAt(camera.position);  // Make sure images face the camera
+        scene.add(imgMesh);
+    }, undefined, (error) => {
+        console.error(`An error occurred loading the texture for ${image}:`, error);
+    });
+});
+
+// Camera position
+camera.position.set(0, 2, 8); // Adjusted for better view
+
+// Handle window resize
+window.addEventListener('resize', () => {
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+    renderer.setSize(width, height);
+    camera.aspect = width / height;
+    camera.updateProjectionMatrix();
+});
+
+// Animation loop
+function animate() {
+    requestAnimationFrame(animate);
+    renderer.render(scene, camera);
+}
+animate();
+
 
 
 
