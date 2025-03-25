@@ -64,6 +64,14 @@ images.forEach((image, index) => {
         scene.add(imgMesh);
     }, undefined, (error) => {
         console.error(`An error occurred loading the texture for ${image}:`, error);
+        // Add fallback image or message
+        const errorTexture = new THREE.TextureLoader().load('default_error_image.jpg');
+        const imgMaterial = new THREE.MeshBasicMaterial({ map: errorTexture });
+        const imgGeometry = new THREE.PlaneGeometry(2, 1.5);
+        const imgMesh = new THREE.Mesh(imgGeometry, imgMaterial);
+        imgMesh.position.set(positions[index].x, positions[index].y, positions[index].z);
+        imgMesh.lookAt(0, 2.5, 0);
+        scene.add(imgMesh);
     });
 });
 
@@ -85,6 +93,7 @@ function animate() {
     renderer.render(scene, camera);
 }
 animate();
+
 
 
 
