@@ -27,8 +27,8 @@ scene.add(floor);
 const wallMaterial = new THREE.MeshLambertMaterial({ color: 0xcccccc });
 const walls = [
     { position: [0, 3.5, -7], rotation: [0, 0, 0] }, // Front Wall
-    { position: [-7, 3.5, 0], rotation: [0, Math.PI / 6, 0] }, // Left Wall
-    { position: [7, 3.5, 0], rotation: [0, -Math.PI / 6, 0] } // Right Wall
+    { position: [-7, 3.5, 0], rotation: [0, Math.PI / 7, 0] }, // Left Wall
+    { position: [7, 3.5, 0], rotation: [0, -Math.PI / 7, 0] } // Right Wall
 ];
 
 walls.forEach(wall => {
@@ -51,7 +51,7 @@ const paintings = [
 
 // Image size
 const imageWidth = 7;  // Adjusted larger image for visibility
-const imageHeight = 6.4;  
+const imageHeight = 2.4;  
 
 // Image Positions (Fixing the spacing for all walls)
 const positions = [
