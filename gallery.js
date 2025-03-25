@@ -106,7 +106,7 @@ paintings.forEach((painting, index) => {
 });
 
 // Camera Position
-camera.position.set(0, 2, 12);  // Moved the camera back to capture all the images
+camera.position.set(0, 2, 13;  // Moved the camera back to capture all the images
 camera.updateProjectionMatrix();
 
 // Handle Resize
