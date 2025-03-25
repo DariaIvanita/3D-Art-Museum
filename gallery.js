@@ -5,7 +5,7 @@ const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
-// Set background color
+// Background Color
 renderer.setClearColor(0xcccccc, 1);
 
 // Lighting
@@ -16,7 +16,7 @@ const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
 directionalLight.position.set(5, 10, 5);
 scene.add(directionalLight);
 
-// Create floor
+// Floor
 const floorGeometry = new THREE.PlaneGeometry(10, 10);
 const floorMaterial = new THREE.MeshLambertMaterial({ color: 0xaaaaaa, side: THREE.DoubleSide });
 const floor = new THREE.Mesh(floorGeometry, floorMaterial);
@@ -26,10 +26,10 @@ scene.add(floor);
 // Create walls
 const wallMaterial = new THREE.MeshLambertMaterial({ color: 0xcccccc });
 const walls = [
-    { position: [0, 2.5, -5], rotation: [0, 0, 0] }, // Front wall
-    { position: [0, 2.5, 5], rotation: [0, Math.PI, 0] }, // Back wall
-    { position: [-5, 2.5, 0], rotation: [0, Math.PI / 2, 0] }, // Left wall
-    { position: [5, 2.5, 0], rotation: [0, -Math.PI / 2, 0] } // Right wall
+    { position: [0, 2.5, -5], rotation: [0, 0, 0] }, // Front Wall
+    { position: [0, 2.5, 5], rotation: [0, Math.PI, 0] }, // Back Wall
+    { position: [-5, 2.5, 0], rotation: [0, Math.PI / 2, 0] }, // Left Wall
+    { position: [5, 2.5, 0], rotation: [0, -Math.PI / 2, 0] } // Right Wall
 ];
 
 walls.forEach(wall => {
@@ -49,6 +49,10 @@ const paintings = [
     { title: 'The Deluge', image: 'the_deluge.jpg' },
     { title: 'Separation of Light and Darkness', image: 'the_separation_of_light_and_darkness.jpg' }
 ];
+
+// Adjusted smaller size for visibility
+const imageWidth = 1.5;
+const imageHeight = 1.2;
 
 // Adjusted positions to fit all 6 paintings
 const positions = [
@@ -75,7 +79,7 @@ document.body.appendChild(infoDiv);
 const paintingMeshes = [];
 paintings.forEach((painting, index) => {
     textureLoader.load(painting.image, (texture) => {
-        const imgGeometry = new THREE.PlaneGeometry(index >= 4 ? 1.8 : 2.5, index >= 4 ? 1.5 : 2); // Smaller for side walls
+        const imgGeometry = new THREE.PlaneGeometry(imageWidth, imageHeight);
         const imgMaterial = new THREE.MeshLambertMaterial({ map: texture });
         const imgMesh = new THREE.Mesh(imgGeometry, imgMaterial);
         imgMesh.position.set(positions[index].x, positions[index].y, positions[index].z);
@@ -86,11 +90,11 @@ paintings.forEach((painting, index) => {
     });
 });
 
-// Camera position
+// Camera Position
 camera.position.set(0, 2, 8);
 camera.updateProjectionMatrix();
 
-// Handle resize
+// Handle Resize
 window.addEventListener('resize', () => {
     const width = window.innerWidth;
     const height = window.innerHeight;
@@ -99,7 +103,7 @@ window.addEventListener('resize', () => {
     camera.updateProjectionMatrix();
 });
 
-// Raycaster for hover effect
+// Raycaster for Hover Effect
 const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
 
@@ -127,6 +131,7 @@ function animate() {
 }
 
 animate();
+
 
 
 
