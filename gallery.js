@@ -68,6 +68,7 @@ const positions = [
 // Loading the images as textures and adding them to the scene
 images.forEach((image, index) => {
     textureLoader.load(image, (texture) => {
+        console.log(`Loaded texture for ${image}`); // Debugging: Check if the texture loads
         const imgMaterial = new THREE.MeshLambertMaterial({ map: texture });
         const imgGeometry = new THREE.PlaneGeometry(2, 1.5);  // Adjust size for the painting
         const imgMesh = new THREE.Mesh(imgGeometry, imgMaterial);
@@ -75,7 +76,7 @@ images.forEach((image, index) => {
         imgMesh.lookAt(camera.position);  // Make sure images face the camera
         scene.add(imgMesh);
     }, undefined, (error) => {
-        console.error(`An error occurred loading the texture for ${image}:`, error);
+        console.error(`An error occurred loading the texture for ${image}:`, error); // Error handling
     });
 });
 
