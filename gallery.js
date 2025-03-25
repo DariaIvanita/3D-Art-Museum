@@ -1,3 +1,4 @@
+
 // Scene setup
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.3, 1000);
@@ -29,18 +30,18 @@ const wallGeometry = new THREE.PlaneGeometry(20, 10);
 
 // Front Wall
 const frontWall = new THREE.Mesh(wallGeometry, wallMaterial);
-frontWall.position.set(0, 5, -10);
+frontWall.position.set(0, 5, -12);
 scene.add(frontWall);
 
 // Left Wall
 const leftWall = new THREE.Mesh(wallGeometry, wallMaterial);
-leftWall.position.set(-10, 5, 0);
+leftWall.position.set(-12, 5, 0);
 leftWall.rotation.y = Math.PI / 2;
 scene.add(leftWall);
 
 // Right Wall
 const rightWall = new THREE.Mesh(wallGeometry, wallMaterial);
-rightWall.position.set(10, 5, 0);
+rightWall.position.set(12, 5, 0);
 rightWall.rotation.y = -Math.PI / 2;
 scene.add(rightWall);
 
@@ -59,12 +60,12 @@ const imageWidth = 6;
 const imageHeight = 4;
 
 const positions = [
-  { x: -6, y: 5, z: -9 },
-  { x: 6, y: 5, z: -9 },
-  { x: -9.5, y: 5, z: -3 },
-  { x: -9.5, y: 5, z: 3 },
-  { x: 9.5, y: 5, z: -3 },
-  { x: 9.5, y: 5, z: 3 }
+  { x: -6, y: 5, z: -11 },
+  { x: 6, y: 5, z: -11 },
+  { x: -11, y: 5, z: -3 },
+  { x: -11, y: 5, z: 3 },
+  { x: 11, y: 5, z: -3 },
+  { x: 11, y: 5, z: 3 }
 ];
 
 // Painting Info Box
@@ -88,7 +89,7 @@ paintings.forEach((painting, index) => {
       const imgMaterial = new THREE.MeshLambertMaterial({ map: texture });
       const imgMesh = new THREE.Mesh(imgGeometry, imgMaterial);
       imgMesh.position.set(positions[index].x, positions[index].y, positions[index].z);
-      imgMesh.lookAt(new THREE.Vector3(0, 5, 20));
+      imgMesh.lookAt(new THREE.Vector3(0, 5, 0));
       imgMesh.userData = { title: painting.title };
       scene.add(imgMesh);
       paintingMeshes.push(imgMesh);
@@ -101,7 +102,7 @@ paintings.forEach((painting, index) => {
 });
 
 // Camera Position
-camera.position.set(0, 5, 20);
+camera.position.set(0, 5, 25);
 
 // Handle Resize
 window.addEventListener('resize', () => {
@@ -140,7 +141,6 @@ function animate() {
 }
 
 animate();
-
 
 
 
