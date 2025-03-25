@@ -9,7 +9,7 @@ document.body.appendChild(renderer.domElement);
 const floorGeometry = new THREE.PlaneGeometry(10, 10);
 const floorMaterial = new THREE.MeshBasicMaterial({ color: 0xaaaaaa, side: THREE.DoubleSide });
 const floor = new THREE.Mesh(floorGeometry, floorMaterial);
-floor.rotation.x = -Math.PI / 2; // Rotate to make it horizontal
+floor.rotation.x = -Math.PI / 2;
 scene.add(floor);
 
 // Create walls
@@ -39,7 +39,7 @@ const textureLoader = new THREE.TextureLoader();
 const images = [
     'images/the_creation_of_adam.jpg',
     'images/the_last_judgement.jpg',
-    'images/the_prophet._jeremiah.jpg',
+    'images/the_prophet_jeremiah.jpg',
     'images/the_libyan_sibyl.jpg',
     'images/the_deluge.jpg',
     'images/the_seperation_of_light_and_darkness.jpg',
@@ -55,20 +55,23 @@ const positions = [
 ];
 
 images.forEach((image, index) => {
-    textureLoader.load(image, (texture) => {
-        const imgMaterial = new THREE.MeshBasicMaterial({ map: texture });
-        const imgGeometry = new THREE.PlaneGeometry(2, 1.5);
-        const imgMesh = new THREE.Mesh(imgGeometry, imgMaterial);
-        imgMesh.position.set(positions[index].x, positions[index].y, positions[index].z);
-        imgMesh.rotation.y = Math.PI; // Rotate to face the camera
-        scene.add(imgMesh);
-    }, undefined, (error) => {
-        console.error(`An error occurred loading the texture for ${image}:`, error);
-    });
+    textureLoader.load(
+        image,
+        (texture) => {
+            const imgMaterial = new THREE.MeshBasicMaterial({ map: texture });
+            const imgGeometry = new THREE.PlaneGeometry(2, 1.5);
+            const imgMesh = new THREE.Mesh(imgGeometry, imgMaterial);
+            imgMesh.position.set(positions[index].x, positions[index].y, positions[index].z);
+            imgMesh.lookAt(camera.position);
+            scene.add(imgMesh);
+        },
+        undefined,
+        (error) => console.error(`Failed to load ${image}:`, error)
+    );
 });
 
 // Camera position
-camera.position.set(0, 2, 5); // Adjusted for better view
+camera.position.set(0, 2, 8);
 
 // Handle window resize
 window.addEventListener('resize', () => {
@@ -85,3 +88,4 @@ function animate() {
     renderer.render(scene, camera);
 }
 animate();
+
