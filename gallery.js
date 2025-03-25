@@ -42,26 +42,26 @@ walls.forEach(wall => {
 // Load images
 const textureLoader = new THREE.TextureLoader();
 const paintings = [
-    { title: 'The Creation of Adam', image: 'the_creation_of_adam.jpg' },
-    { title: 'The Last Judgment', image: 'the_last_judgement.jpg' },
-    { title: 'The Prophet Jeremiah', image: 'the_prophet_jeremiah.jpg' },
-    { title: 'The Libyan Sibyl', image: 'the_libyan_sibyl.jpg' },
-    { title: 'The Deluge', image: 'the_deluge.jpg' },
-    { title: 'Separation of Light and Darkness', image: 'the_separation_of_light_and_darkness.jpg' }
+    { title: 'The Creation of Adam', image: 'https://raw.githubusercontent.com/DariaIvanita/3D-Art-Museum/main/images/the_creation_of_adam.jpg' },
+    { title: 'The Last Judgment', image: 'https://raw.githubusercontent.com/DariaIvanita/3D-Art-Museum/main/images/the_last_judgement.jpg' },
+    { title: 'The Prophet Jeremiah', image: 'https://raw.githubusercontent.com/DariaIvanita/3D-Art-Museum/main/images/the_prophet_jeremiah.jpg' },
+    { title: 'The Libyan Sibyl', image: 'https://raw.githubusercontent.com/DariaIvanita/3D-Art-Museum/main/images/the_libyan_sibyl.jpg' },
+    { title: 'The Deluge', image: 'https://raw.githubusercontent.com/DariaIvanita/3D-Art-Museum/main/images/the_deluge.jpg' },
+    { title: 'Separation of Light and Darkness', image: 'https://raw.githubusercontent.com/DariaIvanita/3D-Art-Museum/main/images/separation_of_light_and_darkness.jpg' }
 ];
 
 // Adjusted smaller size for visibility
-const imageWidth = 1.5;
-const imageHeight = 1.2;
+const imageWidth = 2;
+const imageHeight = 1.5;
 
 // Adjusted positions to fit all 6 paintings
 const positions = [
-    { x: -2.5, y: 2.5, z: -5 },  // Front Wall (1)
-    { x: 2.5, y: 2.5, z: -5 },   // Front Wall (2)
-    { x: -2.5, y: 2.5, z: 5 },   // Back Wall (3)
-    { x: 2.5, y: 2.5, z: 5 },    // Back Wall (4)
-    { x: -4.5, y: 2.5, z: 0 },   // Left Wall (5) - Smaller
-    { x: 4.5, y: 2.5, z: 0 }     // Right Wall (6) - Smaller
+    { x: -3, y: 2.5, z: -5 },  // Front Wall (1)
+    { x: 3, y: 2.5, z: -5 },   // Front Wall (2)
+    { x: -3, y: 2.5, z: 5 },   // Back Wall (3)
+    { x: 3, y: 2.5, z: 5 },    // Back Wall (4)
+    { x: -5, y: 2.5, z: 0 },   // Left Wall (5)
+    { x: 5, y: 2.5, z: 0 }     // Right Wall (6)
 ];
 
 // Painting Info Box
@@ -104,33 +104,7 @@ window.addEventListener('resize', () => {
 });
 
 // Raycaster for Hover Effect
-const raycaster = new THREE.Raycaster();
-const mouse = new THREE.Vector2();
-
-window.addEventListener('mousemove', (event) => {
-    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-    mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-});
-
-function animate() {
-    requestAnimationFrame(animate);
-    raycaster.setFromCamera(mouse, camera);
-    const intersects = raycaster.intersectObjects(paintingMeshes);
-
-    if (intersects.length > 0) {
-        const intersected = intersects[0].object;
-        intersected.scale.set(1.2, 1.2, 1);
-        infoDiv.style.display = 'block';
-        infoDiv.innerHTML = `Title: ${intersected.userData.title}`;
-    } else {
-        paintingMeshes.forEach(mesh => mesh.scale.set(1, 1, 1));
-        infoDiv.style.display = 'none';
-    }
-
-    renderer.render(scene, camera);
-}
-
-animate();
+const raycaster
 
 
 
