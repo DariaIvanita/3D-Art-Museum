@@ -1,4 +1,3 @@
-
 // Scene setup
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -52,12 +51,12 @@ const paintings = [
 ];
 
 const positions = [
-    { x: -6, y: 2.5, z: -6 },
-    { x: 6, y: 2.5, z: -6 },
-    { x: -6, y: 2.5, z: 6 },
-    { x: 6, y: 2.5, z: 6 },
-    { x: 0, y: 2.5, z: -6 },
-    { x: 0, y: 2.5, z: 6 }
+    { x: -5.5, y: 2.5, z: -5 }, // Wall 1 (front wall)
+    { x: 5.5, y: 2.5, z: -5 },  // Wall 2 (front wall)
+    { x: -5.5, y: 2.5, z: 5 },  // Wall 3 (back wall)
+    { x: 5.5, y: 2.5, z: 5 },   // Wall 4 (back wall)
+    { x: -5.5, y: 2.5, z: 0 },  // Wall 5 (left wall)
+    { x: 5.5, y: 2.5, z: 0 }    // Wall 6 (right wall)
 ];
 
 // Create a div for displaying painting information
@@ -72,7 +71,7 @@ infoDiv.style.display = 'none'; // Initially hidden
 document.body.appendChild(infoDiv);
 
 // Loading the images as textures and adding them to the scene
-const meshes = []; // Store meshes to use later for raycasting
+const paintingMeshes = [];
 paintings.forEach((painting, index) => {
     textureLoader.load(painting.image, (texture) => {
         const imgMaterial = new THREE.MeshLambertMaterial({ map: texture });
@@ -82,7 +81,7 @@ paintings.forEach((painting, index) => {
         imgMesh.lookAt(camera.position); // Make sure images face the camera
         imgMesh.userData = { title: painting.title, artist: painting.artist }; // Store painting details
         scene.add(imgMesh);
-        meshes.push(imgMesh); // Store the mesh for raycasting
+        paintingMeshes.push(imgMesh); // Store mesh for raycasting
     });
 });
 
@@ -112,15 +111,17 @@ function animate() {
 
     // Update the raycaster to detect intersected objects
     raycaster.setFromCamera(mouse, camera);
-    const intersects = raycaster.intersectObjects(meshes); // Use the stored meshes for raycasting
+    const intersects = raycaster.intersectObjects(paintingMeshes);
 
     if (intersects.length > 0) {
         const intersected = intersects[0].object;
+        intersected.scale.set(1.2, 1.2, 1); // Scale up the painting on hover
         if (intersected.userData && intersected.userData.title) {
             infoDiv.style.display = 'block';
             infoDiv.innerHTML = `Title: ${intersected.userData.title}<br>Artist: ${intersected.userData.artist}`; // Display title and artist
         }
     } else {
+        paintingMeshes.forEach(mesh => mesh.scale.set(1, 1, 1)); // Reset scale
         infoDiv.style.display = 'none';
     }
 
