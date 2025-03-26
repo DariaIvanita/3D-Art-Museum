@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>3D Paintings</title>
     <style>
-        body { margin: 0; }
+        body { margin: 0; overflow: hidden; }
         #infoBox {
             position: absolute;
             top: 10px;
@@ -13,7 +13,8 @@
             background: rgba(255, 255, 255, 0.8);
             padding: 10px;
             border-radius: 5px;
-            display: none; /* Initially hidden */
+            display: none;
+            font-family: Arial, sans-serif;
         }
     </style>
 </head>
@@ -71,7 +72,7 @@
         const textureLoader = new THREE.TextureLoader();
         const paintings = [
             { title: 'The Creation of Adam', image: 'the_creation_of_adam.jpg' },
-            { title: 'The Last Judgment', image: 'the_last_judgement.jpg' },
+            { title: 'The Last Judgment', image: 'the_last_judgment.jpg' },
             { title: 'The Prophet Jeremiah', image: 'the_prophet_jeremiah.jpg' },
             { title: 'The Libyan Sibyl', image: 'the_libyan_sibyl.jpg' },
             { title: 'The Deluge', image: 'the_deluge.jpg' },
@@ -145,6 +146,27 @@
         function animate() {
             requestAnimationFrame(animate);
 
-            ray
+            // Hover Detection
+            raycaster.setFromCamera(mouse, camera);
+            const intersects = raycaster.intersectObjects(paintingMeshes);
+
+            if (intersects.length > 0) {
+                const painting = intersects[0].object.userData;
+                infoDiv.style.display = 'block';
+                infoDiv.innerHTML = `<strong>${painting.title}</strong>`;
+                infoDiv.style.left = `${event.clientX + 10}px`;
+                infoDiv.style.top = `${event.clientY + 10}px`;
+            } else {
+                infoDiv.style.display = 'none';
+            }
+
+            renderer.render(scene, camera);
+        }
+
+        animate();
+    </script>
+</body>
+</html>
+
 
 
