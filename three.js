@@ -23,6 +23,14 @@ const floor = new THREE.Mesh(floorGeometry, floorMaterial);
 floor.rotation.x = -Math.PI / 2;
 scene.add(floor);
 
+// Roof (dark color)
+const roofGeometry = new THREE.PlaneGeometry(20, 20);
+const roofMaterial = new THREE.MeshLambertMaterial({ color: 0x333333, side: THREE.DoubleSide }); // Dark color
+const roof = new THREE.Mesh(roofGeometry, roofMaterial);
+roof.rotation.x = Math.PI / 2; // Rotate roof to be horizontal
+roof.position.set(0, 10, 0); // Position the roof above the scene
+scene.add(roof);
+
 // Create walls (dark color)
 const wallMaterial = new THREE.MeshLambertMaterial({ color: 0x333333 }); // Dark color
 const wallGeometry = new THREE.PlaneGeometry(20, 10);
@@ -59,12 +67,12 @@ const imageWidth = 6;
 const imageHeight = 4;
 
 const positions = [
-  { x: -6, y: 5, z: -9 }, // Front Wall - Left
-  { x: 6, y: 5, z: -9 }, // Front Wall - Right
-  { x: -9.5, y: 5, z: -3 }, // Left Wall - Top
-  { x: -9.5, y: 5, z: 3 }, // Left Wall - Bottom
-  { x: 9.5, y: 5, z: -3 }, // Right Wall - Top
-  { x: 9.5, y: 5, z: 3 } // Right Wall - Bottom
+  { x: -6, y: 5, z: -9 },  // Front Wall - Left
+  { x: 6, y: 5, z: -9 },   // Front Wall - Right
+  { x: -9.5, y: 5, z: -3 }, // Left Wall - Top Left
+  { x: -9.5, y: 5, z: 3 },  // Left Wall - Bottom Left
+  { x: 9.5, y: 5, z: -3 },  // Right Wall - Top Right
+  { x: 9.5, y: 5, z: 3 }    // Right Wall - Bottom Right
 ];
 
 // Painting Info Box
@@ -133,6 +141,7 @@ function animate() {
 }
 
 animate();
+
 
 
 
