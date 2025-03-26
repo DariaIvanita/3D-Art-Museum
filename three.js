@@ -16,15 +16,15 @@ const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
 directionalLight.position.set(6, 10, 6);
 scene.add(directionalLight);
 
-// Floor
+// Floor (brown color)
 const floorGeometry = new THREE.PlaneGeometry(20, 20);
-const floorMaterial = new THREE.MeshLambertMaterial({ color: 0xaaaaaa, side: THREE.DoubleSide });
+const floorMaterial = new THREE.MeshLambertMaterial({ color: 0x8B4513, side: THREE.DoubleSide }); // Brown color
 const floor = new THREE.Mesh(floorGeometry, floorMaterial);
 floor.rotation.x = -Math.PI / 2;
 scene.add(floor);
 
-// Create walls
-const wallMaterial = new THREE.MeshLambertMaterial({ color: 0xcccccc });
+// Create walls (dark color)
+const wallMaterial = new THREE.MeshLambertMaterial({ color: 0x333333 }); // Dark color
 const wallGeometry = new THREE.PlaneGeometry(20, 10);
 
 // Front Wall
@@ -59,12 +59,12 @@ const imageWidth = 6;
 const imageHeight = 4;
 
 const positions = [
-  { x: -6, y: 5, z: -9 },
-  { x: 6, y: 5, z: -9 },
-  { x: -9.5, y: 5, z: -3 },
-  { x: -9.5, y: 5, z: 3 },
-  { x: 9.5, y: 5, z: -3 },
-  { x: 9.5, y: 5, z: 3 }
+  { x: -6, y: 5, z: -9 }, // Front Wall - Left
+  { x: 6, y: 5, z: -9 }, // Front Wall - Right
+  { x: -9.5, y: 5, z: -3 }, // Left Wall - Top
+  { x: -9.5, y: 5, z: 3 }, // Left Wall - Bottom
+  { x: 9.5, y: 5, z: -3 }, // Right Wall - Top
+  { x: 9.5, y: 5, z: 3 } // Right Wall - Bottom
 ];
 
 // Painting Info Box
@@ -115,6 +115,7 @@ window.addEventListener('mousemove', (event) => {
 
 function animate() {
   requestAnimationFrame(animate);
+
   raycaster.setFromCamera(mouse, camera);
   const intersects = raycaster.intersectObjects(paintingMeshes);
 
@@ -132,6 +133,7 @@ function animate() {
 }
 
 animate();
+
 
 
 
