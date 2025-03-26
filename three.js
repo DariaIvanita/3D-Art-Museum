@@ -58,38 +58,44 @@ const paintings = [
 const imageWidth = 6;
 const imageHeight = 4;
 
+// Positions for the paintings on the walls
 const positions = [
-  { x: -6, y: 5, z: -9 },
-  { x: 6, y: 5, z: -9 },
-  { x: -9.5, y: 5, z: -3 },
-  { x: -9.5, y: 5, z: 3 },
-  { x: 9.5, y: 5, z: -3 },
-  { x: 9.5, y: 5, z: 3 }
+  { x: -6, y: 5, z: -9 }, // Front Wall - Left
+  { x: 6, y: 5, z: -9 }, // Front Wall - Right
+  { x: -9.5, y: 5, z: -3 }, // Left Wall - Top
+  { x: -9.5, y: 5, z: 3 }, // Left Wall - Bottom
+  { x: 9.5, y: 5, z: -3 }, // Right Wall - Top
+  { x: 9.5, y: 5, z: 3 } // Right Wall - Bottom
 ];
 
-// Painting Info Box
+// Painting Info Box (Ensure an HTML element with id="infoBox" exists)
 const infoDiv = document.getElementById('infoBox');
 
 // Load images with error handling
 const paintingMeshes = [];
 paintings.forEach((painting, index) => {
-  textureLoader.load(
-    painting.image,
-    (texture) => {
-      const imgGeometry = new THREE.PlaneGeometry(imageWidth, imageHeight);
-      const imgMaterial = new THREE.MeshLambertMaterial({ map: texture });
-      const imgMesh = new THREE.Mesh(imgGeometry, imgMaterial);
-      imgMesh.position.set(positions[index].x, positions[index].y, positions[index].z);
-      imgMesh.lookAt(new THREE.Vector3(0, 5, 0)); // Adjusted to look at the center
-      imgMesh.userData = { title: painting.title };
-      scene.add(imgMesh);
-      paintingMeshes.push(imgMesh);
-    },
-    undefined,
-    (error) => {
-      console.error(`Failed to load image: ${painting.image}`, error);
-    }
-  );
+    textureLoader.load(
+        painting.image,
+        (texture) => {
+            const imgGeometry = new THREE.PlaneGeometry(imageWidth, imageHeight);
+            const imgMaterial = new THREE.MeshLambertMaterial({ map: texture });
+            const imgMesh = new THREE.Mesh(imgGeometry, imgMaterial);
+
+            // Set position and orientation of the painting
+            imgMesh.position.set(positions[index].x, positions[index].y, positions[index].z);
+            imgMesh.lookAt(new THREE.Vector3(0, positions[index].y, positions[index].z > 0 ? positions[index].z + 1 : positions[index].z - 1)); // Adjusted to look at the center
+
+            // Add metadata for hover functionality
+            imgMesh.userData = { title: painting.title };
+            scene.add(imgMesh);
+
+            paintingMeshes.push(imgMesh); // Store painting mesh for interaction
+        },
+        undefined,
+        (error) => {
+            console.error(`Failed to load image: ${painting.image}`, error);
+        }
+    );
 });
 
 // Camera Position
@@ -97,11 +103,11 @@ camera.position.set(0, 5, 20);
 
 // Handle Resize
 window.addEventListener('resize', () => {
-  const width = window.innerWidth;
-  const height = window.innerHeight;
-  renderer.setSize(width, height);
-  camera.aspect = width / height;
-  camera.updateProjectionMatrix();
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+    renderer.setSize(width, height);
+    camera.aspect = width / height;
+    camera.updateProjectionMatrix();
 });
 
 // Raycaster for Hover Effect
@@ -109,26 +115,35 @@ const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
 
 window.addEventListener('mousemove', (event) => {
-  mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-  mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+    mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 });
 
 function animate() {
-  requestAnimationFrame(animate);
-  raycaster.setFromCamera(mouse, camera);
-  const intersects = raycaster.intersectObjects(paintingMeshes);
+    requestAnimationFrame(animate);
 
-  if (intersects.length > 0) {
-    const intersected = intersects[0].object;
-    intersected.scale.set(1.2, 1.2, 1);
-    infoDiv.style.display = 'block';
-    infoDiv.innerHTML = `Title: ${intersected.userData.title}`;
-  } else {
-    paintingMeshes.forEach((mesh) => mesh.scale.set(1, 1, 1));
-    infoDiv.style.display = 'none';
-  }
+    raycaster.setFromCamera(mouse, camera);
 
-  renderer.render(scene, camera);
+    // Detect intersections with paintings
+    const intersects = raycaster.intersectObjects(paintingMeshes);
+
+    if (intersects.length > 0) {
+        const intersected = intersects[0].object;
+
+        // Highlight the painting by scaling it up slightly
+        intersected.scale.set(1.2, 1.2, 1);
+
+        // Display painting information in the info box
+        infoDiv.style.display = 'block';
+        infoDiv.innerHTML = `Title: ${intersected.userData.title}`;
+    } else {
+        // Reset scale and hide info box if no intersection occurs
+        paintingMeshes.forEach((mesh) => mesh.scale.set(1, 1, 1));
+        infoDiv.style.display = 'none';
+    }
+
+    renderer.render(scene, camera); // Render the scene
 }
 
-animate();
+animate(); // Start animation loop
+
