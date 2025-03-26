@@ -60,7 +60,7 @@ const paintings = [
   { title: 'The Prophet Jeremiah', image: 'the_prophet_jeremiah.jpg' },
   { title: 'The Libyan Sibyl', image: 'the_libyan_sibyl.jpg' },
   { title: 'The Deluge', image: 'the_deluge.jpg' },
-  { title: 'Separation of Light and Darkness', image: 'the_separation_of_light_and_darkness.jpg' }
+  { title: 'Separation of Light and Darkness', image: 'the_seperation_of_light_and_darkness.jpg' }
 ];
 
 const imageWidth = 6;
