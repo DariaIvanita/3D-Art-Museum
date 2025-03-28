@@ -210,7 +210,8 @@ const hoverEffects = (painting) => {
 };
 
 clickableObjects.forEach(painting => {
-  hoverEffects(painting);
+  painting.on('mouseover', () => hoverEffects(painting)); // Apply hover effect on mouse over
+  painting.on('mouseout', () => hoverEffects(painting));  // Revert hover effect on mouse out
 });
 
 // Animation loop
@@ -226,6 +227,7 @@ window.addEventListener('resize', () => {
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
 });
+
 
 
 
