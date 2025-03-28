@@ -37,9 +37,9 @@ scene.add(roof);
 const wallMaterial = new THREE.MeshLambertMaterial({ color: 0x333333 });
 const wallGeometry = new THREE.PlaneGeometry(20, 10);
 
-// Wall Setup
+// Wall Setup (4 walls)
 const walls = [
-  { position: { x: 0, y: 5, z: -10 }, rotation: 0 },   // Front Wall
+  { position: { x: 0, y: 5, z: -10 }, rotation: 0 },    // Front Wall
   { position: { x: 0, y: 5, z: 10 }, rotation: Math.PI }, // Back Wall
   { position: { x: -10, y: 5, z: 0 }, rotation: Math.PI / 2 }, // Left Wall
   { position: { x: 10, y: 5, z: 0 }, rotation: -Math.PI / 2 }, // Right Wall
@@ -100,7 +100,7 @@ const clickableObjects = [];
 paintingData.forEach((painting, index) => {
   const texture = new THREE.TextureLoader().load(painting.image);
   const material = new THREE.MeshBasicMaterial({ map: texture });
-  const geometry = new THREE.PlaneGeometry(2.5, 3.5);
+  const geometry = new THREE.PlaneGeometry(2.5, 3.5); // Keep the size consistent
   const mesh = new THREE.Mesh(geometry, material);
 
   // Distribute paintings across walls
@@ -117,9 +117,8 @@ paintingData.forEach((painting, index) => {
   clickableObjects.push(mesh);
 
   // Hover effect for 3D feel
-  mesh.scale.set(1, 1, 1);
+  mesh.scale.set(1, 1, 1); // Keep size constant
   mesh.rotation.y = Math.random() * Math.PI; // Randomize initial rotation
-
   mesh.onmouseenter = () => {
     mesh.scale.set(1.1, 1.1, 1); // Slightly enlarge the painting
   };
@@ -133,6 +132,16 @@ camera.position.set(0, 5, 15);
 camera.lookAt(0, 5, -10);
 
 // Mouse click handler
+const infoBox = document.createElement('div');
+infoBox.id = "infoBox";
+infoBox.style.position = "absolute";
+infoBox.style.top = "10px";
+infoBox.style.left = "10px";
+infoBox.style.backgroundColor = "white";
+infoBox.style.padding = "10px";
+infoBox.style.display = "none";
+document.body.appendChild(infoBox);
+
 window.addEventListener("click", (event) => {
   mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
   mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
@@ -142,7 +151,14 @@ window.addEventListener("click", (event) => {
 
   if (intersects.length > 0) {
     const painting = intersects[0].object.userData;
-    alert(`You clicked on: ${painting.title}`);
+    infoBox.style.display = "block";
+    infoBox.innerHTML = `
+      <h2>${painting.title}</h2>
+      <img src="${painting.image}" alt="${painting.title}" style="max-width: 300px; display:block; margin-top:10px;">
+      <p style="margin-top:10px;">${painting.description}</p>
+    `;
+  } else {
+    infoBox.style.display = "none";
   }
 });
 
@@ -159,6 +175,7 @@ function animate() {
   renderer.render(scene, camera);
 }
 animate();
+
 
 
 
