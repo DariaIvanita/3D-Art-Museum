@@ -199,19 +199,20 @@ window.addEventListener('click', (event) => {
   }
 });
 
-// Hover effect animation (zoom on hover)
-const hoverEffects = (painting) => {
-  painting.onPointerOver = () => {
-    painting.scale.set(1.1, 1.1, 1.1); // Zoom in slightly
-  };
-  painting.onPointerOut = () => {
-    painting.scale.set(1, 1, 1); // Return to original size
-  };
+// Mouse event listener for hover effect
+const onPointerOver = (event) => {
+  const painting = event.target;
+  painting.scale.set(1.1, 1.1, 1.1); // Zoom in slightly
+};
+
+const onPointerOut = (event) => {
+  const painting = event.target;
+  painting.scale.set(1, 1, 1); // Return to original size
 };
 
 clickableObjects.forEach(painting => {
-  painting.on('mouseover', () => hoverEffects(painting)); // Apply hover effect on mouse over
-  painting.on('mouseout', () => hoverEffects(painting));  // Revert hover effect on mouse out
+  painting.addEventListener('mouseover', onPointerOver);
+  painting.addEventListener('mouseout', onPointerOut);
 });
 
 // Animation loop
@@ -227,6 +228,7 @@ window.addEventListener('resize', () => {
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
 });
+
 
 
 
