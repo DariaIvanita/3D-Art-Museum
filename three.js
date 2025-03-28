@@ -229,6 +229,21 @@ window.addEventListener('resize', () => {
   renderer.setSize(window.innerWidth, window.innerHeight);
 });
 
+// Audio: Background music
+const audioListener = new THREE.AudioListener();
+camera.add(audioListener);
+
+const audioLoader = new THREE.AudioLoader();
+const backgroundMusic = new THREE.Audio(audioListener);
+
+audioLoader.load('background_music.mp3', (buffer) => {
+  backgroundMusic.setBuffer(buffer);
+  backgroundMusic.setLoop(true);
+  backgroundMusic.setVolume(0.5); // Adjust volume as needed
+  backgroundMusic.play();
+});
+
+
 
 
 
