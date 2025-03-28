@@ -187,7 +187,7 @@ window.addEventListener('click', (event) => {
 
     // Show full-size image
     const fullImage = document.createElement('img');
-    fullImage.src = painting.image;
+    fullImage.src = painting.image;  // Ensure image path is correct
     fullImage.style.maxWidth = '100%';
     fullImage.style.maxHeight = '100%';
     fullImageContainer.innerHTML = '';  // Clear any previous content
@@ -226,6 +226,7 @@ window.addEventListener('resize', () => {
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
 });
+
 
 
 
