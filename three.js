@@ -64,32 +64,32 @@ const paintingData = [
   {
     title: "The Creation Of Adam",
     description: "This iconic fresco on the ceiling of the Sistine Chapel captures the moment when God reaches out to give life to Adam.",
-    image: "https://images.unsplash.com/photo-1549893074-40eac58f8863"
+    image: "the_creation_of_adam.jpg"
   },
   {
     title: "The Last Judgement",
     description: "Painted on the altar wall of the Sistine Chapel, depicting the final day when souls are judged by Christ.",
-    image: "https://images.unsplash.com/photo-1529333166437-7750a6dd5a70"
+    image: "the_last_judgement.jpg"
   },
   {
     title: "The Prophet Jeremiah",
     description: "This portrait of the prophet Jeremiah shows him lost in thought, reflecting the weight of his predictions of destruction.",
-    image: "https://images.unsplash.com/photo-1494526585095-c41746248156"
+    image: "the_prophet_jeremiah.jpg"
   },
   {
     title: "The Libyan Sibyl",
     description: "One of five sibyls painted on the Sistine Chapel ceiling, shown in a powerful pose while holding a book of prophecy.",
-    image: "https://images.unsplash.com/photo-1504198453319-5ce911bafcde"
+    image: "the_libyan_sibyl.jpg"
   },
   {
     title: "The Deluge",
     description: "This fresco tells the story of the biblical flood, capturing the emotion of people scrambling to survive.",
-    image: "https://images.unsplash.com/photo-1511765224389-37f0e77cf0eb"
+    image: "the_deluge.jpg"
   },
   {
     title: "The Separation Of Light And Darkness",
     description: "Michelangelo paints God in motion, splitting light from darkness during the creation of the world.",
-    image: "https://images.unsplash.com/photo-1504198458649-3128b932f49b"
+    image: "the_separation_of_light_and_darkness.jpg"
   }
 ];
 
