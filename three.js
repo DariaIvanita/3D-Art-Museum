@@ -64,37 +64,37 @@ scene.add(rightWall);
 const paintingData = [
   {
     title: "The Creation Of Adam",
-    description: "This iconic fresco on the ceiling of the Sistine Chapel is one of the most recognizable images in history...",
+    description: "This iconic fresco on the ceiling of the Sistine Chapel...",
     image: "the_creation_of_adam.jpg",
     position: { x: -6.5, y: 5, z: -9.8 }
   },
   {
     title: "The Last Judgement",
-    description: "Painted on the altar wall of the Sistine Chapel, this massive fresco portrays the final day when souls are judged by Christ...",
+    description: "Painted on the altar wall of the Sistine Chapel...",
     image: "the_last_judgement.jpg",
     position: { x: -3.3, y: 5, z: -9.8 }
   },
   {
     title: "The Prophet Jeremiah",
-    description: "This portrait of the prophet Jeremiah shows a man lost in thought, his head resting on his hand...",
+    description: "This portrait of the prophet Jeremiah shows a man lost in thought...",
     image: "the_prophet_jeremiah.jpg",
     position: { x: 0, y: 5, z: -9.8 }
   },
   {
     title: "The Libyan Sibyl",
-    description: "One of five sibyls painted on the Sistine Chapel ceiling, the Libyan Sibyl is shown mid-motion...",
+    description: "One of five sibyls painted on the Sistine Chapel ceiling...",
     image: "the_libyan_sibyl.jpg",
     position: { x: 3.3, y: 5, z: -9.8 }
   },
   {
     title: "The Deluge",
-    description: "This fresco tells the story of the biblical flood, with people scrambling to survive as water overtakes the land...",
+    description: "This fresco tells the story of the biblical flood...",
     image: "the_deluge.jpg",
     position: { x: 6.5, y: 5, z: -9.8 }
   },
   {
     title: "The Separation Of Light And Darkness",
-    description: "In this piece, Michelangelo paints God in motion, splitting light from darkness during the creation of the world...",
+    description: "In this piece, Michelangelo paints God in motion...",
     image: "the_separation_of_light_and_darkness.jpg",
     position: { x: 9.7, y: 5, z: -9.8 }
   }
@@ -116,7 +116,7 @@ paintingData.forEach((painting, index) => {
   scene.add(mesh);
   clickableObjects.push(mesh);
   
-  // Position paintings on walls
+  // Apply 3D positioning and effects for walls
   if (index < 2) {
     mesh.position.set(-6.5 + (index * 3.3), 5, -9.8); // Front wall paintings
   } else if (index < 4) {
@@ -124,6 +124,17 @@ paintingData.forEach((painting, index) => {
   } else if (index < 6) {
     mesh.position.set(-6.5 + ((index - 4) * 3.3), 5, 0); // Left wall paintings
   }
+
+  // 3D Hover effect (scale and rotation)
+  mesh.on('mouseover', () => {
+    mesh.scale.set(1.1, 1.1, 1);  // Slightly enlarge
+    mesh.rotation.y += Math.PI / 8; // Slightly rotate when hovered
+  });
+  
+  mesh.on('mouseout', () => {
+    mesh.scale.set(1, 1, 1);  // Reset to normal size
+    mesh.rotation.y = 0;      // Reset rotation
+  });
 });
 
 // Camera position
@@ -163,6 +174,7 @@ function animate() {
   renderer.render(scene, camera);
 }
 animate();
+
 
 
 
