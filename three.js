@@ -1,4 +1,5 @@
-// Scene setup 
+
+// Scene setup
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(
   75,
@@ -6,7 +7,9 @@ const camera = new THREE.PerspectiveCamera(
   0.3,
   1000
 );
-const renderer = new THREE.WebGLRenderer();
+camera.position.set(0, 5, 25);
+
+const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
@@ -33,11 +36,10 @@ roof.rotation.x = Math.PI / 2;
 roof.position.set(0, 10, 0);
 scene.add(roof);
 
-// Wall materials
+// Walls
 const wallMaterial = new THREE.MeshLambertMaterial({ color: 0x333333 });
 const wallGeometry = new THREE.PlaneGeometry(20, 10);
 
-// Add walls
 const frontWall = new THREE.Mesh(wallGeometry, wallMaterial);
 frontWall.position.set(0, 5, -10);
 scene.add(frontWall);
@@ -57,78 +59,107 @@ rightWall.position.set(10, 5, 0);
 rightWall.rotation.y = -Math.PI / 2;
 scene.add(rightWall);
 
-// Painting data (6 paintings)
+// Painting data (images with descriptions)
 const paintingData = [
   {
     title: "The Creation Of Adam",
-    description: "This iconic fresco on the ceiling of the Sistine Chapel is one of the most recognizable images in history. It captures the powerful moment when God reaches out to give life to Adam. Their fingertips nearly touching symbolize the connection between humanity and the divine.",
-    image: "the_creation_of_adam.jpg",
-    position: { x: -6.5, y: 5, z: -9.8 }
+    description: "This iconic fresco on the ceiling of the Sistine Chapel captures the moment when God reaches out to give life to Adam.",
+    image: "https://images.unsplash.com/photo-1549893074-40eac58f8863"
   },
   {
     title: "The Last Judgement",
-    description: "Painted on the altar wall of the Sistine Chapel, this massive fresco portrays the final day when souls are judged by Christ.",
-    image: "the_last_judgement.jpg",
-    position: { x: -3.3, y: 5, z: -9.8 }
+    description: "Painted on the altar wall of the Sistine Chapel, depicting the final day when souls are judged by Christ.",
+    image: "https://images.unsplash.com/photo-1529333166437-7750a6dd5a70"
   },
   {
     title: "The Prophet Jeremiah",
-    description: "This portrait of the prophet Jeremiah shows a man lost in thought, reflecting the weight of his predictions of destruction.",
-    image: "the_prophet_jeremiah.jpg",
-    position: { x: 0, y: 5, z: -9.8 }
+    description: "This portrait of the prophet Jeremiah shows him lost in thought, reflecting the weight of his predictions of destruction.",
+    image: "https://images.unsplash.com/photo-1494526585095-c41746248156"
   },
   {
     title: "The Libyan Sibyl",
-    description: "One of five sibyls painted on the Sistine Chapel ceiling, the Libyan Sibyl is shown mid-motion, twisting her body as she reaches for a book of prophecy.",
-    image: "the_libyan_sibyl.jpg",
-    position: { x: 3.3, y: 5, z: -9.8 }
+    description: "One of five sibyls painted on the Sistine Chapel ceiling, shown in a powerful pose while holding a book of prophecy.",
+    image: "https://images.unsplash.com/photo-1504198453319-5ce911bafcde"
   },
   {
     title: "The Deluge",
-    description: "This fresco tells the story of the biblical flood, with people scrambling to survive as water overtakes the land.",
-    image: "the_deluge.jpg",
-    position: { x: 6.5, y: 5, z: -9.8 }
+    description: "This fresco tells the story of the biblical flood, capturing the emotion of people scrambling to survive.",
+    image: "https://images.unsplash.com/photo-1511765224389-37f0e77cf0eb"
   },
   {
     title: "The Separation Of Light And Darkness",
-    description: "In this piece, Michelangelo paints God in motion, splitting light from darkness during the creation of the world.",
-    image: "the_separation_of_light_and_darkness.jpg",
-    position: { x: 9.7, y: 5, z: -9.8 }
+    description: "Michelangelo paints God in motion, splitting light from darkness during the creation of the world.",
+    image: "https://images.unsplash.com/photo-1504198458649-3128b932f49b"
   }
 ];
 
-// Add paintings to walls (distribute them around the walls)
-const raycaster = new THREE.Raycaster();
-const mouse = new THREE.Vector2();
+// Create and place paintings
+const loader = new THREE.TextureLoader();
+const paintingWidth = 3;
+const paintingHeight = 2;
+const paintingDepth = 0.1;
 const clickableObjects = [];
-const infoBox = document.getElementById("infoBox");
+const infoBox = document.createElement('div');
+infoBox.style.position = 'absolute';
+infoBox.style.bottom = '10px';
+infoBox.style.left = '10px';
+infoBox.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
+infoBox.style.color = 'white';
+infoBox.style.padding = '10px';
+infoBox.style.display = 'none';
+document.body.appendChild(infoBox);
 
-paintingData.forEach((painting, index) => {
-  const texture = new THREE.TextureLoader().load(painting.image);
-  const material = new THREE.MeshBasicMaterial({ map: texture });
-  const geometry = new THREE.PlaneGeometry(2.5, 3.5);
-  const mesh = new THREE.Mesh(geometry, material);
-  mesh.position.set(painting.position.x, painting.position.y, painting.position.z);
-  mesh.userData = painting;
-  scene.add(mesh);
-  clickableObjects.push(mesh);
-  
-  // Apply 3D effect on hover (scale up when hovered)
-  mesh.on('mouseover', () => {
-    mesh.scale.set(1.2, 1.2, 1); // Scale the image when hovered
-  });
-  
-  mesh.on('mouseout', () => {
-    mesh.scale.set(1, 1, 1); // Reset scale when hover ends
+function createPainting(texture, title, description, position, rotationY) {
+  const materials = [
+    new THREE.MeshLambertMaterial({ color: 0x000000 }), // left
+    new THREE.MeshLambertMaterial({ color: 0x000000 }), // right
+    new THREE.MeshLambertMaterial({ color: 0x000000 }), // top
+    new THREE.MeshLambertMaterial({ color: 0x000000 }), // bottom
+    new THREE.MeshLambertMaterial({ map: texture }),   // front
+    new THREE.MeshLambertMaterial({ color: 0x000000 })  // back
+  ];
+
+  const geometry = new THREE.BoxGeometry(paintingWidth, paintingHeight, paintingDepth);
+  const painting = new THREE.Mesh(geometry, materials);
+  painting.position.set(position.x, position.y, position.z);
+  painting.rotation.y = rotationY;
+  painting.userData = { title, description };
+  scene.add(painting);
+  clickableObjects.push(painting);
+}
+
+// Place 2 paintings on each of 3 walls
+paintingData.forEach((painting, i) => {
+  loader.load(painting.image, (texture) => {
+    let pos = { x: 0, y: 5, z: 0 };
+    let rotY = 0;
+
+    if (i < 2) {
+      // Front wall
+      pos.z = -9.9;
+      pos.x = i === 0 ? -4 : 4;
+      rotY = 0;
+    } else if (i < 4) {
+      // Left wall
+      pos.x = -9.9;
+      pos.z = i === 2 ? -4 : 4;
+      rotY = Math.PI / 2;
+    } else {
+      // Right wall
+      pos.x = 9.9;
+      pos.z = i === 4 ? -4 : 4;
+      rotY = -Math.PI / 2;
+    }
+
+    createPainting(texture, painting.title, painting.description, pos, rotY);
   });
 });
 
-// Camera position
-camera.position.set(0, 5, 20);
-camera.lookAt(0, 5, 0);
+// Raycaster for clicking on paintings
+const raycaster = new THREE.Raycaster();
+const mouse = new THREE.Vector2();
 
-// Mouse click handler
-window.addEventListener("click", (event) => {
+window.addEventListener('click', (event) => {
   mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
   mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 
@@ -137,22 +168,14 @@ window.addEventListener("click", (event) => {
 
   if (intersects.length > 0) {
     const painting = intersects[0].object.userData;
-    infoBox.style.display = "block";
+    infoBox.style.display = 'block';
     infoBox.innerHTML = `
       <h2>${painting.title}</h2>
-      <img src="${painting.image}" alt="${painting.title}" style="max-width: 300px; display:block; margin-top:10px;">
-      <p style="margin-top:10px;">${painting.description}</p>
+      <p>${painting.description}</p>
     `;
   } else {
-    infoBox.style.display = "none";
+    infoBox.style.display = 'none';
   }
-});
-
-// Handle resize
-window.addEventListener("resize", () => {
-  camera.aspect = window.innerWidth / window.innerHeight;
-  camera.updateProjectionMatrix();
-  renderer.setSize(window.innerWidth, window.innerHeight);
 });
 
 // Animation loop
@@ -161,6 +184,13 @@ function animate() {
   renderer.render(scene, camera);
 }
 animate();
+
+// Handle window resizing
+window.addEventListener('resize', () => {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+});
 
 
 
