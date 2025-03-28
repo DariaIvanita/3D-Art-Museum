@@ -112,8 +112,8 @@ const fullImageContainer = document.createElement('div');
 fullImageContainer.style.position = 'absolute';
 fullImageContainer.style.top = '10px';
 fullImageContainer.style.right = '10px';
-fullImageContainer.style.maxWidth = '300px';
-fullImageContainer.style.maxHeight = '400px';
+fullImageContainer.style.maxWidth = '400px';
+fullImageContainer.style.maxHeight = '500px';
 fullImageContainer.style.display = 'none';
 fullImageContainer.style.zIndex = '10';
 document.body.appendChild(fullImageContainer);
@@ -199,14 +199,18 @@ window.addEventListener('click', (event) => {
   }
 });
 
-// Hover effect animation
-clickableObjects.forEach(painting => {
+// Hover effect animation (zoom on hover)
+const hoverEffects = (painting) => {
   painting.onPointerOver = () => {
     painting.scale.set(1.1, 1.1, 1.1); // Zoom in slightly
   };
   painting.onPointerOut = () => {
     painting.scale.set(1, 1, 1); // Return to original size
   };
+};
+
+clickableObjects.forEach(painting => {
+  hoverEffects(painting);
 });
 
 // Animation loop
@@ -222,6 +226,7 @@ window.addEventListener('resize', () => {
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
 });
+
 
 
 
