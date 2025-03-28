@@ -1,4 +1,4 @@
-// Scene setup
+// Scene setup 
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(
   75,
@@ -33,115 +33,101 @@ roof.rotation.x = Math.PI / 2;
 roof.position.set(0, 10, 0);
 scene.add(roof);
 
-// Wall Material
+// Wall materials
 const wallMaterial = new THREE.MeshLambertMaterial({ color: 0x333333 });
 const wallGeometry = new THREE.PlaneGeometry(20, 10);
 
-// Wall Setup (4 walls)
-const walls = [
-  { position: { x: 0, y: 5, z: -10 }, rotation: 0 },    // Front Wall
-  { position: { x: 0, y: 5, z: 10 }, rotation: Math.PI }, // Back Wall
-  { position: { x: -10, y: 5, z: 0 }, rotation: Math.PI / 2 }, // Left Wall
-  { position: { x: 10, y: 5, z: 0 }, rotation: -Math.PI / 2 }, // Right Wall
-];
+// Add walls
+const frontWall = new THREE.Mesh(wallGeometry, wallMaterial);
+frontWall.position.set(0, 5, -10);
+scene.add(frontWall);
 
-walls.forEach((wall) => {
-  const mesh = new THREE.Mesh(wallGeometry, wallMaterial);
-  mesh.position.set(wall.position.x, wall.position.y, wall.position.z);
-  mesh.rotation.y = wall.rotation;
-  scene.add(mesh);
-});
+const backWall = new THREE.Mesh(wallGeometry, wallMaterial);
+backWall.position.set(0, 5, 10);
+backWall.rotation.y = Math.PI;
+scene.add(backWall);
 
-// Painting Data (6 Paintings)
+const leftWall = new THREE.Mesh(wallGeometry, wallMaterial);
+leftWall.position.set(-10, 5, 0);
+leftWall.rotation.y = Math.PI / 2;
+scene.add(leftWall);
+
+const rightWall = new THREE.Mesh(wallGeometry, wallMaterial);
+rightWall.position.set(10, 5, 0);
+rightWall.rotation.y = -Math.PI / 2;
+scene.add(rightWall);
+
+// Painting data (6 paintings)
 const paintingData = [
   {
     title: "The Creation Of Adam",
-    description: "This iconic fresco on the ceiling of the Sistine Chapel...",
+    description: "This iconic fresco on the ceiling of the Sistine Chapel is one of the most recognizable images in history. It captures the powerful moment when God reaches out to give life to Adam. Their fingertips nearly touching symbolize the connection between humanity and the divine.",
     image: "the_creation_of_adam.jpg",
     position: { x: -6.5, y: 5, z: -9.8 }
   },
   {
     title: "The Last Judgement",
-    description: "Painted on the altar wall of the Sistine Chapel...",
+    description: "Painted on the altar wall of the Sistine Chapel, this massive fresco portrays the final day when souls are judged by Christ.",
     image: "the_last_judgement.jpg",
     position: { x: -3.3, y: 5, z: -9.8 }
   },
   {
     title: "The Prophet Jeremiah",
-    description: "This portrait of the prophet Jeremiah...",
+    description: "This portrait of the prophet Jeremiah shows a man lost in thought, reflecting the weight of his predictions of destruction.",
     image: "the_prophet_jeremiah.jpg",
     position: { x: 0, y: 5, z: -9.8 }
   },
   {
     title: "The Libyan Sibyl",
-    description: "One of five sibyls painted on the Sistine Chapel ceiling...",
+    description: "One of five sibyls painted on the Sistine Chapel ceiling, the Libyan Sibyl is shown mid-motion, twisting her body as she reaches for a book of prophecy.",
     image: "the_libyan_sibyl.jpg",
     position: { x: 3.3, y: 5, z: -9.8 }
   },
   {
     title: "The Deluge",
-    description: "This fresco tells the story of the biblical flood...",
+    description: "This fresco tells the story of the biblical flood, with people scrambling to survive as water overtakes the land.",
     image: "the_deluge.jpg",
     position: { x: 6.5, y: 5, z: -9.8 }
   },
   {
     title: "The Separation Of Light And Darkness",
-    description: "In this piece, Michelangelo paints God in motion...",
+    description: "In this piece, Michelangelo paints God in motion, splitting light from darkness during the creation of the world.",
     image: "the_separation_of_light_and_darkness.jpg",
     position: { x: 9.7, y: 5, z: -9.8 }
   }
 ];
 
-// Add Paintings to Walls
+// Add paintings to walls (distribute them around the walls)
 const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
 const clickableObjects = [];
+const infoBox = document.getElementById("infoBox");
 
 paintingData.forEach((painting, index) => {
   const texture = new THREE.TextureLoader().load(painting.image);
   const material = new THREE.MeshBasicMaterial({ map: texture });
-  const geometry = new THREE.PlaneGeometry(2.5, 3.5); // Keep the size consistent
+  const geometry = new THREE.PlaneGeometry(2.5, 3.5);
   const mesh = new THREE.Mesh(geometry, material);
-
-  // Distribute paintings across walls
-  if (index < 2) {
-    mesh.position.set(-6.5 + index * 3.3, 5, -9.8); // Front wall
-  } else if (index < 4) {
-    mesh.position.set(-6.5 + (index - 2) * 3.3, 5, 9.8); // Back wall
-  } else if (index < 6) {
-    mesh.position.set(-9.7 + (index - 4) * 6.5, 5, -9.8); // Left and Right walls
-  }
-
+  mesh.position.set(painting.position.x, painting.position.y, painting.position.z);
   mesh.userData = painting;
   scene.add(mesh);
   clickableObjects.push(mesh);
-
-  // Hover effect for 3D feel
-  mesh.scale.set(1, 1, 1); // Keep size constant
-  mesh.rotation.y = Math.random() * Math.PI; // Randomize initial rotation
-  mesh.onmouseenter = () => {
-    mesh.scale.set(1.1, 1.1, 1); // Slightly enlarge the painting
-  };
-  mesh.onmouseleave = () => {
-    mesh.scale.set(1, 1, 1); // Reset to original size
-  };
+  
+  // Apply 3D effect on hover (scale up when hovered)
+  mesh.on('mouseover', () => {
+    mesh.scale.set(1.2, 1.2, 1); // Scale the image when hovered
+  });
+  
+  mesh.on('mouseout', () => {
+    mesh.scale.set(1, 1, 1); // Reset scale when hover ends
+  });
 });
 
 // Camera position
-camera.position.set(0, 5, 15);
-camera.lookAt(0, 5, -10);
+camera.position.set(0, 5, 20);
+camera.lookAt(0, 5, 0);
 
 // Mouse click handler
-const infoBox = document.createElement('div');
-infoBox.id = "infoBox";
-infoBox.style.position = "absolute";
-infoBox.style.top = "10px";
-infoBox.style.left = "10px";
-infoBox.style.backgroundColor = "white";
-infoBox.style.padding = "10px";
-infoBox.style.display = "none";
-document.body.appendChild(infoBox);
-
 window.addEventListener("click", (event) => {
   mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
   mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
