@@ -1,4 +1,3 @@
-
 // Scene setup
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(
@@ -109,6 +108,24 @@ infoBox.style.padding = '10px';
 infoBox.style.display = 'none';
 document.body.appendChild(infoBox);
 
+// Modal for full-size image
+const modal = document.createElement('div');
+modal.style.position = 'absolute';
+modal.style.top = '50%';
+modal.style.left = '50%';
+modal.style.transform = 'translate(-50%, -50%)';
+modal.style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
+modal.style.padding = '20px';
+modal.style.display = 'none';
+modal.style.zIndex = '1000';
+document.body.appendChild(modal);
+
+const modalImage = document.createElement('img');
+modalImage.style.maxWidth = '90vw';
+modalImage.style.maxHeight = '90vh';
+modal.appendChild(modalImage);
+
+// Create painting mesh and add to scene
 function createPainting(texture, title, description, position, rotationY) {
   const materials = [
     new THREE.MeshLambertMaterial({ color: 0x000000 }), // left
@@ -126,6 +143,15 @@ function createPainting(texture, title, description, position, rotationY) {
   painting.userData = { title, description };
   scene.add(painting);
   clickableObjects.push(painting);
+
+  // Hover animation (scale up)
+  painting.on('mouseover', () => {
+    painting.scale.set(1.1, 1.1, 1.1); // Scale the image up slightly
+  });
+
+  painting.on('mouseout', () => {
+    painting.scale.set(1, 1, 1); // Reset scale when cursor leaves
+  });
 }
 
 // Place 2 paintings on each of 3 walls
@@ -168,14 +194,21 @@ window.addEventListener('click', (event) => {
 
   if (intersects.length > 0) {
     const painting = intersects[0].object.userData;
-    infoBox.style.display = 'block';
-    infoBox.innerHTML = `
-      <h2>${painting.title}</h2>
-      <p>${painting.description}</p>
-    `;
+
+    // Show modal with full-size image
+    modal.style.display = 'block';
+    modalImage.src = painting.image;
+
+    // Hide infoBox
+    infoBox.style.display = 'none';
   } else {
     infoBox.style.display = 'none';
   }
+});
+
+// Close modal when clicked
+modal.addEventListener('click', () => {
+  modal.style.display = 'none';
 });
 
 // Animation loop
@@ -191,6 +224,7 @@ window.addEventListener('resize', () => {
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
 });
+
 
 
 
