@@ -108,24 +108,16 @@ infoBox.style.padding = '10px';
 infoBox.style.display = 'none';
 document.body.appendChild(infoBox);
 
-// Modal for full-size image
-const modal = document.createElement('div');
-modal.style.position = 'absolute';
-modal.style.top = '50%';
-modal.style.left = '50%';
-modal.style.transform = 'translate(-50%, -50%)';
-modal.style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
-modal.style.padding = '20px';
-modal.style.display = 'none';
-modal.style.zIndex = '1000';
-document.body.appendChild(modal);
+const fullImageContainer = document.createElement('div');
+fullImageContainer.style.position = 'absolute';
+fullImageContainer.style.top = '10px';
+fullImageContainer.style.right = '10px';
+fullImageContainer.style.maxWidth = '300px';
+fullImageContainer.style.maxHeight = '400px';
+fullImageContainer.style.display = 'none';
+fullImageContainer.style.zIndex = '10';
+document.body.appendChild(fullImageContainer);
 
-const modalImage = document.createElement('img');
-modalImage.style.maxWidth = '90vw';
-modalImage.style.maxHeight = '90vh';
-modal.appendChild(modalImage);
-
-// Create painting mesh and add to scene
 function createPainting(texture, title, description, position, rotationY) {
   const materials = [
     new THREE.MeshLambertMaterial({ color: 0x000000 }), // left
@@ -140,18 +132,9 @@ function createPainting(texture, title, description, position, rotationY) {
   const painting = new THREE.Mesh(geometry, materials);
   painting.position.set(position.x, position.y, position.z);
   painting.rotation.y = rotationY;
-  painting.userData = { title, description };
+  painting.userData = { title, description, texture };
   scene.add(painting);
   clickableObjects.push(painting);
-
-  // Hover animation (scale up)
-  painting.on('mouseover', () => {
-    painting.scale.set(1.1, 1.1, 1.1); // Scale the image up slightly
-  });
-
-  painting.on('mouseout', () => {
-    painting.scale.set(1, 1, 1); // Reset scale when cursor leaves
-  });
 }
 
 // Place 2 paintings on each of 3 walls
@@ -195,20 +178,35 @@ window.addEventListener('click', (event) => {
   if (intersects.length > 0) {
     const painting = intersects[0].object.userData;
 
-    // Show modal with full-size image
-    modal.style.display = 'block';
-    modalImage.src = painting.image;
+    // Display info box
+    infoBox.style.display = 'block';
+    infoBox.innerHTML = `
+      <h2>${painting.title}</h2>
+      <p>${painting.description}</p>
+    `;
 
-    // Hide infoBox
-    infoBox.style.display = 'none';
+    // Show full-size image
+    const fullImage = document.createElement('img');
+    fullImage.src = painting.image;
+    fullImage.style.maxWidth = '100%';
+    fullImage.style.maxHeight = '100%';
+    fullImageContainer.innerHTML = '';  // Clear any previous content
+    fullImageContainer.appendChild(fullImage);
+    fullImageContainer.style.display = 'block';
   } else {
     infoBox.style.display = 'none';
+    fullImageContainer.style.display = 'none';
   }
 });
 
-// Close modal when clicked
-modal.addEventListener('click', () => {
-  modal.style.display = 'none';
+// Hover effect animation
+clickableObjects.forEach(painting => {
+  painting.onPointerOver = () => {
+    painting.scale.set(1.1, 1.1, 1.1); // Zoom in slightly
+  };
+  painting.onPointerOut = () => {
+    painting.scale.set(1, 1, 1); // Return to original size
+  };
 });
 
 // Animation loop
