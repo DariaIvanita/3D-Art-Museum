@@ -1,10 +1,9 @@
-
 // Scene setup
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(
   75,
   window.innerWidth / window.innerHeight,
-  0.1,
+  0.3,
   1000
 );
 const renderer = new THREE.WebGLRenderer();
@@ -25,25 +24,32 @@ const floor = new THREE.Mesh(
 floor.rotation.x = -Math.PI / 2;
 scene.add(floor);
 
+// Roof
+const roof = new THREE.Mesh(
+  new THREE.PlaneGeometry(20, 20),
+  new THREE.MeshLambertMaterial({ color: 0x333333, side: THREE.DoubleSide })
+);
+roof.rotation.x = Math.PI / 2;
+roof.position.set(0, 10, 0);
+scene.add(roof);
+
 // Wall materials
 const wallMaterial = new THREE.MeshLambertMaterial({ color: 0x333333 });
 const wallGeometry = new THREE.PlaneGeometry(20, 10);
 
-// Walls
-const walls = [];
-const positions = [
-  { x: 0, y: 5, z: -10, rotation: 0 },  // Front Wall
-  { x: 0, y: 5, z: 10, rotation: Math.PI },  // Back Wall
-  { x: -10, y: 5, z: 0, rotation: Math.PI / 2 },  // Left Wall
-  { x: 10, y: 5, z: 0, rotation: -Math.PI / 2 }  // Right Wall
+// Create walls
+const walls = [
+  { position: { x: 0, y: 5, z: -10 }, rotation: 0 }, // Front Wall
+  { position: { x: 0, y: 5, z: 10 }, rotation: Math.PI }, // Back Wall
+  { position: { x: -10, y: 5, z: 0 }, rotation: Math.PI / 2 }, // Left Wall
+  { position: { x: 10, y: 5, z: 0 }, rotation: -Math.PI / 2 }, // Right Wall
 ];
 
-positions.forEach((pos, index) => {
-  const wall = new THREE.Mesh(wallGeometry, wallMaterial);
-  wall.position.set(pos.x, pos.y, pos.z);
-  wall.rotation.y = pos.rotation;
-  scene.add(wall);
-  walls.push(wall);
+walls.forEach((wall) => {
+  const mesh = new THREE.Mesh(wallGeometry, wallMaterial);
+  mesh.position.set(wall.position.x, wall.position.y, wall.position.z);
+  mesh.rotation.y = wall.rotation;
+  scene.add(mesh);
 });
 
 // Painting data (6 paintings)
@@ -71,7 +77,7 @@ paintingData.forEach((painting, index) => {
   scene.add(mesh);
   clickableObjects.push(mesh);
 
-  // Apply 3D effect
+  // Apply 3D effect (hover)
   mesh.scale.set(1, 1, 1);
   mesh.rotation.y = Math.random() * Math.PI;  // Randomize initial rotation for more natural placement
 
@@ -115,6 +121,7 @@ function animate() {
   renderer.render(scene, camera);
 }
 animate();
+
 
 
 
