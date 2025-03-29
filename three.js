@@ -1,6 +1,3 @@
-// Include the Tween.js library
-// <script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/r18/tween.umd.js"></script>
-
 // THREE.js Scene Setup
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(
@@ -9,7 +6,7 @@ const camera = new THREE.PerspectiveCamera(
   0.1,
   1000
 );
-camera.position.set(0, 5, 25);
+camera.position.set(0, 5, 25); // Ensure camera is looking at the scene
 
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
@@ -33,6 +30,12 @@ scene.add(new THREE.AmbientLight(0x404040, 2)); // Dim ambient light
 const light = new THREE.DirectionalLight(0xffffff, 1); // Main light
 light.position.set(6, 10, 6);
 scene.add(light);
+
+// Add a simple cube to check if things are rendering
+const geometry = new THREE.BoxGeometry();
+const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+const cube = new THREE.Mesh(geometry, material);
+scene.add(cube);
 
 // Floor
 const floor = new THREE.Mesh(
@@ -76,35 +79,67 @@ scene.add(rightWall);
 
 // Paintings Data
 const paintingData = [
-  { title: "The Creation Of Adam", description: "This iconic fresco...", image: "the_creation_of_adam.jpg" },
-  { title: "The Last Judgement", description: "Painted on the altar...", image: "the_last_judgement.jpg" },
-  { title: "The Prophet Jeremiah", description: "This portrait of the prophet...", image: "the_prophet_jeremiah.jpg" },
-  { title: "The Libyan Sibyl", description: "One of five sibyls...", image: "the_libyan_sibyl.jpg" },
-  { title: "The Deluge", description: "This fresco tells the story...", image: "the_deluge.jpg" },
-  { title: "The Seperation Of Light And Darkness", description: "In this piece Michelangelo...", image: "the_seperation_of_light_and_darkness.jpg" }
+  {
+    title: "The Creation Of Adam",
+    description: "This iconic fresco on the ceiling of the Sistine Chapel is one of the most recognizable images in history. It captures the powerful moment when God reaches out to give life to Adam. Their fingertips nearly touching symbolize the connection between humanity and the divine.",
+    image: "the_creation_of_adam.jpg"
+  },
+  {
+    title: "The Last Judgement",
+    description: "Painted on the altar wall of the Sistine Chapel, this massive fresco portrays the final day when souls are judged by Christ. The swirling chaos of bodies rising to heaven or falling to hell creates a sense of fear, hope, and uncertainty.",
+    image: "the_last_judgement.jpg"
+  },
+  {
+    title: "The Prophet Jeremiah",
+    description: "This portrait of the prophet Jeremiah shows a man lost in thought, his head resting on his hand. His tired expression and slouched posture make him feel painfully human, reflecting the weight of his predictions of destruction.",
+    image: "the_prophet_jeremiah.jpg"
+  },
+  {
+    title: "The Libyan Sibyl",
+    description: "One of five sibyls painted on the Sistine Chapel ceiling, the Libyan Sibyl is shown mid-motion, twisting her body as she reaches for a book of prophecy. Her strong yet graceful pose highlights the beauty and strength of the human form.",
+    image: "the_libyan_sibyl.jpg"
+  },
+  {
+    title: "The Deluge",
+    description: "This fresco tells the story of the biblical flood, with people scrambling to survive as water overtakes the land. The painting feels alive with movement and emotion, capturing both fear and hope.",
+    image: "the_deluge.jpg"
+  },
+  {
+    title: "The Seperation Of Light And Darkness",
+    description: "In this piece Michelangelo paints God in motion splitting light from darkness during the creation of the world. The swirling robes and dramatic lighting give a sense of energy and purpose.",
+    image: "the_seperation_of_light_and_darkness.jpg"
+  }
 ];
 
 const positions = [
-  { x: -8, y: 5, z: -9, ry: 0 },           
-  { x: -4, y: 5, z: -9, ry: 0 },           
-  { x: 0, y: 5, z: -9, ry: 0 },            
-  { x: 4, y: 5, z: -9, ry: 0 },            
-  { x: 8, y: 5, z: -9, ry: 0 },            
-  { x: 0, y: 5, z: 9, ry: Math.PI }        
+  { x: -8, y: 5, z: -9, ry: 0 },           // front wall leftmost
+  { x: -4, y: 5, z: -9, ry: 0 },           // front wall left
+  { x: 0, y: 5, z: -9, ry: 0 },            // front wall center
+  { x: 4, y: 5, z: -9, ry: 0 },            // front wall right
+  { x: 8, y: 5, z: -9, ry: 0 },            // front wall rightmost
+  { x: 0, y: 5, z: 9, ry: Math.PI }        // back wall center
 ];
 
 // Create Paintings on Walls
 const loader = new THREE.TextureLoader();
 const paintings = [];
+
 paintingData.forEach((data, i) => {
-  const texture = loader.load(data.image);
+  const texture = loader.load(data.image, () => {
+    console.log(`Texture ${data.title} loaded successfully.`);
+  }, undefined, (err) => {
+    console.error(`Error loading texture for ${data.title}`);
+  });
+
   texture.colorSpace = THREE.SRGBColorSpace;
 
+  // Painting itself (directly on the wall)
   const mat = new THREE.MeshBasicMaterial({ map: texture });
   const geo = new THREE.PlaneGeometry(4, 3);
   const painting = new THREE.Mesh(geo, mat);
 
-  const pos = positions[i];
+  // Position the painting directly onto the wall
+  const pos = positions[i];  // Correctly map positions
   painting.position.set(pos.x, pos.y, pos.z);
   painting.rotation.y = pos.ry;
 
@@ -115,10 +150,9 @@ paintingData.forEach((data, i) => {
   paintings.push(painting);
 });
 
-// Animation for hover effect (scaling and tilting)
+// Animation for hover effect (scaling)
 let scaleUp = false;
 let hoveredPainting = null;
-let tilt = 0;
 
 const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
@@ -135,13 +169,11 @@ function onMouseMove(event) {
     if (hoveredPainting !== painting) {
       hoveredPainting = painting;
       scaleUp = true;
-      tilt = 0.05; // Small tilt effect
     }
   } else {
     if (hoveredPainting) {
       scaleUp = false;
       hoveredPainting = null;
-      tilt = 0;  // Reset tilt when not hovering
     }
   }
 }
@@ -157,6 +189,7 @@ function onMouseClick(event) {
     const painting = intersects[0].object;
     const { title, description, image } = painting.userData;
     
+    // Create and show modal with full image and description
     const modal = document.createElement('div');
     modal.style.position = 'fixed';
     modal.style.top = '0';
@@ -200,14 +233,12 @@ window.addEventListener('click', onMouseClick);
 function animate() {
   requestAnimationFrame(animate);
 
+  // Apply scaling effect for hover
   paintings.forEach((painting) => {
-    // Apply scaling effect for hover
     if (painting === hoveredPainting && scaleUp) {
       painting.scale.set(1.1, 1.1, 1.1);  // Scale up on hover
-      painting.rotation.y += tilt;  // Add tilt effect
     } else {
       painting.scale.set(1, 1, 1);  // Reset to normal scale
-      painting.rotation.y = pos.ry;  // Reset rotation
     }
   });
 
@@ -221,6 +252,7 @@ window.addEventListener('resize', () => {
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
 });
+
 
 
 
