@@ -57,17 +57,17 @@ frontWall.position.set(0, 6, -10);
 scene.add(frontWall);
 
 const backWall = new THREE.Mesh(wallGeometry, wallMaterial);
-backWall.position.set(0, 9, 10);
+backWall.position.set(0, 5, 10);
 backWall.rotation.y = Math.PI;
 scene.add(backWall);
 
 const leftWall = new THREE.Mesh(wallGeometry, wallMaterial);
-leftWall.position.set(-10, 9, 0);
+leftWall.position.set(-10, 5, 0);
 leftWall.rotation.y = Math.PI / 2;
 scene.add(leftWall);
 
 const rightWall = new THREE.Mesh(wallGeometry, wallMaterial);
-rightWall.position.set(10, 9, 0);
+rightWall.position.set(10, 5, 0);
 rightWall.rotation.y = -Math.PI / 2;
 scene.add(rightWall);
 
@@ -104,16 +104,16 @@ const paintingData = [
     image: "the_seperation_of_light_and_darkness.jpg"
   }
 ];
-
-// Ensure there are 6 positions with more space between them
 const positions = [
-  { x: -7, y: 5, z: -9.9, ry: 0 },           // front wall
-  { x: 7, y: 5, z: -9.9, ry: 0 },            // front wall
-  { x: -7, y: 5, z: 9.9, ry: Math.PI },      // back wall
-  { x: 7, y: 5, z: 9.9, ry: Math.PI },       // back wall
-  { x: -9.9, y: 5, z: -7, ry: Math.PI / 2 },  // left wall
-  { x: 9.9, y: 5, z: -7, ry: -Math.PI / 2 }  // right wall
+  { x: -6, y: 5, z: -9, ry: 0 },           // front wall left
+  { x: 0, y: 5, z: -9, ry: 0 },            // front wall center
+  { x: 6, y: 5, z: -9, ry: 0 },            // front wall right
+  { x: -6, y: 5, z: 9, ry: Math.PI },      // back wall left
+  { x: 0, y: 5, z: 9, ry: Math.PI },       // back wall center
+  { x: 6, y: 5, z: 9, ry: Math.PI }        // back wall right
 ];
+
+
 
 // Create Paintings on Walls
 const loader = new THREE.TextureLoader();
