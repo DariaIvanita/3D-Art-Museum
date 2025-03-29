@@ -75,28 +75,35 @@ scene.add(rightWall);
 const paintingData = [
   {
     title: "The Creation Of Adam",
-    description: "God gives life to Adam.",
+    description: "This iconic fresco on the ceiling of the Sistine Chapel is one of the most recognizable images in history. It captures the powerful moment when God reaches out to give life to Adam. Their fingertips nearly touching symbolize the connection between humanity and the divine. The painting’s soft colors and lifelike details remind us of the fragile yet powerful nature of life.",
     image: "the_creation_of_adam.jpg"
   },
   {
     title: "The Last Judgement",
-    description: "Final judgment of souls.",
+    description: "Painted on the altar wall of the Sistine Chapel, this massive fresco portrays the final day when souls are judged by Christ. The swirling chaos of bodies rising to heaven or falling to hell creates a sense of fear, hope, and uncertainty. Michelangelo poured his own struggles and emotions into this painting, making it feel deeply personal. ",
     image: "the_last_judgement.jpg"
   },
   {
     title: "The Prophet Jeremiah",
-    description: "Jeremiah lost in thought.",
+    description: "This portrait of the prophet Jeremiah shows a man lost in thought, his head resting on his hand. His tired expression and slouched posture make him feel painfully human, reflecting the weight of his predictions of destruction. Michelangelo's ability to express raw emotion through body language makes this piece incredibly relatable. ",
     image: "the_prophet_jeremiah.jpg"
   },
   {
     title: "The Libyan Sibyl",
-    description: "Powerful sibyl with a book.",
+    description: " One of five sibyls painted on the Sistine Chapel ceiling, the Libyan Sibyl is shown mid-motion, twisting her body as she reaches for a book of prophecy. Her strong yet graceful pose highlights the beauty and strength ofthe human form, while her concentrated expression shows wisdom and determination.",
     image: "the_libyan_sibyl.jpg"
   },
   {
     title: "The Deluge",
-    description: "A story of the flood.",
+    description: " This fresco tells the story of the biblical flood, with people scrambling to survive as water overtakes the land. The painting feels alive with movement and emotion, capturing both fear and hope. It’s a reminder of the fragility of life and the power of nature..",
     image: "the_deluge.jpg"
+  },
+  
+  {
+    title: "The Seperation Of Light And Darkness",
+    description: "In this piece  Michelangelo paints God in motion  splitting light from darkness during the creation of the world The swirling robes and dramatic lighting give a sense of energy and purpose, showing the universe being brought into existence.",
+    image: "the_seperation_of_light_and_darkness.jpg"
+    
   }
 ];
 
