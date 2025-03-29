@@ -104,14 +104,15 @@ const paintingData = [
     image: "the_seperation_of_light_and_darkness.jpg"
   }
 ];
-const positions = [
-  { x: -6, y: 5, z: -9, ry: 0 },           // front wall left
+const positions = const positions = [
+  { x: -8, y: 5, z: -9, ry: 0 },           // front wall leftmost
+  { x: -4, y: 5, z: -9, ry: 0 },           // front wall left
   { x: 0, y: 5, z: -9, ry: 0 },            // front wall center
-  { x: 6, y: 5, z: -9, ry: 0 },            // front wall right
-  { x: -6, y: 5, z: 9, ry: Math.PI },      // back wall left
-  { x: 0, y: 5, z: 9, ry: Math.PI },       // back wall center
-  { x: 6, y: 5, z: 9, ry: Math.PI }        // back wall right
+  { x: 4, y: 5, z: -9, ry: 0 },            // front wall right
+  { x: 8, y: 5, z: -9, ry: 0 },            // front wall rightmost
+  { x: 0, y: 5, z: 9, ry: Math.PI }        // back wall center
 ];
+
 
 
 
