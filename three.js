@@ -1,3 +1,4 @@
+
 // THREE.js Scene Setup
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(
@@ -30,12 +31,6 @@ scene.add(new THREE.AmbientLight(0x404040, 2)); // Dim ambient light
 const light = new THREE.DirectionalLight(0xffffff, 1); // Main light
 light.position.set(6, 10, 6);
 scene.add(light);
-
-// Add a simple cube to check if things are rendering
-const geometry = new THREE.BoxGeometry();
-const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-const cube = new THREE.Mesh(geometry, material);
-scene.add(cube);
 
 // Floor
 const floor = new THREE.Mesh(
@@ -150,7 +145,7 @@ paintingData.forEach((data, i) => {
   paintings.push(painting);
 });
 
-// Animation for hover effect (scaling)
+// Animation for hover effect (scaling and rotation)
 let scaleUp = false;
 let hoveredPainting = null;
 
@@ -233,10 +228,11 @@ window.addEventListener('click', onMouseClick);
 function animate() {
   requestAnimationFrame(animate);
 
-  // Apply scaling effect for hover
+  // Apply scaling and rotation effect for hover
   paintings.forEach((painting) => {
     if (painting === hoveredPainting && scaleUp) {
       painting.scale.set(1.1, 1.1, 1.1);  // Scale up on hover
+      painting.rotation.y += 0.01;  // Slight rotation animation
     } else {
       painting.scale.set(1, 1, 1);  // Reset to normal scale
     }
