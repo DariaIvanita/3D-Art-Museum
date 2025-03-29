@@ -115,7 +115,7 @@ const positions = [
   { x: 9.9, y: 5, z: -7, ry: -Math.PI / 2 }  // right wall
 ];
 
-// Create Paintings with 3D Frames
+// Create Paintings on Walls
 const loader = new THREE.TextureLoader();
 const paintings = [];
 
@@ -123,35 +123,50 @@ paintingData.forEach((data, i) => {
   const texture = loader.load(data.image);
   texture.colorSpace = THREE.SRGBColorSpace;
 
-  // Create frame for the painting (slightly larger than the painting)
-  const frameThickness = 0.5;
-  const frameGeometry = new THREE.BoxGeometry(4.5, 3.5, frameThickness);
-  const frameMaterial = new THREE.MeshLambertMaterial({ color: 0x8b4513 });
-  const frame = new THREE.Mesh(frameGeometry, frameMaterial);
-
-  // Painting itself
+  // Painting itself (directly on the wall)
   const mat = new THREE.MeshBasicMaterial({ map: texture });
   const geo = new THREE.PlaneGeometry(4, 3);
   const painting = new THREE.Mesh(geo, mat);
 
-  // Position the frame and painting
+  // Position the painting directly onto the wall
   const pos = positions[i];  // Correctly map positions
   painting.position.set(pos.x, pos.y, pos.z);
   painting.rotation.y = pos.ry;
-  frame.position.set(pos.x, pos.y, pos.z);
-  frame.rotation.y = pos.ry;
 
   painting.userData = { ...data };
 
-  // Add both painting and frame to the scene
+  // Add painting to the scene
   scene.add(painting);
-  scene.add(frame);
   paintings.push(painting);
 });
 
-// Raycaster & Interaction for Modal
+// Animation for hover effect (scaling)
+let scaleUp = false;
+let hoveredPainting = null;
+
 const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
+
+function onMouseMove(event) {
+  mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+  mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+  
+  raycaster.setFromCamera(mouse, camera);
+  const intersects = raycaster.intersectObjects(paintings);
+
+  if (intersects.length > 0) {
+    const painting = intersects[0].object;
+    if (hoveredPainting !== painting) {
+      hoveredPainting = painting;
+      scaleUp = true;
+    }
+  } else {
+    if (hoveredPainting) {
+      scaleUp = false;
+      hoveredPainting = null;
+    }
+  }
+}
 
 function onMouseClick(event) {
   mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
@@ -201,11 +216,22 @@ function onMouseClick(event) {
   }
 }
 
+window.addEventListener('mousemove', onMouseMove);
 window.addEventListener('click', onMouseClick);
 
-// Render Loop
+// Render Loop with Animation
 function animate() {
   requestAnimationFrame(animate);
+
+  // Apply scaling effect for hover
+  paintings.forEach((painting) => {
+    if (painting === hoveredPainting && scaleUp) {
+      painting.scale.set(1.1, 1.1, 1.1);  // Scale up on hover
+    } else {
+      painting.scale.set(1, 1, 1);  // Reset to normal scale
+    }
+  });
+
   renderer.render(scene, camera);
 }
 animate();
@@ -216,6 +242,7 @@ window.addEventListener('resize', () => {
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
 });
+
 
 
 
