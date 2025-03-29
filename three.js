@@ -1,87 +1,65 @@
-// THREE.js Scene Setup (unchanged)
+// THREE.js Scene Setup
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 camera.position.set(0, 5, 25);
+camera.lookAt(new THREE.Vector3(0, 5, 0)); // Look at the center of the scene
+
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
-// Lighting
-scene.add(new THREE.AmbientLight(0x404040, 2));
-const light = new THREE.DirectionalLight(0xffffff, 1);
-light.position.set(6, 10, 6);
+// Lighting Setup
+const light = new THREE.DirectionalLight(0xffffff, 2); // Increased intensity
+light.position.set(6, 10, 6); // Position the light closer
 scene.add(light);
 
-// Walls setup (unchanged)
+scene.add(new THREE.AmbientLight(0x404040, 2)); // Increased intensity for ambient light
 
-// Painting setup (unchanged)
+// Floor, Walls, and Objects (continue with your setup)
 
-// Raycaster and Mouse Events for clickable paintings
-const raycaster = new THREE.Raycaster();
-const mouse = new THREE.Vector2();
+// Texture loading and painting setup
+const textureLoader = new THREE.TextureLoader();
+const paintingData = [
+  { texture: 'the_creation_of_adam.jpg', position: [-5, 5, -10], description: '...' },
+  { texture: 'the_deluge.jpg', position: [5, 5, -10], description: '...' },
+  // Add your other painting data here
+];
 
-window.addEventListener('click', (event) => {
-  mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-  mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-
-  raycaster.updateMatrixWorld();
-  const intersects = raycaster.intersectObjects(paintings);
-
-  if (intersects.length > 0) {
-    const painting = intersects[0].object;
-    const paintingData = painting.userData;
-    displayPaintingDetails(paintingData.description, painting.material.map.image.src);
-  }
+const paintings = [];
+paintingData.forEach(data => {
+  const texture = textureLoader.load(data.texture, () => {
+    console.log(`${data.texture} loaded successfully`);
+  }, undefined, () => {
+    console.error(`${data.texture} failed to load`);
+  });
+  const material = new THREE.MeshBasicMaterial({ map: texture });
+  const painting = new THREE.Mesh(new THREE.PlaneGeometry(3, 5), material);
+  painting.position.set(...data.position);
+  paintings.push(painting);
+  scene.add(painting);
 });
 
-// Statue setup (using image texture on a plane)
-const statueTexture = new THREE.TextureLoader().load('3d.statue.jpg');
-const statueMaterial = new THREE.MeshBasicMaterial({ map: statueTexture });
-const statueGeometry = new THREE.PlaneGeometry(5, 5); // Adjust size as needed
-const statue = new THREE.Mesh(statueGeometry, statueMaterial);
-statue.position.set(0, 1, 0); // Position it in the center
-statue.visible = false; // Hidden by default
-scene.add(statue);
+// Simple Cube for Testing
+const geometry = new THREE.BoxGeometry(1, 1, 1);
+const material = new THREE.MeshLambertMaterial({ color: 0x00ff00 });
+const cube = new THREE.Mesh(geometry, material);
+cube.position.set(0, 1, 0); // Position in front of the camera
+scene.add(cube);
 
-// Audio setup
-const backgroundAudio = new Audio('3d.music.mp3');
-let isAudioPlaying = false;
-
-document.getElementById("play-audio").addEventListener("click", () => {
-  if (isAudioPlaying) {
-    backgroundAudio.pause();
-    isAudioPlaying = false;
-    statue.visible = false; // Hide statue when audio is off
-  } else {
-    backgroundAudio.play();
-    isAudioPlaying = true;
-    statue.visible = true; // Show statue when audio starts
-  }
-});
-
-// Function to display painting details
-function displayPaintingDetails(description, texture) {
-  const detailsDiv = document.getElementById("painting-details");
-  detailsDiv.innerHTML = `
-    <h3>Painting Details</h3>
-    <img src="${texture}" alt="Full Painting Image" style="width: 300px;">
-    <p>${description}</p>
-  `;
-}
-
-// Animate function (unchanged)
+// Animate function
 function animate() {
   requestAnimationFrame(animate);
   renderer.render(scene, camera);
 }
 animate();
 
-// Resize handler (unchanged)
+// Resize handler
 window.addEventListener("resize", () => {
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
 });
+
 
 
 
