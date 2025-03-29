@@ -53,21 +53,21 @@ const wallMaterial = new THREE.MeshLambertMaterial({ color: 0x333333 });
 const wallGeometry = new THREE.PlaneGeometry(20, 10);
 
 const frontWall = new THREE.Mesh(wallGeometry, wallMaterial);
-frontWall.position.set(0, 5, -10);
+frontWall.position.set(0, 6, -10);
 scene.add(frontWall);
 
 const backWall = new THREE.Mesh(wallGeometry, wallMaterial);
-backWall.position.set(0, 5, 10);
+backWall.position.set(0, 9, 10);
 backWall.rotation.y = Math.PI;
 scene.add(backWall);
 
 const leftWall = new THREE.Mesh(wallGeometry, wallMaterial);
-leftWall.position.set(-10, 5, 0);
+leftWall.position.set(-10, 9, 0);
 leftWall.rotation.y = Math.PI / 2;
 scene.add(leftWall);
 
 const rightWall = new THREE.Mesh(wallGeometry, wallMaterial);
-rightWall.position.set(10, 5, 0);
+rightWall.position.set(10, 9, 0);
 rightWall.rotation.y = -Math.PI / 2;
 scene.add(rightWall);
 
