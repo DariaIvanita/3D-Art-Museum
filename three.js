@@ -1,4 +1,3 @@
-
 // THREE.js Scene Setup
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(
@@ -124,9 +123,9 @@ paintingData.forEach((data, i) => {
   const texture = loader.load(data.image);
   texture.colorSpace = THREE.SRGBColorSpace;
 
-  // Create frame for the painting
+  // Create frame for the painting (slightly larger than the painting)
   const frameThickness = 0.5;
-  const frameGeometry = new THREE.BoxGeometry(4.3, 3.3, frameThickness);
+  const frameGeometry = new THREE.BoxGeometry(4.5, 3.5, frameThickness);
   const frameMaterial = new THREE.MeshLambertMaterial({ color: 0x8b4513 });
   const frame = new THREE.Mesh(frameGeometry, frameMaterial);
 
@@ -148,10 +147,9 @@ paintingData.forEach((data, i) => {
   scene.add(painting);
   scene.add(frame);
   paintings.push(painting);
-  paintings.push(frame); // Add the frame to raycasting
 });
 
-// Raycaster & Interaction
+// Raycaster & Interaction for Modal
 const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
 
@@ -166,7 +164,7 @@ function onMouseClick(event) {
     const painting = intersects[0].object;
     const { title, description, image } = painting.userData;
     
-    // Show modal or alert with full image and description
+    // Create and show modal with full image and description
     const modal = document.createElement('div');
     modal.style.position = 'fixed';
     modal.style.top = '0';
@@ -190,6 +188,7 @@ function onMouseClick(event) {
     caption.innerHTML = `<strong>${title}</strong><br>${description}`;
     caption.style.color = '#fff';
     caption.style.textAlign = 'center';
+    caption.style.maxWidth = '80vw';
 
     modal.appendChild(img);
     modal.appendChild(caption);
@@ -201,6 +200,7 @@ function onMouseClick(event) {
     document.body.appendChild(modal);
   }
 }
+
 window.addEventListener('click', onMouseClick);
 
 // Render Loop
@@ -216,6 +216,7 @@ window.addEventListener('resize', () => {
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
 });
+
 
 
 
