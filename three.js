@@ -104,7 +104,9 @@ const paintingData = [
     image: "the_seperation_of_light_and_darkness.jpg"
   }
 ];
-const positions = const positions = [
+
+// Correct positions array to have 6 distinct positions
+const positions = [
   { x: -8, y: 5, z: -9, ry: 0 },           // front wall leftmost
   { x: -4, y: 5, z: -9, ry: 0 },           // front wall left
   { x: 0, y: 5, z: -9, ry: 0 },            // front wall center
@@ -112,9 +114,6 @@ const positions = const positions = [
   { x: 8, y: 5, z: -9, ry: 0 },            // front wall rightmost
   { x: 0, y: 5, z: 9, ry: Math.PI }        // back wall center
 ];
-
-
-
 
 // Create Paintings on Walls
 const loader = new THREE.TextureLoader();
@@ -243,6 +242,7 @@ window.addEventListener('resize', () => {
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
 });
+
 
 
 
