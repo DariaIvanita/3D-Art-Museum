@@ -80,30 +80,28 @@ const paintingData = [
   },
   {
     title: "The Last Judgement",
-    description: "Painted on the altar wall of the Sistine Chapel, this massive fresco portrays the final day when souls are judged by Christ. The swirling chaos of bodies rising to heaven or falling to hell creates a sense of fear, hope, and uncertainty. Michelangelo poured his own struggles and emotions into this painting, making it feel deeply personal. ",
+    description: "Painted on the altar wall of the Sistine Chapel, this massive fresco portrays the final day when souls are judged by Christ. The swirling chaos of bodies rising to heaven or falling to hell creates a sense of fear, hope, and uncertainty. Michelangelo poured his own struggles and emotions into this painting, making it feel deeply personal.",
     image: "the_last_judgement.jpg"
   },
   {
     title: "The Prophet Jeremiah",
-    description: "This portrait of the prophet Jeremiah shows a man lost in thought, his head resting on his hand. His tired expression and slouched posture make him feel painfully human, reflecting the weight of his predictions of destruction. Michelangelo's ability to express raw emotion through body language makes this piece incredibly relatable. ",
+    description: "This portrait of the prophet Jeremiah shows a man lost in thought, his head resting on his hand. His tired expression and slouched posture make him feel painfully human, reflecting the weight of his predictions of destruction. Michelangelo's ability to express raw emotion through body language makes this piece incredibly relatable.",
     image: "the_prophet_jeremiah.jpg"
   },
   {
     title: "The Libyan Sibyl",
-    description: " One of five sibyls painted on the Sistine Chapel ceiling, the Libyan Sibyl is shown mid-motion, twisting her body as she reaches for a book of prophecy. Her strong yet graceful pose highlights the beauty and strength ofthe human form, while her concentrated expression shows wisdom and determination.",
+    description: "One of five sibyls painted on the Sistine Chapel ceiling, the Libyan Sibyl is shown mid-motion, twisting her body as she reaches for a book of prophecy. Her strong yet graceful pose highlights the beauty and strength of the human form, while her concentrated expression shows wisdom and determination.",
     image: "the_libyan_sibyl.jpg"
   },
   {
     title: "The Deluge",
-    description: " This fresco tells the story of the biblical flood, with people scrambling to survive as water overtakes the land. The painting feels alive with movement and emotion, capturing both fear and hope. It’s a reminder of the fragility of life and the power of nature..",
+    description: "This fresco tells the story of the biblical flood, with people scrambling to survive as water overtakes the land. The painting feels alive with movement and emotion, capturing both fear and hope. It’s a reminder of the fragility of life and the power of nature.",
     image: "the_deluge.jpg"
   },
-  
   {
     title: "The Seperation Of Light And Darkness",
-    description: "In this piece  Michelangelo paints God in motion  splitting light from darkness during the creation of the world The swirling robes and dramatic lighting give a sense of energy and purpose, showing the universe being brought into existence.",
+    description: "In this piece Michelangelo paints God in motion splitting light from darkness during the creation of the world. The swirling robes and dramatic lighting give a sense of energy and purpose, showing the universe being brought into existence.",
     image: "the_seperation_of_light_and_darkness.jpg"
-    
   }
 ];
 
@@ -111,10 +109,11 @@ const loader = new THREE.TextureLoader();
 const paintings = [];
 const positions = [
   { x: -6, y: 5, z: -9.9, ry: 0 },           // front wall
-  { x: 6, y: 5, z: -9.9, ry: 0 },
+  { x: 6, y: 5, z: -9.9, ry: 0 },            // front wall
   { x: -6, y: 5, z: 9.9, ry: Math.PI },      // back wall
-  { x: 6, y: 5, z: 9.9, ry: Math.PI },
-  { x: -9.9, y: 5, z: -6, ry: Math.PI / 2 }  // left wall
+  { x: 6, y: 5, z: 9.9, ry: Math.PI },       // back wall
+  { x: -9.9, y: 5, z: -6, ry: Math.PI / 2 },  // left wall
+  { x: 9.9, y: 5, z: -6, ry: -Math.PI / 2 }  // right wall (new position)
 ];
 
 paintingData.forEach((data, i) => {
@@ -125,7 +124,7 @@ paintingData.forEach((data, i) => {
   const geo = new THREE.PlaneGeometry(4, 3);
   const painting = new THREE.Mesh(geo, mat);
 
-  const pos = positions[i % positions.length];
+  const pos = positions[i % positions.length];  // Now has 6 positions
   painting.position.set(pos.x, pos.y, pos.z);
   painting.rotation.y = pos.ry;
   painting.userData = { ...data };
@@ -199,6 +198,7 @@ window.addEventListener('resize', () => {
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
 });
+
 
 
 
