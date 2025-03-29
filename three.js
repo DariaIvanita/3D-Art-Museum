@@ -1,5 +1,3 @@
-
-
 // THREE.js Scene Setup
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(
@@ -13,6 +11,19 @@ camera.position.set(0, 5, 25);
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
+
+// Background Audio
+const listener = new THREE.AudioListener();
+camera.add(listener);
+
+const sound = new THREE.Audio(listener);
+const audioLoader = new THREE.AudioLoader();
+audioLoader.load('background.mp3', function (buffer) {
+  sound.setBuffer(buffer);
+  sound.setLoop(true);
+  sound.setVolume(0.5);
+  sound.play();
+});
 
 // Lighting
 scene.add(new THREE.AmbientLight(0x404040, 2));
@@ -60,7 +71,7 @@ rightWall.position.set(10, 5, 0);
 rightWall.rotation.y = -Math.PI / 2;
 scene.add(rightWall);
 
-// Painting data
+// Paintings
 const paintingData = [
   {
     title: "The Creation Of Adam",
@@ -89,101 +100,94 @@ const paintingData = [
   }
 ];
 
-// Texture loader & painting placement
 const loader = new THREE.TextureLoader();
 const paintings = [];
-const wallPositions = [
-  { x: -6, y: 5, z: -9.9, rotationY: 0 },
-  { x: 6, y: 5, z: -9.9, rotationY: 0 },
-  { x: -6, y: 5, z: 9.9, rotationY: Math.PI },
-  { x: 6, y: 5, z: 9.9, rotationY: Math.PI },
-  { x: -9.9, y: 5, z: 0, rotationY: Math.PI / 2 }
+const positions = [
+  { x: -6, y: 5, z: -9.9, ry: 0 },           // front wall
+  { x: 6, y: 5, z: -9.9, ry: 0 },
+  { x: -6, y: 5, z: 9.9, ry: Math.PI },      // back wall
+  { x: 6, y: 5, z: 9.9, ry: Math.PI },
+  { x: -9.9, y: 5, z: -6, ry: Math.PI / 2 }  // left wall
 ];
 
-paintingData.forEach((data, index) => {
+paintingData.forEach((data, i) => {
   const texture = loader.load(data.image);
   texture.colorSpace = THREE.SRGBColorSpace;
-  const material = new THREE.MeshBasicMaterial({ map: texture });
-  const geometry = new THREE.PlaneGeometry(5, 3);
-  const painting = new THREE.Mesh(geometry, material);
 
-  const position = wallPositions[index % wallPositions.length];
-  painting.position.set(position.x, position.y, position.z);
-  painting.rotation.y = position.rotationY;
+  const mat = new THREE.MeshBasicMaterial({ map: texture });
+  const geo = new THREE.PlaneGeometry(4, 3);
+  const painting = new THREE.Mesh(geo, mat);
 
-  painting.userData = {
-    title: data.title,
-    description: data.description,
-    image: data.image
-  };
+  const pos = positions[i % positions.length];
+  painting.position.set(pos.x, pos.y, pos.z);
+  painting.rotation.y = pos.ry;
+  painting.userData = { ...data };
 
   scene.add(painting);
   paintings.push(painting);
 });
 
-// Raycasting for interactivity
+// Raycaster & Interaction
 const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
 
-function onClick(event) {
+function onMouseClick(event) {
   mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
   mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-
+  
   raycaster.setFromCamera(mouse, camera);
   const intersects = raycaster.intersectObjects(paintings);
 
   if (intersects.length > 0) {
     const painting = intersects[0].object;
     const { title, description, image } = painting.userData;
-
+    
+    // Show modal or alert with full image and description
     const modal = document.createElement('div');
     modal.style.position = 'fixed';
-    modal.style.top = '50%';
-    modal.style.left = '50%';
-    modal.style.transform = 'translate(-50%, -50%)';
-    modal.style.background = '#fff';
-    modal.style.padding = '20px';
-    modal.style.boxShadow = '0 0 20px rgba(0,0,0,0.5)';
-    modal.style.zIndex = 9999;
-    modal.innerHTML = `
-      <h2>${title}</h2>
-      <img src="${image}" style="max-width: 100%; height: auto;" />
-      <p>${description}</p>
-      <button id="closeModal">Close</button>
-    `;
-    document.body.appendChild(modal);
+    modal.style.top = '0';
+    modal.style.left = '0';
+    modal.style.width = '100vw';
+    modal.style.height = '100vh';
+    modal.style.background = 'rgba(0,0,0,0.9)';
+    modal.style.display = 'flex';
+    modal.style.flexDirection = 'column';
+    modal.style.alignItems = 'center';
+    modal.style.justifyContent = 'center';
+    modal.style.zIndex = '9999';
 
-    document.getElementById("closeModal").onclick = () => {
+    const img = document.createElement('img');
+    img.src = image;
+    img.style.maxWidth = '80vw';
+    img.style.maxHeight = '70vh';
+    img.style.marginBottom = '1rem';
+
+    const caption = document.createElement('p');
+    caption.innerHTML = `<strong>${title}</strong><br>${description}`;
+    caption.style.color = '#fff';
+    caption.style.textAlign = 'center';
+
+    modal.appendChild(img);
+    modal.appendChild(caption);
+
+    modal.addEventListener('click', () => {
       document.body.removeChild(modal);
-    };
+    });
+
+    document.body.appendChild(modal);
   }
 }
-window.addEventListener('click', onClick);
+window.addEventListener('click', onMouseClick);
 
-// Audio setup (with button)
-const listener = new THREE.AudioListener();
-camera.add(listener);
-const backgroundAudio = new THREE.Audio(listener);
-const audioLoader = new THREE.AudioLoader();
-audioLoader.load('background.mp3', function(buffer) {
-  backgroundAudio.setBuffer(buffer);
-  backgroundAudio.setLoop(true);
-  backgroundAudio.setVolume(0.5);
-});
-
-document.getElementById("play-audio").addEventListener("click", () => {
-  backgroundAudio.play();
-});
-
-// Animate
+// Render Loop
 function animate() {
   requestAnimationFrame(animate);
   renderer.render(scene, camera);
 }
 animate();
 
-// Responsive
-window.addEventListener("resize", () => {
+// Handle resize
+window.addEventListener('resize', () => {
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
