@@ -1,10 +1,9 @@
-
-// Scene setup
+// THREE.js Scene Setup
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(
   75,
   window.innerWidth / window.innerHeight,
-  0.3,
+  0.1,
   1000
 );
 camera.position.set(0, 5, 25);
@@ -13,24 +12,24 @@ const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
-// Audio listener and background audio
+// Background Audio
 const listener = new THREE.AudioListener();
 camera.add(listener);
 
-const backgroundSound = new THREE.Audio(listener);
+const sound = new THREE.Audio(listener);
 const audioLoader = new THREE.AudioLoader();
-audioLoader.load('background.mp3', function(buffer) {
-  backgroundSound.setBuffer(buffer);
-  backgroundSound.setLoop(true);
-  backgroundSound.setVolume(0.5);
-  backgroundSound.play();
+audioLoader.load('3d.music.mp3', function (buffer) {
+  sound.setBuffer(buffer);
+  sound.setLoop(true);
+  sound.setVolume(0.5);
+  sound.play();
 });
 
 // Lighting
 scene.add(new THREE.AmbientLight(0x404040, 2));
-const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-directionalLight.position.set(6, 10, 6);
-scene.add(directionalLight);
+const light = new THREE.DirectionalLight(0xffffff, 1);
+light.position.set(6, 10, 6);
+scene.add(light);
 
 // Floor
 const floor = new THREE.Mesh(
@@ -43,7 +42,7 @@ scene.add(floor);
 // Roof
 const roof = new THREE.Mesh(
   new THREE.PlaneGeometry(20, 20),
-  new THREE.MeshLambertMaterial({ color: 0x333333, side: THREE.DoubleSide })
+  new THREE.MeshLambertMaterial({ color: 0x222222, side: THREE.DoubleSide })
 );
 roof.rotation.x = Math.PI / 2;
 roof.position.set(0, 10, 0);
@@ -72,7 +71,7 @@ rightWall.position.set(10, 5, 0);
 rightWall.rotation.y = -Math.PI / 2;
 scene.add(rightWall);
 
-// Painting data
+// Paintings
 const paintingData = [
   {
     title: "The Creation Of Adam",
@@ -102,118 +101,98 @@ const paintingData = [
 ];
 
 const loader = new THREE.TextureLoader();
-const raycaster = new THREE.Raycaster();
-const mouse = new THREE.Vector2();
 const paintings = [];
+const positions = [
+  { x: -6, y: 5, z: -9.9, ry: 0 },           // front wall
+  { x: 6, y: 5, z: -9.9, ry: 0 },
+  { x: -6, y: 5, z: 9.9, ry: Math.PI },      // back wall
+  { x: 6, y: 5, z: 9.9, ry: Math.PI },
+  { x: -9.9, y: 5, z: -6, ry: Math.PI / 2 }  // left wall
+];
 
-// Distribute paintings on all four walls
-paintingData.forEach((data, index) => {
+paintingData.forEach((data, i) => {
   const texture = loader.load(data.image);
   texture.colorSpace = THREE.SRGBColorSpace;
-  const material = new THREE.MeshBasicMaterial({ map: texture });
-  const geometry = new THREE.PlaneGeometry(5, 3);
-  const painting = new THREE.Mesh(geometry, material);
 
-  // Position logic based on index
-  const wall = index % 4;
-  const height = 5;
-  const offset = ((index % 2) === 0) ? -3 : 3;
+  const mat = new THREE.MeshBasicMaterial({ map: texture });
+  const geo = new THREE.PlaneGeometry(4, 3);
+  const painting = new THREE.Mesh(geo, mat);
 
-  switch (wall) {
-    case 0: // front wall
-      painting.position.set(offset, height, -9.9);
-      break;
-    case 1: // right wall
-      painting.position.set(9.9, height, offset);
-      painting.rotation.y = -Math.PI / 2;
-      break;
-    case 2: // back wall
-      painting.position.set(offset, height, 9.9);
-      painting.rotation.y = Math.PI;
-      break;
-    case 3: // left wall
-      painting.position.set(-9.9, height, offset);
-      painting.rotation.y = Math.PI / 2;
-      break;
-  }
+  const pos = positions[i % positions.length];
+  painting.position.set(pos.x, pos.y, pos.z);
+  painting.rotation.y = pos.ry;
+  painting.userData = { ...data };
 
-  painting.userData = data;
   scene.add(painting);
   paintings.push(painting);
 });
 
-// Handle clicks
-window.addEventListener("click", (event) => {
+// Raycaster & Interaction
+const raycaster = new THREE.Raycaster();
+const mouse = new THREE.Vector2();
+
+function onMouseClick(event) {
   mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
   mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+  
   raycaster.setFromCamera(mouse, camera);
-
   const intersects = raycaster.intersectObjects(paintings);
+
   if (intersects.length > 0) {
     const painting = intersects[0].object;
     const { title, description, image } = painting.userData;
-    showImagePopup(image, title, description);
+    
+    // Show modal or alert with full image and description
+    const modal = document.createElement('div');
+    modal.style.position = 'fixed';
+    modal.style.top = '0';
+    modal.style.left = '0';
+    modal.style.width = '100vw';
+    modal.style.height = '100vh';
+    modal.style.background = 'rgba(0,0,0,0.9)';
+    modal.style.display = 'flex';
+    modal.style.flexDirection = 'column';
+    modal.style.alignItems = 'center';
+    modal.style.justifyContent = 'center';
+    modal.style.zIndex = '9999';
+
+    const img = document.createElement('img');
+    img.src = image;
+    img.style.maxWidth = '80vw';
+    img.style.maxHeight = '70vh';
+    img.style.marginBottom = '1rem';
+
+    const caption = document.createElement('p');
+    caption.innerHTML = `<strong>${title}</strong><br>${description}`;
+    caption.style.color = '#fff';
+    caption.style.textAlign = 'center';
+
+    modal.appendChild(img);
+    modal.appendChild(caption);
+
+    modal.addEventListener('click', () => {
+      document.body.removeChild(modal);
+    });
+
+    document.body.appendChild(modal);
   }
-});
-
-// Show popup
-function showImagePopup(imageSrc, title, description) {
-  let popup = document.getElementById("popup");
-  if (!popup) {
-    popup = document.createElement("div");
-    popup.id = "popup";
-    popup.style.position = "fixed";
-    popup.style.top = "50%";
-    popup.style.left = "50%";
-    popup.style.transform = "translate(-50%, -50%)";
-    popup.style.backgroundColor = "#fff";
-    popup.style.border = "2px solid #000";
-    popup.style.padding = "20px";
-    popup.style.zIndex = "1000";
-    popup.style.maxWidth = "90vw";
-    popup.style.maxHeight = "90vh";
-    popup.style.overflowY = "auto";
-
-    const img = document.createElement("img");
-    img.style.maxWidth = "100%";
-    img.style.display = "block";
-    img.id = "popup-img";
-
-    const titleEl = document.createElement("h2");
-    titleEl.id = "popup-title";
-
-    const desc = document.createElement("p");
-    desc.id = "popup-desc";
-
-    const close = document.createElement("button");
-    close.innerText = "Close";
-    close.onclick = () => popup.remove();
-
-    popup.appendChild(titleEl);
-    popup.appendChild(img);
-    popup.appendChild(desc);
-    popup.appendChild(close);
-    document.body.appendChild(popup);
-  }
-
-  document.getElementById("popup-img").src = imageSrc;
-  document.getElementById("popup-title").innerText = title;
-  document.getElementById("popup-desc").innerText = description;
 }
+window.addEventListener('click', onMouseClick);
 
-// Handle resizing
-window.addEventListener("resize", () => {
-  camera.aspect = window.innerWidth / window.innerHeight;
-  camera.updateProjectionMatrix();
-  renderer.setSize(window.innerWidth, window.innerHeight);
-});
-
-// Animation loop
+// Render Loop
 function animate() {
   requestAnimationFrame(animate);
   renderer.render(scene, camera);
 }
 animate();
+
+// Handle resize
+window.addEventListener('resize', () => {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+});
+
 
 
 
