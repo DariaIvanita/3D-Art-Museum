@@ -1,3 +1,4 @@
+
 // Scene setup
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(
@@ -11,6 +12,19 @@ camera.position.set(0, 5, 25);
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
+
+// Audio listener and background audio
+const listener = new THREE.AudioListener();
+camera.add(listener);
+
+const backgroundSound = new THREE.Audio(listener);
+const audioLoader = new THREE.AudioLoader();
+audioLoader.load('background.mp3', function(buffer) {
+  backgroundSound.setBuffer(buffer);
+  backgroundSound.setLoop(true);
+  backgroundSound.setVolume(0.5);
+  backgroundSound.play();
+});
 
 // Lighting
 scene.add(new THREE.AmbientLight(0x404040, 2));
@@ -88,86 +102,113 @@ const paintingData = [
 ];
 
 const loader = new THREE.TextureLoader();
+const raycaster = new THREE.Raycaster();
+const mouse = new THREE.Vector2();
 const paintings = [];
-const paintingInfo = document.createElement("div");
 
-paintingInfo.style.position = "absolute";
-paintingInfo.style.top = "20px";
-paintingInfo.style.left = "20px";
-paintingInfo.style.padding = "10px";
-paintingInfo.style.background = "rgba(0,0,0,0.7)";
-paintingInfo.style.color = "white";
-paintingInfo.style.display = "none";
-document.body.appendChild(paintingInfo);
-
-// Paintings on each wall
-const wallPositions = [
-  { wall: "front", x: -6, y: 5, z: -9.9, rotY: 0 },
-  { wall: "back", x: 6, y: 5, z: 9.9, rotY: Math.PI },
-  { wall: "left", x: -9.9, y: 5, z: 6, rotY: Math.PI / 2 },
-  { wall: "right", x: 9.9, y: 5, z: -6, rotY: -Math.PI / 2 },
-  { wall: "front", x: 6, y: 5, z: -9.9, rotY: 0 }
-];
-
+// Distribute paintings on all four walls
 paintingData.forEach((data, index) => {
   const texture = loader.load(data.image);
   texture.colorSpace = THREE.SRGBColorSpace;
   const material = new THREE.MeshBasicMaterial({ map: texture });
-  const geometry = new THREE.PlaneGeometry(4, 3);
+  const geometry = new THREE.PlaneGeometry(5, 3);
   const painting = new THREE.Mesh(geometry, material);
 
-  const pos = wallPositions[index];
-  painting.position.set(pos.x, pos.y, pos.z);
-  painting.rotation.y = pos.rotY;
+  // Position logic based on index
+  const wall = index % 4;
+  const height = 5;
+  const offset = ((index % 2) === 0) ? -3 : 3;
+
+  switch (wall) {
+    case 0: // front wall
+      painting.position.set(offset, height, -9.9);
+      break;
+    case 1: // right wall
+      painting.position.set(9.9, height, offset);
+      painting.rotation.y = -Math.PI / 2;
+      break;
+    case 2: // back wall
+      painting.position.set(offset, height, 9.9);
+      painting.rotation.y = Math.PI;
+      break;
+    case 3: // left wall
+      painting.position.set(-9.9, height, offset);
+      painting.rotation.y = Math.PI / 2;
+      break;
+  }
 
   painting.userData = data;
-  paintings.push(painting);
   scene.add(painting);
+  paintings.push(painting);
 });
 
-// Raycaster
-const raycaster = new THREE.Raycaster();
-const mouse = new THREE.Vector2();
-let zoomed = false;
-let originalCameraPos = camera.position.clone();
-
+// Handle clicks
 window.addEventListener("click", (event) => {
-  if (zoomed) {
-    camera.position.copy(originalCameraPos);
-    paintingInfo.style.display = "none";
-    zoomed = false;
-    return;
-  }
-
   mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
   mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-
   raycaster.setFromCamera(mouse, camera);
-  const intersects = raycaster.intersectObjects(paintings);
 
+  const intersects = raycaster.intersectObjects(paintings);
   if (intersects.length > 0) {
     const painting = intersects[0].object;
-    const worldPos = new THREE.Vector3();
-    painting.getWorldPosition(worldPos);
-
-    originalCameraPos = camera.position.clone();
-    camera.position.set(worldPos.x, worldPos.y, worldPos.z + 5);
-
-    paintingInfo.innerHTML = `<h2>${painting.userData.title}</h2><p>${painting.userData.description}</p>`;
-    paintingInfo.style.display = "block";
-    zoomed = true;
+    const { title, description, image } = painting.userData;
+    showImagePopup(image, title, description);
   }
 });
 
-// Statue image (flat image representation)
-const statueTexture = loader.load("statue.jpg");
-const statueMaterial = new THREE.MeshBasicMaterial({ map: statueTexture });
-const statueGeometry = new THREE.PlaneGeometry(3, 6);
-const statue = new THREE.Mesh(statueGeometry, statueMaterial);
-statue.position.set(0, 3, 0);
-scene.add(statue);
+// Show popup
+function showImagePopup(imageSrc, title, description) {
+  let popup = document.getElementById("popup");
+  if (!popup) {
+    popup = document.createElement("div");
+    popup.id = "popup";
+    popup.style.position = "fixed";
+    popup.style.top = "50%";
+    popup.style.left = "50%";
+    popup.style.transform = "translate(-50%, -50%)";
+    popup.style.backgroundColor = "#fff";
+    popup.style.border = "2px solid #000";
+    popup.style.padding = "20px";
+    popup.style.zIndex = "1000";
+    popup.style.maxWidth = "90vw";
+    popup.style.maxHeight = "90vh";
+    popup.style.overflowY = "auto";
 
-// Animate
+    const img = document.createElement("img");
+    img.style.maxWidth = "100%";
+    img.style.display = "block";
+    img.id = "popup-img";
+
+    const titleEl = document.createElement("h2");
+    titleEl.id = "popup-title";
+
+    const desc = document.createElement("p");
+    desc.id = "popup-desc";
+
+    const close = document.createElement("button");
+    close.innerText = "Close";
+    close.onclick = () => popup.remove();
+
+    popup.appendChild(titleEl);
+    popup.appendChild(img);
+    popup.appendChild(desc);
+    popup.appendChild(close);
+    document.body.appendChild(popup);
+  }
+
+  document.getElementById("popup-img").src = imageSrc;
+  document.getElementById("popup-title").innerText = title;
+  document.getElementById("popup-desc").innerText = description;
+}
+
+// Handle resizing
+window.addEventListener("resize", () => {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+});
+
+// Animation loop
 function animate() {
   requestAnimationFrame(animate);
   renderer.render(scene, camera);
