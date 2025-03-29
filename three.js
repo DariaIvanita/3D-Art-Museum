@@ -105,14 +105,14 @@ const paintingData = [
   }
 ];
 
-// Ensure there are 6 positions
+// Ensure there are 6 positions with more space between them
 const positions = [
-  { x: -6, y: 5, z: -9.9, ry: 0 },           // front wall
-  { x: 6, y: 5, z: -9.9, ry: 0 },            // front wall
-  { x: -6, y: 5, z: 9.9, ry: Math.PI },      // back wall
-  { x: 6, y: 5, z: 9.9, ry: Math.PI },       // back wall
-  { x: -9.9, y: 5, z: -6, ry: Math.PI / 2 },  // left wall
-  { x: 9.9, y: 5, z: -6, ry: -Math.PI / 2 }  // right wall
+  { x: -7, y: 5, z: -9.9, ry: 0 },           // front wall
+  { x: 7, y: 5, z: -9.9, ry: 0 },            // front wall
+  { x: -7, y: 5, z: 9.9, ry: Math.PI },      // back wall
+  { x: 7, y: 5, z: 9.9, ry: Math.PI },       // back wall
+  { x: -9.9, y: 5, z: -7, ry: Math.PI / 2 },  // left wall
+  { x: 9.9, y: 5, z: -7, ry: -Math.PI / 2 }  // right wall
 ];
 
 // Create Paintings
@@ -124,7 +124,7 @@ paintingData.forEach((data, i) => {
   texture.colorSpace = THREE.SRGBColorSpace;
 
   const mat = new THREE.MeshBasicMaterial({ map: texture });
-  const geo = new THREE.PlaneGeometry(4, 3);
+  const geo = new THREE.PlaneGeometry(4, 3); // Keep the geometry size consistent
   const painting = new THREE.Mesh(geo, mat);
 
   const pos = positions[i];  // Correctly map positions
@@ -201,6 +201,7 @@ window.addEventListener('resize', () => {
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
 });
+
 
 
 
