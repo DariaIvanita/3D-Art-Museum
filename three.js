@@ -71,7 +71,7 @@ rightWall.position.set(10, 5, 0);
 rightWall.rotation.y = -Math.PI / 2;
 scene.add(rightWall);
 
-// Paintings
+// Paintings Data
 const paintingData = [
   {
     title: "The Creation Of Adam",
@@ -105,16 +105,19 @@ const paintingData = [
   }
 ];
 
-const loader = new THREE.TextureLoader();
-const paintings = [];
+// Ensure there are 6 positions
 const positions = [
   { x: -6, y: 5, z: -9.9, ry: 0 },           // front wall
   { x: 6, y: 5, z: -9.9, ry: 0 },            // front wall
   { x: -6, y: 5, z: 9.9, ry: Math.PI },      // back wall
   { x: 6, y: 5, z: 9.9, ry: Math.PI },       // back wall
   { x: -9.9, y: 5, z: -6, ry: Math.PI / 2 },  // left wall
-  { x: 9.9, y: 5, z: -6, ry: -Math.PI / 2 }  // right wall (new position)
+  { x: 9.9, y: 5, z: -6, ry: -Math.PI / 2 }  // right wall
 ];
+
+// Create Paintings
+const loader = new THREE.TextureLoader();
+const paintings = [];
 
 paintingData.forEach((data, i) => {
   const texture = loader.load(data.image);
@@ -124,7 +127,7 @@ paintingData.forEach((data, i) => {
   const geo = new THREE.PlaneGeometry(4, 3);
   const painting = new THREE.Mesh(geo, mat);
 
-  const pos = positions[i % positions.length];  // Now has 6 positions
+  const pos = positions[i];  // Correctly map positions
   painting.position.set(pos.x, pos.y, pos.z);
   painting.rotation.y = pos.ry;
   painting.userData = { ...data };
@@ -198,6 +201,7 @@ window.addEventListener('resize', () => {
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
 });
+
 
 
 
