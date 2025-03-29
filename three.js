@@ -1,3 +1,4 @@
+
 // THREE.js Scene Setup
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(
@@ -26,8 +27,8 @@ audioLoader.load('background.mp3', function (buffer) {
 });
 
 // Lighting
-scene.add(new THREE.AmbientLight(0x404040, 2));
-const light = new THREE.DirectionalLight(0xffffff, 1);
+scene.add(new THREE.AmbientLight(0x404040, 2)); // Dim ambient light
+const light = new THREE.DirectionalLight(0xffffff, 1); // Main light
 light.position.set(6, 10, 6);
 scene.add(light);
 
@@ -75,32 +76,32 @@ scene.add(rightWall);
 const paintingData = [
   {
     title: "The Creation Of Adam",
-    description: "This iconic fresco on the ceiling of the Sistine Chapel is one of the most recognizable images in history. It captures the powerful moment when God reaches out to give life to Adam. Their fingertips nearly touching symbolize the connection between humanity and the divine. The painting’s soft colors and lifelike details remind us of the fragile yet powerful nature of life.",
+    description: "This iconic fresco on the ceiling of the Sistine Chapel is one of the most recognizable images in history. It captures the powerful moment when God reaches out to give life to Adam. Their fingertips nearly touching symbolize the connection between humanity and the divine.",
     image: "the_creation_of_adam.jpg"
   },
   {
     title: "The Last Judgement",
-    description: "Painted on the altar wall of the Sistine Chapel, this massive fresco portrays the final day when souls are judged by Christ. The swirling chaos of bodies rising to heaven or falling to hell creates a sense of fear, hope, and uncertainty. Michelangelo poured his own struggles and emotions into this painting, making it feel deeply personal.",
+    description: "Painted on the altar wall of the Sistine Chapel, this massive fresco portrays the final day when souls are judged by Christ. The swirling chaos of bodies rising to heaven or falling to hell creates a sense of fear, hope, and uncertainty.",
     image: "the_last_judgement.jpg"
   },
   {
     title: "The Prophet Jeremiah",
-    description: "This portrait of the prophet Jeremiah shows a man lost in thought, his head resting on his hand. His tired expression and slouched posture make him feel painfully human, reflecting the weight of his predictions of destruction. Michelangelo's ability to express raw emotion through body language makes this piece incredibly relatable.",
+    description: "This portrait of the prophet Jeremiah shows a man lost in thought, his head resting on his hand. His tired expression and slouched posture make him feel painfully human, reflecting the weight of his predictions of destruction.",
     image: "the_prophet_jeremiah.jpg"
   },
   {
     title: "The Libyan Sibyl",
-    description: "One of five sibyls painted on the Sistine Chapel ceiling, the Libyan Sibyl is shown mid-motion, twisting her body as she reaches for a book of prophecy. Her strong yet graceful pose highlights the beauty and strength of the human form, while her concentrated expression shows wisdom and determination.",
+    description: "One of five sibyls painted on the Sistine Chapel ceiling, the Libyan Sibyl is shown mid-motion, twisting her body as she reaches for a book of prophecy. Her strong yet graceful pose highlights the beauty and strength of the human form.",
     image: "the_libyan_sibyl.jpg"
   },
   {
     title: "The Deluge",
-    description: "This fresco tells the story of the biblical flood, with people scrambling to survive as water overtakes the land. The painting feels alive with movement and emotion, capturing both fear and hope. It’s a reminder of the fragility of life and the power of nature.",
+    description: "This fresco tells the story of the biblical flood, with people scrambling to survive as water overtakes the land. The painting feels alive with movement and emotion, capturing both fear and hope.",
     image: "the_deluge.jpg"
   },
   {
     title: "The Seperation Of Light And Darkness",
-    description: "In this piece Michelangelo paints God in motion splitting light from darkness during the creation of the world. The swirling robes and dramatic lighting give a sense of energy and purpose, showing the universe being brought into existence.",
+    description: "In this piece Michelangelo paints God in motion splitting light from darkness during the creation of the world. The swirling robes and dramatic lighting give a sense of energy and purpose.",
     image: "the_seperation_of_light_and_darkness.jpg"
   }
 ];
@@ -115,7 +116,7 @@ const positions = [
   { x: 9.9, y: 5, z: -7, ry: -Math.PI / 2 }  // right wall
 ];
 
-// Create Paintings
+// Create Paintings with 3D Frames
 const loader = new THREE.TextureLoader();
 const paintings = [];
 
@@ -123,17 +124,31 @@ paintingData.forEach((data, i) => {
   const texture = loader.load(data.image);
   texture.colorSpace = THREE.SRGBColorSpace;
 
+  // Create frame for the painting
+  const frameThickness = 0.5;
+  const frameGeometry = new THREE.BoxGeometry(4.3, 3.3, frameThickness);
+  const frameMaterial = new THREE.MeshLambertMaterial({ color: 0x8b4513 });
+  const frame = new THREE.Mesh(frameGeometry, frameMaterial);
+
+  // Painting itself
   const mat = new THREE.MeshBasicMaterial({ map: texture });
-  const geo = new THREE.PlaneGeometry(4, 3); // Keep the geometry size consistent
+  const geo = new THREE.PlaneGeometry(4, 3);
   const painting = new THREE.Mesh(geo, mat);
 
+  // Position the frame and painting
   const pos = positions[i];  // Correctly map positions
   painting.position.set(pos.x, pos.y, pos.z);
   painting.rotation.y = pos.ry;
+  frame.position.set(pos.x, pos.y, pos.z);
+  frame.rotation.y = pos.ry;
+
   painting.userData = { ...data };
 
+  // Add both painting and frame to the scene
   scene.add(painting);
+  scene.add(frame);
   paintings.push(painting);
+  paintings.push(frame); // Add the frame to raycasting
 });
 
 // Raycaster & Interaction
