@@ -89,68 +89,91 @@ const paintingData = [
 
 const loader = new THREE.TextureLoader();
 const paintings = [];
+const paintingInfo = document.createElement("div");
+
+paintingInfo.style.position = "absolute";
+paintingInfo.style.top = "20px";
+paintingInfo.style.left = "20px";
+paintingInfo.style.padding = "10px";
+paintingInfo.style.background = "rgba(0,0,0,0.7)";
+paintingInfo.style.color = "white";
+paintingInfo.style.display = "none";
+document.body.appendChild(paintingInfo);
+
+// Paintings on each wall
+const wallPositions = [
+  { wall: "front", x: -6, y: 5, z: -9.9, rotY: 0 },
+  { wall: "back", x: 6, y: 5, z: 9.9, rotY: Math.PI },
+  { wall: "left", x: -9.9, y: 5, z: 6, rotY: Math.PI / 2 },
+  { wall: "right", x: 9.9, y: 5, z: -6, rotY: -Math.PI / 2 },
+  { wall: "front", x: 6, y: 5, z: -9.9, rotY: 0 }
+];
 
 paintingData.forEach((data, index) => {
   const texture = loader.load(data.image);
   texture.colorSpace = THREE.SRGBColorSpace;
   const material = new THREE.MeshBasicMaterial({ map: texture });
-  const geometry = new THREE.PlaneGeometry(5, 3);
+  const geometry = new THREE.PlaneGeometry(4, 3);
   const painting = new THREE.Mesh(geometry, material);
 
-  painting.position.set(-8 + index * 4, 5, -9.9);
-  scene.add(painting);
+  const pos = wallPositions[index];
+  painting.position.set(pos.x, pos.y, pos.z);
+  painting.rotation.y = pos.rotY;
+
+  painting.userData = data;
   paintings.push(painting);
+  scene.add(painting);
 });
 
-// 3D Statue image as a plane (replace with 3D model if needed)
-const statueTexture = loader.load("3d.model.jpg"); // Replace with your statue image
-statueTexture.colorSpace = THREE.SRGBColorSpace;
-const statueMaterial = new THREE.MeshBasicMaterial({ map: statueTexture, transparent: true });
-const statue = new THREE.Mesh(new THREE.PlaneGeometry(4, 6), statueMaterial);
-statue.position.set(0, 3, 5);
-scene.add(statue);
-
-// Raycaster for interaction
+// Raycaster
 const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
-let hovered = null;
+let zoomed = false;
+let originalCameraPos = camera.position.clone();
 
-function onMouseMove(event) {
+window.addEventListener("click", (event) => {
+  if (zoomed) {
+    camera.position.copy(originalCameraPos);
+    paintingInfo.style.display = "none";
+    zoomed = false;
+    return;
+  }
+
   mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
   mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-}
 
-window.addEventListener("mousemove", onMouseMove, false);
-
-// Animation loop
-function animate() {
-  requestAnimationFrame(animate);
-
-  // Painting hover interaction
   raycaster.setFromCamera(mouse, camera);
   const intersects = raycaster.intersectObjects(paintings);
 
   if (intersects.length > 0) {
-    if (hovered !== intersects[0].object) {
-      if (hovered) hovered.scale.set(1, 1, 1);
-      hovered = intersects[0].object;
-      hovered.scale.set(1.1, 1.1, 1);
-    }
-  } else {
-    if (hovered) hovered.scale.set(1, 1, 1);
-    hovered = null;
-  }
+    const painting = intersects[0].object;
+    const worldPos = new THREE.Vector3();
+    painting.getWorldPosition(worldPos);
 
+    originalCameraPos = camera.position.clone();
+    camera.position.set(worldPos.x, worldPos.y, worldPos.z + 5);
+
+    paintingInfo.innerHTML = `<h2>${painting.userData.title}</h2><p>${painting.userData.description}</p>`;
+    paintingInfo.style.display = "block";
+    zoomed = true;
+  }
+});
+
+// Statue image (flat image representation)
+const statueTexture = loader.load("statue.jpg");
+const statueMaterial = new THREE.MeshBasicMaterial({ map: statueTexture });
+const statueGeometry = new THREE.PlaneGeometry(3, 6);
+const statue = new THREE.Mesh(statueGeometry, statueMaterial);
+statue.position.set(0, 3, 0);
+scene.add(statue);
+
+// Animate
+function animate() {
+  requestAnimationFrame(animate);
   renderer.render(scene, camera);
 }
-
 animate();
 
-window.addEventListener("resize", () => {
-  camera.aspect = window.innerWidth / window.innerHeight;
-  camera.updateProjectionMatrix();
-  renderer.setSize(window.innerWidth, window.innerHeight);
-});
 
 
 
